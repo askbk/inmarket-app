@@ -1,2 +1,2 @@
 # inmarket-app
-Official app for inMarket
+Official app for InMarket
