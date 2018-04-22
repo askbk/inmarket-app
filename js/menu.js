@@ -1,5 +1,5 @@
-function toggleFunction() {
-    var x = document.getElementById("smallnav");
+function toggleMenu() {
+    var x = document.getElementById("main-menu");
     if (x.className.indexOf(" w3-show w3-animate-right") == -1) {
         x.className += " w3-show w3-animate-right";
     } else {

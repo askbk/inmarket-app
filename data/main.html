@@ -6,21 +6,22 @@
         <title></title>
         <link rel="stylesheet" href="../css/w3.css">
         <link rel="stylesheet" href="../css/master.css">
-        <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../fontawesome-free-5.0.10/web-fonts-with-css/css/fontawesome-all.css">
+        <link rel="stylesheet" href="../css/menu.css">
         <script src="../js/menu.js" charset="utf-8"></script>
     </head>
     <body>
         <div class="w3-top">
-            <div class="w3-bar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+            <div class="w3-bar w3-grey">
+                <a class="w3-bar-item w3-button w3-hover-black w3-right" href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="fas fa-bars"></i></a>
             </div>
-            <!-- Navbar on small screens -->
-            <div id="smallnav" class="w3-bar-block w3-white w3-hide">
-                <a href="#om" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-info-circle"></i> Nyheter</a>
-                <a href="#styret" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-users"></i> Kalender</a>
-                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-envelope"></i> Meldinger</a>
-                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-envelope"></i> Profil</a>
-                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-envelope"></i> Instillinger</a>
+
+            <div id="main-menu" class="w3-bar-block w3-light-grey w3-hide w3-right">
+                <a href="#om" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-info-circle"></i> Nyheter</a>
+                <a href="#styret" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-users"></i> Kalender</a>
+                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Meldinger</a>
+                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Profil</a>
+                <a href="#kontakt" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Instillinger</a>
             </div>
         </div>
 
