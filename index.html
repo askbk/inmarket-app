@@ -1,47 +1,52 @@
 <!DOCTYPE html>
-<html lang="no" dir="ltr">
+<html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <title></title>
-        <link rel="stylesheet" href="css/w3.css">
-        <link rel="stylesheet" href="css/master.css">
-        <link rel="stylesheet" href="css/fontawesome-all.css">
-        <link rel="stylesheet" href="css/menu.css">
-        <script src="js/menu.js" charset="utf-8"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hjem | InMarket App</title>
+        <link rel="stylesheet" href="css/w3pro.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="fontawesome-free-5.1.0-web/css/all.css">
         <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
-        <script type="text/javascript">
-        $(".w3-bar-item").click(function(e) {
-            // prevent from going to the page
-            e.preventDefault();
-
-            // get the href
-            var href = $(this).attr("href");
-            $("#content").load(href, function() {
-                // do something after content has been loaded
-            });
-        });
-        </script>
+        <script src="js/templating.js" charset="utf-8"></script>
     </head>
     <body>
-        <div class="w3-top">
-            <div class="w3-bar w3-grey">
-                <a class="w3-bar-item w3-button w3-hover-black w3-right" href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-            </div>
-
-            <div id="main-menu" class="w3-bar-block w3-light-grey w3-hide w3-right">
-                <a href="#" data-link="nyheter.html" class="w3-bar-item w3-button" onclick="toggleMenu(); loadPage(this)"><i class="fas fa-newspaper"></i> Nyheter</a>
-                <a href="kalender.html" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-calendar"></i> Kalender</a>
-                <a href="meldinger.html" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Meldinger</a>
-                <a href="profil.html" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-user-circle"></i> Profil</a>
-                <a href="instillinger.html" class="w3-bar-item w3-button" onclick="toggleMenu()"><i class="fas fa-cog"></i> Instillinger</a>
-            </div>
+        <div class="w3-bar w3-top bottom-accent bar">
+            <a href="index.html#hjem" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
+            <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket startside</span>
+            <a href="#" class="w3-right"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+            <a href="#" class="w3-right w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
+            <a href="#" class="w3-right w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
         </div>
+        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny">
+            <a href="#" class="w3-button" id="startButton">Startside</a>
+            <a href="#" class="w3-button" id="videoButton">Bedriftsvideoer</a>
+            <a href="#" class="w3-button" id="eventButton">Eventer</a>
+            <a href="#" class="w3-button" id="contactButton">Kontakt</a>
+        </nav>
 
-        <div class="" id="content">
-
-        </div>
-
-
+        <section class="w3-content w3-container w3-padding-64" id="content">
+        </section>
     </body>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#eventButton").click(function() {
+                $("#content").load("templates/events.html");
+                $("#currentPageHeader").text("Eventer nær deg");
+                dynamicallyLoadScript("js/events.js");
+            });
+
+            $("#videoButton").click(function() {
+                $("#content").load("templates/videoList.html");
+                $("#currentPageHeader").text("Bedriftsvideoer");
+            });
+        });
+
+        function dynamicallyLoadScript(url) {
+            let script = document.createElement("script");
+            script.src = url;
+            document.head.appendChild(script);
+        }
+    </script>
 </html>

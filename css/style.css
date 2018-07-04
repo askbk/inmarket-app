@@ -1,0 +1,193 @@
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+footer {
+    padding-top: 16px;
+    border-top: solid #640507;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 36px!important;
+    }
+    h2 {
+        font-size: 30px!important;
+    }
+    h3 {
+        font-size: 24px!important;
+    }
+    #navbar-img {
+        margin-left: 0em!important;
+    }
+    .profile-text {
+        margin-left: 0px!important;
+        margin-top: 16px;
+    }
+
+}
+
+@media (min-width: 600px) {
+    #about-1 p {
+        padding-left: 32px;
+    }
+
+    #about-2 p {
+        padding-right: 32px;
+    }
+}
+
+@media (max-width:992px) {
+
+}
+
+#hva h5 {
+    font-size: 18px;
+    margin-bottom: -8px;
+    margin-left: 25px;
+    text-align: left;
+}
+
+li {
+    display: list-item;
+    margin-top: 0.5em;
+}
+
+ul {
+    display: block;
+    margin-top: 1em;
+    margin-right: 0;
+    margin-bottom: 1em;
+    margin-left: 0;
+    list-style-type: circle;
+}
+
+body, html {
+    line-height: 1.8;
+    height: 100%;
+}
+
+.radio {
+    cursor: pointer;
+    color: #d2d2d2;
+}
+
+input[type=radio] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+label {
+    line-height: 3;
+}
+
+label:hover .radio {
+    color: #000;
+}
+
+label input:checked ~ .radio {
+    color: #640507;
+}
+
+.bar {
+    line-height: 1;
+}
+
+.red-background {
+    background: #640507 !important;
+}
+
+.red-text {
+    color: #640507 !important;
+}
+
+.bottom-accent {
+    border-bottom-style: solid;
+    border-bottom-color: #640507;
+}
+
+.top-accent {
+    border-top-style: solid;
+    border-top-color: #640507;
+}
+
+textarea {
+    border: 1px solid #888;
+    background-color: transparent;
+    background-image: url("../img/logo.jpg");
+    /* This ruins default border */
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 80px 80px;
+}
+
+.w3-hover-opacity {
+    cursor: pointer;
+}
+
+#navbar-button {
+    padding-right: 3em;
+    line-height: 3.5em;
+    padding-left: 4em;
+}
+
+.header-text {
+    font-weight: 100;
+}
+
+.common-line-height-bar {
+    line-height: 3.5;
+}
+
+.red-button {
+    background-color: #640507;
+    color: white;
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.red-button:hover {
+    background-color: white!important;
+    color: #640507!important;
+}
+
+#navbar {
+    background-color: RGBA(255,255,255,0.8);
+}
+
+#navbar-dropdown {
+    background-color: #640507;
+    color: white;
+}
+
+/* latin-ext */
+
+@font-face {
+    font-family: "Lato";
+    font-weight: 400;
+    font-style: normal;
+    src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v14/UyBMtLsHKBKXelqf4x7VRQ.woff2) format("woff2");
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+
+@font-face {
+    font-family: "Lato";
+    font-weight: 400;
+    font-style: normal;
+    src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v14/1YwB1sO8YE1Lyjf12WNiUA.woff2) format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
