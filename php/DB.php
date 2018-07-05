@@ -15,9 +15,9 @@ class DB
     //--------------------------------------------------------------------------
 
     //  inserts a new user into the database and returns the id.
-    public static function insertUser($name, $email, $phone, $isAdmin, $isStudent, $isEmployee, $password, $kommunenr)
+    public static function insertUser($name, $email, $phone, $isAdmin, $isStudent, $isEmployee, $isPupil, $password, $kommunenr)
     {
-        $sql = "INSERT INTO user (name, email, phone,  isAdmin, password, isStudent, isEmployee, kommuner_kommuneNr, createTime)
+        $sql = "INSERT INTO user (name, email, phone, kommuner_kommuneNr, isAdmin, password, isStudent, isEmployee, createTime)
                 VALUES ('$name', '$email', '$phone', $isAdmin, '$password', $isStudent, $isEmployee, $kommunenr, NOW())";
 
         return self::write($sql);
@@ -40,10 +40,19 @@ class DB
     }
 
     //  inserts a new student into the database and returns the user_id.
-    public static function insertStudent($user_id, $school, $schoolYear, $studyProgram)
+    public static function insertStudent($user_id, $school, $schoolYear, $program)
     {
-        $sql = "INSERTO INTO student (user_id, school, schoolYear, studyProgram)
-                VALUES ($user_id, '$school', '$schoolYear', '$studyProgram')";
+        $sql = "INSERT INTO student (user_id, school, schoolYear, program)
+                VALUES ($user_id, '$school', '$schoolYear', '$program')";
+
+        return self::write($sql);
+    }
+
+    //  inserts a new pupil into the database and returns the user_id.
+    public static function insertPupil($user_id, $school, $schoolYear, $program)
+    {
+        $sql = "INSERT INTO pupil (user_id, school, schoolYear, program)
+                VALUES ($user_id, '$school', '$schoolYear', '$program')";
 
         return self::write($sql);
     }

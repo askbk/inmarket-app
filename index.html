@@ -9,20 +9,21 @@
         <link rel="stylesheet" href="fontawesome-free-5.1.0-web/css/all.css">
         <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
         <script src="js/patternjs/pattern.js" charset="utf-8"></script>
+        <script charset="utf-8" id="pageController"></script>
     </head>
     <body>
         <div class="w3-bar w3-top bottom-accent bar">
-            <a href="index.html#hjem" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
+            <a href="#" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
             <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket startside</span>
-            <a href="#" class="w3-right"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+            <a href="#/profil" class="w3-right"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
             <a href="#" class="w3-right w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
-            <a href="#" class="w3-right w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
+            <a href="#/meldinger" class="w3-right w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
         </div>
         <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny">
             <a href="#" class="w3-button" id="startButton">Startside</a>
-            <a href="#" class="w3-button" id="videoButton">Bedriftsvideoer</a>
-            <a href="#" class="w3-button" id="eventButton">Eventer</a>
-            <a href="#" class="w3-button" id="contactButton">Kontakt</a>
+            <a href="#/videoer" class="w3-button" id="videoButton">Bedriftsvideoer</a>
+            <a href="#/eventer" class="w3-button" id="eventButton">Eventer</a>
+            <a href="#/kontakt" class="w3-button" id="contactButton">Kontakt</a>
         </nav>
 
         <section class="w3-content w3-container w3-padding-64" id="content">
@@ -30,23 +31,58 @@
     </body>
     <script type="text/javascript">
 
-        $(document).ready(function(){
-            $("#eventButton").click(function() {
-                $("#content").load("templates/events.html");
-                $("#currentPageHeader").text("Eventer nær deg");
-                dynamicallyLoadScript("js/events.js");
-            });
+        let routes = {
+            "undefined"     : {
+                url         : "templates/hjem.html",
+                controller  : "js/home.js"
+            },
+            "/"     : {
+                url         : "templates/hjem.html",
+                controller  : "js/home.js"
+            },
+            "/hjem"     : {
+                url         : "templates/hjem.html",
+                controller  : "js/home.js"
+            },
+            "/eventer"     : {
+                url         : "templates/events.html",
+                controller  : "js/events.js"
+            },
+            "/videoer"     : {
+                url         : "templates/videoList.html",
+                controller  : "js/videos.js"
+            }
+        };
 
-            $("#videoButton").click(function() {
-                $("#content").load("templates/videoList.html");
-                $("#currentPageHeader").text("Bedriftsvideoer");
-            });
+        console.log(window.location.hash.split('#')[1]);
+
+        window.onload = router;
+
+        window.onhashchange = router;
+
+        function router() {
+            let x = window.location.hash.split('#')[1];
+            console.log(x);
+            $("#content").load(routes[x].url);
+            dynamicallyLoadScript(routes[x].controller);
+        }
+
+
+
+        /*$("#eventButton").click(function() {
+            $("#content").load("templates/events.html");
+            $("#currentPageHeader").text("Eventer nær deg");
+            dynamicallyLoadScript("js/events.js");
         });
 
+        $("#videoButton").click(function() {
+            $("#content").load("templates/videoList.html");
+            $("#currentPageHeader").text("Bedriftsvideoer");
+        });
+        */
+        let pageController = document.getElementById("pageController");
         function dynamicallyLoadScript(url) {
-            let script = document.createElement("script");
-            script.src = url;
-            document.head.appendChild(script);
+            $("#pageController").load(url);
         }
     </script>
 </html>
