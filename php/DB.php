@@ -65,6 +65,34 @@ class DB
         self::write($sql);
     }
 
+    //  returns user_id of the user with this email address if it exists.
+    //  otherwise returns -1.
+    public static function getUserId($email)
+    {
+        $sql = "SELECT id FROM user WHERE email='$email'";
+
+        $result = self::select($sql);
+
+        if($result->num_rows > 0) {
+            return self::returnResult($result)[0]['id'];
+        }
+
+        return -1;
+    }
+
+    public static function getUserPassword($user_id)
+    {
+        $sql = "SELECT password FROM user WHERE id='$user_id'";
+
+        $result = self::select($sql);
+
+        if($result->num_rows > 0) {
+            return self::returnResult($result)[0]['id'];
+        }
+
+        return -1;
+    }
+
     //  checks whether the user is an admin.
     public static function isAdmin($id)
     {
@@ -250,6 +278,8 @@ class DB
     private static function connect()
     {
         self::$_conn = new mysqli(self::$_servername, self::$_username, self::$_password, self::$_dbname);
+
+        self::$_conn->set_charset('utf8mb4'); 
 
         if (self::$_conn->connect_error) {
             die("Connection failed: " . self::$_conn->connect_error);

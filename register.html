@@ -1,0 +1,51 @@
+<meta charset="utf-8">
+<script src="js/jquery-3.3.1.js" charset="utf-8"></script>
+<script src="js/register.js" charset="utf-8"></script>
+<script src="js/patternjs/pattern.js" charset="utf-8"></script>
+<form id="registration" action="php/register.php" method="post">
+    <div class="firstPage">
+        <button class="w3-button clientType" value="pupil">Elev</button>
+        <button class="w3-button clientType" value="student">Student</button>
+        <button class="w3-button clientType" value="employee">Bedriftsansatt</button>
+        <p>Allerede registrert? <a href="#">Logg inn her.</a> </p>
+    </div>
+
+    <div class="secondPage w3-hide">
+        <input type="text" name="name" value="" placeholder="navn" required>
+        <input type="text" name="email" value="" placeholder="epost" required>
+        <input type="text" name="phone" value="" placeholder="telefon" required>
+        <input type="password" name="password" value="" placeholder="passord" required>
+        <button type="button" name="button" id="page2btn">Neste</button>
+    </div>
+
+    <div class="thirdPage w3-hide">
+        <label for="">
+            hjemkommune:
+            <select class="" name="" placeholder="hjemkommune"  id="kommuneTemplate">
+                <option value="{{kommuneNr}}">{{kommuneNavn}}</option>
+            </select>
+        </label>
+
+        <div class="pupilPage w3-hide">
+            <input type="text" name="school" value="" placeholder="skole">
+            <input type="text" name="program" value="" placeholder="retning">
+            <input type="text" name="schoolYear" value="" placeholder="årstrinn">
+        </div>
+
+        <div class="studentPage w3-hide">
+            <input type="text" name="school" value="" placeholder="Universitet/høyskole">
+            <input type="text" name="program" value="" placeholder="linje">
+            <input type="text" name="schoolYear" value="" placeholder="årstrinn">
+        </div>
+
+        <div class="employeePage w3-hide">
+            <input type="text" name="companyName" value="" placeholder="Bedriftsnavn">
+            <input type="text" name="position" value="" placeholder="Stilling">
+            <input type="text" name="education" value="" placeholder="utdanning">
+        </div>
+
+        <input type="submit" name="" value="Ferdig" class="w3-hide">
+    </div>
+</form>
+
+<p id="responseText"></p>
