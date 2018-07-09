@@ -15,6 +15,8 @@ if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
 
     }
 
+    usort($result, "sortByName");
+
     $jsonObj = json_encode($result);
 
     file_put_contents($filePath, $jsonObj);
@@ -22,6 +24,10 @@ if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
     echo $jsonObj;
 } else {
     echo file_get_contents($filePath);
+}
+
+function sortByName($a,$b) {
+          return $a['kommuneNavn']>$b['kommuneNavn'];
 }
 
 ?>

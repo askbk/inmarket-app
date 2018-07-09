@@ -14,12 +14,12 @@
     <body>
         <div class="w3-bar w3-top bottom-accent bar">
             <a href="#" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
-            <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket startside</span>
-            <a href="#/profil" class="w3-right"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
-            <a href="#" class="w3-right w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
-            <a href="#/meldinger" class="w3-right w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
+            <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket</span>
+            <a href="#/profil" class="w3-right w3-hide"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+            <a href="#" class="w3-right w3-large common-line-height-bar w3-hide"><i class="fas fa-search"></i></a>
+            <a href="#/meldinger" class="w3-right w3-large common-line-height-bar w3-hide"> <i class="far fa-envelope"></i> </a>
         </div>
-        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny">
+        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny w3-hide">
             <a href="#" class="w3-button" id="startButton">Startside</a>
             <a href="#/videoer" class="w3-button" id="videoButton">Bedriftsvideoer</a>
             <a href="#/eventer" class="w3-button" id="eventButton">Eventer</a>
@@ -36,32 +36,40 @@
                 url         : "templates/hjem.html",
                 controller  : "js/home.js"
             },
-            "/"     : {
+            "/"             : {
                 url         : "templates/hjem.html",
                 controller  : "js/home.js"
             },
-            "/hjem"     : {
+            "/hjem"         : {
                 url         : "templates/hjem.html",
                 controller  : "js/home.js"
             },
-            "/eventer"     : {
+            "/eventer"      : {
                 url         : "templates/events.html",
                 controller  : "js/events.js"
             },
-            "/videoer"     : {
+            "/videoer"      : {
                 url         : "templates/videoList.html",
                 controller  : "js/videos.js"
+            },
+            "/register"     : {
+                url         : "register.html",
+                controller  : "js/register.js"
+            },
+            "/login"        : {
+                url         : "login.html",
+                controller  : "js/login.js"
             }
+
         };
 
-        console.log(window.location.hash.split('#')[1]);
-
-        window.onload = router;
+        window.onload = function () {
+            router("/register")
+        };
 
         window.onhashchange = router;
 
-        function router() {
-            let x = window.location.hash.split('#')[1];
+        function router(x = window.location.hash.split('#')[1]) {
             console.log(x);
             $("#content").load(routes[x].url);
             dynamicallyLoadScript(routes[x].controller);

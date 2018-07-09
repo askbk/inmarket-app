@@ -15,10 +15,10 @@ class DB
     //--------------------------------------------------------------------------
 
     //  inserts a new user into the database and returns the id.
-    public static function insertUser($name, $email, $phone, $isAdmin, $isStudent, $isEmployee, $isPupil, $password, $kommunenr)
+    public static function insertUser($name, $email, $phone, $isAdmin, $isStudent, $isEmployee, $isPupil, $password, $kommuneNr)
     {
-        $sql = "INSERT INTO user (name, email, phone, kommuner_kommuneNr, isAdmin, password, isStudent, isEmployee, createTime)
-                VALUES ('$name', '$email', '$phone', $isAdmin, '$password', $isStudent, $isEmployee, $kommunenr, NOW())";
+        $sql = "INSERT INTO user (name, email, phone, kommuneNr, isAdmin, password, createTime, isStudent, isEmployee, isPupil)
+                VALUES ('$name', '$email', '$phone', '$kommuneNr', $isAdmin, '$password', NOW(), $isStudent, '$isEmployee', '$isPupil')";
 
         return self::write($sql);
     }
@@ -279,7 +279,7 @@ class DB
     {
         self::$_conn = new mysqli(self::$_servername, self::$_username, self::$_password, self::$_dbname);
 
-        self::$_conn->set_charset('utf8mb4'); 
+        self::$_conn->set_charset('utf8mb4');
 
         if (self::$_conn->connect_error) {
             die("Connection failed: " . self::$_conn->connect_error);

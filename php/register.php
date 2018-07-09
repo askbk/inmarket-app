@@ -1,12 +1,11 @@
 <?php
+header("Content-Type: application/json; charset=UTF-8");
 include 'registerAPI.php';
-
-$user = json_decode($_POST["newUser"]);
 $user_id = -1;
 
-if (isValidEmail($email)) {
-    if (isValidPassword($password)) {
-        $user_id = Reg::registerUser($user);
+if (isValidEmail($_POST["email"])) {
+    if (isValidPassword($_POST["password"])) {
+        $user_id = Reg::registerUser($_POST);
     } else {
         echo "Invalid characters in password.";
         return false;
@@ -16,21 +15,14 @@ if (isValidEmail($email)) {
     return false;
 }
 
-private function isValidPassword($string)
+function isValidPassword($string)
 {
-    if (preg_match("/\W/i", $string)) {
-        return FALSE;
-    }
-
-    return TRUE;
+    return !preg_match("/\W/i", $string);
 }
 
-private function isValidEmail($string)
+function isValidEmail($string)
 {
-    if (preg_match("/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD")) {
-        return TRUE;
-    }
+    return filter_var($string, FILTER_VALIDATE_EMAIL);
 
-    return FALSE;
 }
  ?>
