@@ -16,7 +16,7 @@ let pupilPage = document.getElementsByClassName("pupilPage");
 let studentPage = document.getElementsByClassName("studentPage");
 let employeePage = document.getElementsByClassName("employeePage");
 
-$.get("php/getKommuner.php", function(data, status) {
+$.get("php/getKommuner.php?kommuneNr=-1", function(data, status) {
     let kommuner = JSON.parse(data);
     let template = document.getElementById("kommuneTemplate");
     let rendered = Pattern.render(template.innerHTML, kommuner);
@@ -87,6 +87,7 @@ $(document).ready(function() {
             "php/register.php", user, function(data) {
                 $("#responseText").text(data);
                 console.log(data);
+                router("/login");
             }
         );
     });

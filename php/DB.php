@@ -1,4 +1,5 @@
 <?php
+require_once 'Config.php';
 /**
  * connection class for database
  */
@@ -87,7 +88,20 @@ class DB
         $result = self::select($sql);
 
         if($result->num_rows > 0) {
-            return self::returnResult($result)[0]['id'];
+            return self::returnResult($result)[0]["password"];
+        }
+
+        return -1;
+    }
+
+    public static function getUserEmail($user_id)
+    {
+        $sql = "SELECT email FROM user WHERE id='$user_id'";
+
+        $result = self::select($sql);
+
+        if($result->num_rows > 0) {
+            return self::returnResult($result)[0]["email"];
         }
 
         return -1;
@@ -222,7 +236,7 @@ class DB
     public static function insertEvent($location, $date, $time, $description, $company_id, $duration, $price, $type)
     {
         $sql = "INSERT INTO event (location, date, time, description, company_id, duration, price, type)
-                VALUES ('$location', $date, '$time', '$description', $company_id, '$duration', '$price', '$type')";
+                VALUES ('$location', CAST('" . $date . "' AS DATE), '$time', '$description', $company_id, '$duration', '$price', '$type')";
 
         return self::write($sql);
     }
@@ -289,7 +303,7 @@ class DB
     //  closes database connection.
     private static function closeConnection()
     {
-        //self::$_conn->close();
+        self::$_conn->close();
     }
 
     //  performs an INSERT, UPDATE or DELETE sql query. returns the id of the row.

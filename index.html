@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="fontawesome-free-5.1.0-web/css/all.css">
         <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
         <script src="js/patternjs/pattern.js" charset="utf-8"></script>
+        <script src="js/router.js" charset="utf-8"></script>
         <script charset="utf-8" id="pageController"></script>
     </head>
     <body>
@@ -30,67 +31,7 @@
         </section>
     </body>
     <script type="text/javascript">
-
-        let routes = {
-            "undefined"     : {
-                url         : "templates/hjem.html",
-                controller  : "js/home.js"
-            },
-            "/"             : {
-                url         : "templates/hjem.html",
-                controller  : "js/home.js"
-            },
-            "/hjem"         : {
-                url         : "templates/hjem.html",
-                controller  : "js/home.js"
-            },
-            "/eventer"      : {
-                url         : "templates/events.html",
-                controller  : "js/events.js"
-            },
-            "/videoer"      : {
-                url         : "templates/videoList.html",
-                controller  : "js/videos.js"
-            },
-            "/register"     : {
-                url         : "register.html",
-                controller  : "js/register.js"
-            },
-            "/login"        : {
-                url         : "login.html",
-                controller  : "js/login.js"
-            }
-
-        };
-
-        window.onload = function () {
-            router("/register")
-        };
-
-        window.onhashchange = router;
-
-        function router(x = window.location.hash.split('#')[1]) {
-            console.log(x);
-            $("#content").load(routes[x].url);
-            dynamicallyLoadScript(routes[x].controller);
-        }
-
-
-
-        /*$("#eventButton").click(function() {
-            $("#content").load("templates/events.html");
-            $("#currentPageHeader").text("Eventer nær deg");
-            dynamicallyLoadScript("js/events.js");
-        });
-
-        $("#videoButton").click(function() {
-            $("#content").load("templates/videoList.html");
-            $("#currentPageHeader").text("Bedriftsvideoer");
-        });
-        */
-        let pageController = document.getElementById("pageController");
-        function dynamicallyLoadScript(url) {
-            $("#pageController").load(url);
-        }
+        window.onload = Router.route;
+        window.onhashchange = Router.route;
     </script>
 </html>

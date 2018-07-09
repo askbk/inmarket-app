@@ -1,7 +1,4 @@
 <meta charset="utf-8">
-<!--<script src="js/jquery-3.3.1.js" charset="utf-8"></script>
-<script src="js/register.js" charset="utf-8"></script>
-<script src="js/patternjs/pattern.js" charset="utf-8"></script>-->
 <form id="registration" action="php/register.php" method="post">
     <div class="firstPage">
         <button class="w3-button clientType" value="pupil">Elev</button>
@@ -13,7 +10,7 @@
 
     <div class="secondPage w3-hide">
         <input type="text" name="name" value="" placeholder="navn" required pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
-        <input type="text" name="email" value="" placeholder="epost" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+        <input type="email" name="email" value="" placeholder="epost" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
         <input type="text" name="phone" value="" placeholder="telefon" required pattern="[0-9]{8}">
         <input type="password" name="password" value="" placeholder="passord" required pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
 
@@ -21,7 +18,7 @@
     </div>
 
     <div class="thirdPage w3-hide">
-        <label for="">
+        <label>
             hjemkommune:
             <select class="" name="" placeholder="hjemkommune"  id="kommuneTemplate">
                 <option value="{{kommuneNr}}">{{kommuneNavn}}</option>
