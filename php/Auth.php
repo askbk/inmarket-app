@@ -19,11 +19,10 @@ class Auth
 
             return true;
         } catch (\Exception $e) {
-            echo $e;
+            header("HTTP/1.0 401 Unauthorized");
+            // echo $e;
             if (0 <= strpos($e, "Expired")) {
                 echo "Token expired";
-            } else {
-                echo "Bad hombre";
             }
 
             return false;
@@ -36,13 +35,14 @@ class Auth
         $user_id = DB::getUserId($email);
 
         if ($user_id == -1) {
+            header("HTTP/1.0 401 Unauthorized");
             return false;
         }
 
         if (password_verify($password, DB::getUserPassword($user_id))) {
             return $user_id;
         }
-
+        header("HTTP/1.0 401 Unauthorized");
         return false;
     }
 

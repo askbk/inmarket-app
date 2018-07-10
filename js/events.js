@@ -1,39 +1,55 @@
-/*$.get("php/getEvents.php", function (data, status) {
-    $("#currentPageHeader").text("Eventer nær deg");
-    let events = JSON.parse(data);
+$(document).ready(function () {
+    let eventTable = document.getElementById("eventTable");
+    let eventInfo = document.getElementById("eventInfo");
 
+    let parameter = -1;
+    console.log(Router.getParameters());
+    if (Router.getParameters().length == 3) {
+        parameter = Router.getParameters()[2];
+        eventTable.classList.add("w3-hide");
+        eventInfo.classList.remove("w3-hide");
+    }
+
+    $.ajax({
+        url: 'php/getEvents.php?event=' + parameter,
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'GET',
+        success: function(data) {
+            let events = JSON.parse(data);
+
+            if (parameter == -1) {
+                printTable(events);
+            } else {
+                printInfo(events);
+            }
+        },
+        error: function() {
+            console.log("not logged in");
+            document.getElementById("eventTable").innerHTML = "<strong>Not logged in!</strong>";
+        }
+    });
+});
+
+function printTable(events) {
+    $("#currentPageHeader").text("Eventer nær deg");
     if (events.length == 0) {
-        document.getElementById("eventTable").classList.add("w3-hide");
+        document.getElementById("eventTable").innerHTML = "<p>Ingen eventer</p>";
     } else {
         console.log(events);
-        let template = document.getElementById("template").innerHTML;
+        let template = document.getElementById("listTemplate").innerHTML;
         console.log("template: " + template);
         let rendered = Pattern.render(template, events);
-        document.getElementById("template").innerHTML = rendered;
+        document.getElementById("listTemplate").innerHTML = rendered;
     }
-});*/
-console.log(localStorage.jwt);
-$.ajax({
-    url: 'php/getEvents.php',
-    beforeSend: function(request){
-        request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-    },
-    type: 'GET',
-    success: function(data) {
-        $("#currentPageHeader").text("Eventer nær deg");
-        let events = JSON.parse(data);
+}
 
-        if (events.length == 0) {
-            document.getElementById("eventTable").classList.add("w3-hide");
-        } else {
-            console.log(events);
-            let template = document.getElementById("template").innerHTML;
-            console.log("template: " + template);
-            let rendered = Pattern.render(template, events);
-            document.getElementById("template").innerHTML = rendered;
-        }
-    },
-    error: function() {
-        alert('error not logged in');
-    }
-});
+function printInfo(info) {
+    console.log(info);
+    $("#currentPageHeader").text(info[0]["type"]);
+
+    let template = document.getElementById("infoTemplate").innerHTML;
+    let rendered = Pattern.render(template, info);
+    document.getElementById("infoTemplate").innerHTML = rendered;
+}

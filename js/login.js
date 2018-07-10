@@ -1,13 +1,19 @@
 $(document).ready(function() {
     $("#loginForm").submit(function(e) {
         e.preventDefault();
-        $.post(
-            "php/login.php", $("#loginForm").serialize(), function(data) {
-                $("#responseText").text(data);
-                console.log(data);
+        $.ajax({
+            url: 'php/login.php',
+            type: 'POST',
+            data: $("#loginForm").serialize(),
+            success: function(data) {
+                console.log("success");
                 let JWT = JSON.parse(data);
                 localStorage.jwt = JWT["jwt"];
+            },
+            error: function() {
+                console.log("not logged in");
+                $("#responseText").text("Wrong username/password combination!");
             }
-        );
+        });
     });
 });

@@ -4,37 +4,41 @@ let Router = {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        "/"             : {
+        ""             : {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        "/hjem"         : {
+        "hjem"         : {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        "/eventer"      : {
+        "eventer"      : {
             url         : "templates/events.html",
             controller  : "js/events.js"
         },
-        "/videoer"      : {
+        "videoer"      : {
             url         : "templates/videoList.html",
             controller  : "js/videos.js"
         },
-        "/register"     : {
+        "register"     : {
             url         : "register.html",
             controller  : "js/register.js"
         },
-        "/login"        : {
+        "login"        : {
             url         : "login.html",
             controller  : "js/login.js"
+        },
+        "bedrift"      : {
+            url         : "templates/bedrift.html",
+            controller  : "js/bedrift.js"
         }
 
     },
     route           : function() {
-        x = window.location.hash.split('#')[1] || "/";
-        $("#content").load(Router.routes[x].url);
-        console.log(Router.routes[x].controller);
-        Router.loadController(Router.routes[x].controller);
+        Router.parameters = window.location.hash.split('/');
+        let page = Router.parameters[1];
+        $("#content").load(Router.routes[page].url);
+        Router.loadController(Router.routes[page].controller);
     },
     loadController  : function(url) {
         $("#pageController").remove();
@@ -44,5 +48,9 @@ let Router = {
         document.head.appendChild(s);
         //$("head").append(s);
         //$("#pageController").load(url);
+    },
+    parameters      : [],
+    getParameters   : function() {
+        return Router.parameters;
     }
 };

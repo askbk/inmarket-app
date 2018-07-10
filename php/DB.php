@@ -225,7 +225,7 @@ class DB
     //  returns the event with the given id.
     public static function getEvent($id)
     {
-        $sql = "SELECT location,date,time,price,duration,description,companyPictures_id,companyPictures_company_id
+        $sql = "SELECT location,date,time,description,company_id,duration,companyPictures_id,price,type
                 FROM event
                 WHERE id=$id";
 

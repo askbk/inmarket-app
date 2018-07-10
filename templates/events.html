@@ -4,13 +4,30 @@
         <th>Hva</th>
         <th>Hvor</th>
     </tr>
-    <tbody id="template">
+    <tbody id="listTemplate">
         <tr>
             <td>{{date}}</td>
             <td>{{type}}</td>
             <td>{{location}}</td>
-            <td> <a class="w3-button">Les mer</a> </td>
+            <td> <a class="w3-button" href="#/eventer/{{id}}">Les mer</a> </td>
         </tr>
     </tbody>
 
 </table>
+<div class="w3-container w3-hide" id="eventInfo">
+    <div class="w3-row-padding" id="infoTemplate">
+        <div class="w3-col m3">
+            <img src="" alt="" class="w3-circle">
+        </div>
+        <div class="w3-col m9">
+            <article id="eventDescription">
+                <p>{{date}}: {{description}}</p>
+                <p>
+                    Starttid: {{time}}<br>
+                    Varighet: {{duration}}<br>
+                    Inngangspris: {{price}}<br>
+                </p>
+            </article>
+        </div>
+    </div>
+</div>
