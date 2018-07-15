@@ -1,8 +1,6 @@
 <?php
-require_once 'Config.php';
-require_once 'Auth.php';
-require_once 'vendor/autoload.php';
-use \Firebase\JWT\JWT;
+require_once 'class/Config.php';
+require_once 'class/Auth.php';
 
 $email = $_POST["email"];
 $password = $_POST["password"];

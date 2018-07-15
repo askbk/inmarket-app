@@ -4,35 +4,42 @@ let Router = {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        ""             : {
+        ""              : {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        "hjem"         : {
+        "hjem"          : {
             url         : "templates/hjem.html",
             controller  : "js/home.js"
         },
-        "eventer"      : {
+        "eventer"       : {
             url         : "templates/events.html",
             controller  : "js/events.js"
         },
-        "videoer"      : {
+        "videoer"       : {
             url         : "templates/videoList.html",
             controller  : "js/videos.js"
         },
-        "register"     : {
+        "register"      : {
             url         : "register.html",
             controller  : "js/register.js"
         },
-        "login"        : {
+        "login"         : {
             url         : "login.html",
             controller  : "js/login.js"
         },
-        "bedrift"      : {
+        "bedrift"       : {
             url         : "templates/bedrift.html",
             controller  : "js/bedrift.js"
+        },
+        "meldinger"     : {
+            url         : "templates/messages.html",
+            controller  : "js/messages.js"
+        },
+        "samtale"      : {
+            url         : "templates/conversation.html",
+            controller  : "js/conversation.js"
         }
-
     },
     route           : function() {
         Router.parameters = window.location.hash.split('/');

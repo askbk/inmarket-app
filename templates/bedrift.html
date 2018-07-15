@@ -1,49 +1,32 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Bedriftsnavn</title>
-        <link rel="stylesheet" href="../css/w3pro.css">
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../fontawesome-free-5.1.0-web/css/all.css">
-        <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
-        <script src="../js/patternjs/pattern.js" charset="utf-8"></script>
-        <script src="../js/router.js" charset="utf-8"></script>
-        <script charset="utf-8" id="pageController"></script>
-    </head>
-    <body>
-        <div class="w3-center w3-container">
-            <div class="">
-                <a href="#" class="w3-button w3-left"><i class="fas fa-arrow-left"></i></a>
-                <a href="#" class="red-button w3-right">Send melding</a>
-            </div>
-            <article class="">
-                <h2>{{Bedriftsnavn}}</h2>
-                <p>{{Beskrivelse}}</p>
-            </article>
-            <div class="w3-row-padding w3-section">
-                <div class="w3-third">
-                    video preview
-                </div>
-                <div class="w3-third">
-                    video preview
-                </div>
-                <div class="w3-third">
-                    video preview
-                </div>
-            </div>
-            <div class="w3-section">
-                Registrerte ansatte:
-                <div class="w3-responsive">
-                    <table class="w3-table-all">
-                        <tr id="ansatteTemplate">
-                            <td>{{name}}</td>
-                            <td>{{position}}</td>
-                            <td>{{education}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+<div class="w3-center w3-container">
+    <div class="">
+        <a href="#" class="w3-button w3-left"><i class="fas fa-arrow-left"></i></a>
+        <a href="#" class="red-button w3-right">Send melding</a>
+    </div>
+    <article class="">
+        <p id="description"></p>
+    </article>
+    <div class="w3-row-padding w3-section">
+        <div class="w3-third">
+            video preview
         </div>
-    </body>
-</html>
+        <div class="w3-third">
+            video preview
+        </div>
+        <div class="w3-third">
+            video preview
+        </div>
+    </div>
+    <div class="w3-section">
+        Registrerte ansatte:
+        <div class="w3-responsive">
+            <table class="w3-table-all" id="employeeTable">
+                <tr id="employeeTemplate">
+                    <td>{{name}}</td>
+                    <td>{{position}}</td>
+                    <td>{{education}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,29 +1,36 @@
-let user = {
-    name        : "",
-    email       : "",
-    phone       : "",
-    password    : "",
-    kommuneNr   : 0,
-    isPupil     : 0,
-    isStudent   : 0,
-    isEmployee  : 0
-};
-
-let firstPage = document.getElementsByClassName("firstPage");
-let secondPage = document.getElementsByClassName("secondPage");
-let thirdPage = document.getElementsByClassName("thirdPage");
-let pupilPage = document.getElementsByClassName("pupilPage");
-let studentPage = document.getElementsByClassName("studentPage");
-let employeePage = document.getElementsByClassName("employeePage");
-
-$.get("php/getKommuner.php?kommuneNr=-1", function(data, status) {
-    let kommuner = JSON.parse(data);
-    let template = document.getElementById("kommuneTemplate");
-    let rendered = Pattern.render(template.innerHTML, kommuner);
-    template.innerHTML = rendered;
-});
-
 $(document).ready(function() {
+    let user = {
+        name            : "",
+        email           : "",
+        phone           : "",
+        password        : "",
+        kommuneNr       : 0,
+        isPupil         : 0,
+        isStudent       : 0,
+        isEmployee      : 0,
+        emailVerified   : 0
+    };
+
+    let firstPage = document.getElementsByClassName("firstPage");
+    let secondPage = document.getElementsByClassName("secondPage");
+    let thirdPage = document.getElementsByClassName("thirdPage");
+    let pupilPage = document.getElementsByClassName("pupilPage");
+    let studentPage = document.getElementsByClassName("studentPage");
+    let employeePage = document.getElementsByClassName("employeePage");
+
+    $.get("php/getKommuner.php?kommuneNr=", function(data, status) {
+        let kommuner = JSON.parse(data);
+        let template = document.getElementById("kommuneTemplate");
+        let rendered = Pattern.render(template.innerHTML, kommuner);
+        template.innerHTML = rendered;
+    });
+    $('#registration').on('keyup keypress', function(e) {
+        let keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
     //  when the user has selected what they are
     $(".clientType").click(function() {
         switch (this.value) {
@@ -35,7 +42,7 @@ $(document).ready(function() {
                 user.isStudent = 1;
                 studentPage[0].classList.remove("w3-hide");
                 break;
-            case "pupil":
+            case "employee":
                 user.isEmployee = 1;
                 employeePage[0].classList.remove("w3-hide");
                 break;

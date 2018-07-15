@@ -24,7 +24,7 @@ if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
     file_put_contents($filePath, $jsonObj);
 }
 
-if($kommuneNr == "-1") {
+if($kommuneNr == "") {
     echo file_get_contents($filePath);
 } else {
     $kommuner = json_decode(file_get_contents($filePath));
@@ -38,7 +38,7 @@ if($kommuneNr == "-1") {
 }
 
 function sortByName($a,$b) {
-          return $a['kommuneNavn']>$b['kommuneNavn'];
+    return $a['kommuneNavn']>$b['kommuneNavn'];
 }
 
 ?>

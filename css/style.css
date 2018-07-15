@@ -163,6 +163,15 @@ textarea {
     color: #640507!important;
 }
 
+.hover-bg-grey:hover {
+    background-color: #F9F9F9;
+    color: #000; !important;
+}
+
+.text-grey {
+    color: #666;
+}
+
 #navbar {
     background-color: RGBA(255,255,255,0.8);
 }
@@ -170,6 +179,24 @@ textarea {
 #navbar-dropdown {
     background-color: #640507;
     color: white;
+}
+
+.sentMessage {
+    max-width: 50%;
+    padding: 5px;
+    float: right;
+    background-color: rgba(200, 100, 100, 0.5);
+}
+
+.receivedMessage {
+    max-width: 50%;
+    padding: 5px;
+    float: left;
+    background-color: rgba(200, 200, 200, 0.5);
+}
+
+.message {
+    min-height: 30px;
 }
 
 /* latin-ext */

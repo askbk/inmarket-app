@@ -11,7 +11,7 @@ class Config
     private static $_dbUsername = "ask";
     private static $_dbPassword = "123";
     private static $_dbName = "mydb";
-    private static $_jwtExpiration = 600;
+    private static $_jwtExpiration = 6000;
 
     public static function getServerName()
     {

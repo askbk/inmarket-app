@@ -1,5 +1,5 @@
 <?php
-include 'DB.php';
+require_once 'User.php';
 
 /**
  * Static class for handling registration
@@ -9,7 +9,7 @@ class Reg
     public static function registerUser($user)
     {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
-        $user_id = DB::insertUser($user["name"], $user["email"], $user["phone"], 0, $user["isStudent"], $user["isEmployee"], $user["isPupil"], $password, $user["kommuneNr"]);
+        $user_id = User::insertUser($user["name"], $user["email"], $user["phone"], 0, $user["isStudent"], $user["isEmployee"], $user["isPupil"], $password, $user["kommuneNr"]);
 
         if ($user["isStudent"]) {
             self::registerStudent($user_id, $user);
@@ -25,17 +25,17 @@ class Reg
 
     private static function registerStudent($user_id, $student)
     {
-        DB::insertStudent($user_id, $student["school"], $student["schoolYear"], $student["program"]);
+        User::insertStudent($user_id, $student["school"], $student["schoolYear"], $student["program"]);
     }
 
     private static function registerEmployee($user_id, $employee)
     {
-        DB::insertEmployee($user_id, $employee["position"], $employee["education"], $employee["companyName"]);
+        User::insertEmployee($user_id, $employee["position"], $employee["education"], $employee["companyName"]);
     }
 
     private static function registerPupil($user_id, $pupil)
     {
-        DB::insertStudent($user_id, $pupil["school"], $pupil["schoolYear"], $pupil["program"]);
+        User::insertPupil($user_id, $pupil["school"], $pupil["schoolYear"], $pupil["program"]);
     }
 
 

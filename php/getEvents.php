@@ -1,11 +1,11 @@
 <?php
-require_once 'DB.php';
-require_once 'Auth.php';
+require_once 'class/Event.php';
+require_once 'class/Auth.php';
 
 if (Auth::isLoggedIn()) {
     $eventId = $_GET["event"];
     if ($eventId == "-1") {
-        $eventsArray = DB::getEvents("drammen");
+        $eventsArray = Event::getEvents("drammen");
         $result = array();
         foreach ($eventsArray as $key => $event) {
             $result[$key] = new stdClass;
@@ -15,7 +15,7 @@ if (Auth::isLoggedIn()) {
         }
         echo json_encode($result);
     } else {
-        $event = DB::getEvent($eventId);
+        $event = Event::getEvent($eventId);
 
         echo json_encode($event);
     }

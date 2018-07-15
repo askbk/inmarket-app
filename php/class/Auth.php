@@ -1,7 +1,7 @@
 <?php
 require_once 'Config.php';
 require_once 'vendor/autoload.php';
-require_once 'DB.php';
+require_once 'User.php';
 use \Firebase\JWT\JWT;
 
 /**
@@ -16,6 +16,8 @@ class Auth
         try {
             $secretKey = base64_decode(Config::getJWTKey());
             $token = JWT::decode($jwt, $secretKey, array('HS512'));
+
+            //var_dump($token);
 
             return true;
         } catch (\Exception $e) {
@@ -32,18 +34,45 @@ class Auth
 
     public static function validateCredentials($email, $password)
     {
-        $user_id = DB::getUserId($email);
+        $user_id = User::getUserId($email);
 
         if ($user_id == -1) {
             header("HTTP/1.0 401 Unauthorized");
             return false;
         }
 
-        if (password_verify($password, DB::getUserPassword($user_id))) {
+        if (password_verify($password, User::getUserPassword($user_id))) {
             return $user_id;
         }
         header("HTTP/1.0 401 Unauthorized");
         return false;
+    }
+
+    public static function getUserId()
+    {
+        $jwt = self::getToken();
+
+        try {
+            $secretKey = base64_decode(Config::getJWTKey());
+            $token = JWT::decode($jwt, $secretKey, array('HS512'));
+
+            $user_id = $token->data->userId;
+
+            if (User::userExists($user_id)) {
+                return $user_id;
+            }
+
+            return -1;
+
+        } catch (\Exception $e) {
+            header("HTTP/1.0 401 Unauthorized");
+            // echo $e;
+            if (0 <= strpos($e, "Expired")) {
+                echo "Token expired";
+            }
+
+            return -1;
+        }
     }
 
     public static function issueToken($user_id)
@@ -53,7 +82,7 @@ class Auth
         $notBefore  = $issuedAt + 1;             //Adding 10 seconds
         $expire     = $notBefore + Config::getJWTExpiration();            // Adding 60 seconds
         $serverName = Config::getServerName(); // Retrieve the server name from config file
-        $email = DB::getUserEmail($user_id);
+        $email = User::getUserEmail($user_id);
 
         /*
          * Create the token as an array
@@ -66,7 +95,7 @@ class Auth
             'exp'  => $expire,           // Expire
             'data' => [                  // Data related to the signer user
                 'userId'   => $user_id, // userid from the users table
-                'userName' => DB::getUserEmail($user_id), // User name
+                'userName' => User::getUserEmail($user_id), // User name
             ]
         ];
 
