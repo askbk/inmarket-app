@@ -199,6 +199,10 @@ textarea {
     min-height: 30px;
 }
 
+#conversation {
+    overflow: scroll;
+}
+
 /* latin-ext */
 
 @font-face {

@@ -81,15 +81,6 @@ $(document).ready(function() {
         }
         console.log(user);
 
-        /*$.ajax({
-            url         : "php/register.php",
-            data        : user,
-            type        : 'POST',
-            success     : function(data) {
-                $("#responseText").text(data);
-            }
-        });*/
-
         $.post(
             "php/register.php", user, function(data) {
                 $("#responseText").text(data);
