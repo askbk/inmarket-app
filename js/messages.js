@@ -11,13 +11,19 @@ $(document).ready(function () {
             let messageList = JSON.parse(data);
             printMessageList(messageList);
         },
-        error: function() {
-            console.log("not logged in");
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
         }
     });
 });
 
 function printMessageList(messageList) {
+    document.title = "Innboks | InMarket App";
     if (messageList.length == 0) {
         document.getElementById("inbox").innerHTML = "No messages";
     } else {

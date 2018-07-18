@@ -20,11 +20,11 @@ let Router = {
             url         : "templates/videoList.html",
             controller  : "js/videos.js"
         },
-        "register"      : {
+        "registrering"      : {
             url         : "register.html",
             controller  : "js/register.js"
         },
-        "login"         : {
+        "innlogging"         : {
             url         : "login.html",
             controller  : "js/login.js"
         },
@@ -36,9 +36,21 @@ let Router = {
             url         : "templates/messages.html",
             controller  : "js/messages.js"
         },
-        "samtale"      : {
+        "samtale"       : {
             url         : "templates/conversation.html",
             controller  : "js/conversation.js"
+        },
+        "kontakt"       : {
+            url         : "kontakt.html",
+            controller  : "js/contact.js"
+        },
+        "feil"          : {
+            url         : "error.html",
+            controller  : "js/error.js"
+        },
+        "instillinger"  : {
+            url         : "settings.html",
+            controller  : "js/settings.js"
         }
     },
     route           : function() {
@@ -53,8 +65,6 @@ let Router = {
         s.src = url;
         s.id = "pageController";
         document.head.appendChild(s);
-        //$("head").append(s);
-        //$("#pageController").load(url);
     },
     parameters      : [],
     getParameters   : function() {

@@ -1,10 +1,8 @@
-
-
-
 $(document).ready(function () {
+    document.getElementById("bottomNav").classList.add("w3-hide");
     console.log(Router.getParameters());
     let chatbox = document.getElementById("conversation");
-    let msgTemplate = document.getElementById("conversation").innerHTML;
+    const msgTemplate = document.getElementById("conversation").innerHTML;
     let postParams = {
         "conversationId"    : Router.getParameters()[2],
         "count"             : 10,
@@ -22,17 +20,22 @@ $(document).ready(function () {
             let conversation = JSON.parse(data);
             printConversation(conversation);
         },
-        error: function() {
-            console.log("not logged in");
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
         }
     });
 
     let chatInput = document.getElementById('chatInput');
     let chat = $("#conversation");
 
-    $("#sendBtn").click(sendMessage());
+    $("#sendBtn").click(sendMessage);
 
-    $('#conversation').on('keyup keypress', function(e) {
+    $('#chatInput').on('keyup keypress', function(e) {
         let keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
             sendMessage();
@@ -40,13 +43,12 @@ $(document).ready(function () {
     });
 
     function printConversation(conv) {
-        $("#currentPageHeader").text();
-        console.log(conv);
-        //let template = document.getElementById("conversation").innerHTML;
-        //console.log("template: " + template);
-        let rendered = Pattern.render(msgTemplate, conv);
+        $("#currentPageHeader").text(conv["name"]);
+        let messages = conv["messages"];
+        let rendered = Pattern.render(msgTemplate, messages);
         document.getElementById("conversation").innerHTML = rendered;
     }
+
     function sendMessage() {
         let msg = chatInput.value;
 
@@ -63,9 +65,7 @@ $(document).ready(function () {
             type: 'POST',
             data: data,
             success: function(data) {
-                let newMsg = msgTemplate.replace("{{content}}", msg);
-                newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
-                chat.append(newMsg);
+                printMessage(msg);
                 chatInput.value = "";
             },
             error: function() {
@@ -74,4 +74,9 @@ $(document).ready(function () {
         });
     }
 
+    function printMessage(msg) {
+        let newMsg = msgTemplate.replace("{{content}}", msg);
+        newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
+        chat.append(newMsg);
+    }
 });

@@ -25,9 +25,13 @@ $(document).ready(function () {
                 printInfo(events);
             }
         },
-        error: function() {
-            console.log("not logged in");
-            document.getElementById("eventTable").innerHTML = "<strong>Not logged in!</strong>";
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
         }
     });
 });

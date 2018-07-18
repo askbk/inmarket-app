@@ -129,6 +129,23 @@ class User
         return -1;
     }
 
+    public static function getUserType($user_id)
+    {
+        $sql = "SELECT isPupil, isStudent
+                FROM user
+                WHERE id=$user_id";
+
+        $result = DB::returnValue(DB::select($sql));
+
+        if ($result["isPupil"] == 1) {
+            return 0;
+        } else if ($result["isStudent"] == 1) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     //  checks whether the user is an admin.
     public static function isAdmin($id)
     {

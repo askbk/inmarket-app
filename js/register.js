@@ -11,12 +11,7 @@ $(document).ready(function() {
         emailVerified   : 0
     };
 
-    let firstPage = document.getElementsByClassName("firstPage");
-    let secondPage = document.getElementsByClassName("secondPage");
-    let thirdPage = document.getElementsByClassName("thirdPage");
-    let pupilPage = document.getElementsByClassName("pupilPage");
-    let studentPage = document.getElementsByClassName("studentPage");
-    let employeePage = document.getElementsByClassName("employeePage");
+    document.title = "Registrering | InMarket App";
 
     $.get("php/getKommuner.php?kommuneNr=", function(data, status) {
         let kommuner = JSON.parse(data);
@@ -31,8 +26,17 @@ $(document).ready(function() {
             return false;
         }
     });
+
+    let firstPage = document.getElementsByClassName("firstPage");
+    let secondPage = document.getElementsByClassName("secondPage");
+    let thirdPage = document.getElementsByClassName("thirdPage");
+    let pupilPage = document.getElementsByClassName("pupilPage");
+    let studentPage = document.getElementsByClassName("studentPage");
+    let employeePage = document.getElementsByClassName("employeePage");
+
     //  when the user has selected what they are
     $(".clientType").click(function() {
+        console.log("clientType clicked");
         switch (this.value) {
             case "pupil":
                 user.isPupil = 1;

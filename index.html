@@ -13,15 +13,17 @@
         <script charset="utf-8" id="pageController"></script>
     </head>
     <body>
-        <div class="w3-bar w3-top bottom-accent bar">
+        <div class="w3-bar w3-top bottom-accent bar bg-white">
             <a href="#" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
             <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket</span>
-            <a href="#/profil" class="w3-right w3-hide"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
-            <a href="#" class="w3-right w3-large common-line-height-bar w3-hide"><i class="fas fa-search"></i></a>
-            <a href="#/meldinger" class="w3-right w3-large common-line-height-bar w3-hide"> <i class="far fa-envelope"></i> </a>
+            <div class=" w3-right" id="hidden-items-top">
+                <a href="#/meldinger" class="w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
+                <a href="#" class="w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
+                <a href="#/profil" class=""> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+            </div>
         </div>
-        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny w3-hide">
-            <a href="#" class="w3-button" id="startButton">Startside</a>
+        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
+            <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
             <a href="#/videoer" class="w3-button" id="videoButton">Bedriftsvideoer</a>
             <a href="#/eventer" class="w3-button" id="eventButton">Eventer</a>
             <a href="#/kontakt" class="w3-button" id="contactButton">Kontakt</a>

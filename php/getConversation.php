@@ -11,7 +11,7 @@ if (Auth::isLoggedIn()) {
     $offset = $_POST["offset"];
 
     $messages = Message::getConversationMessages($convId, $count, $offset);
-    $conversation = array('messages' => $messages, 'name' => $conversationName);
+
 
     for ($i=0; $i < count($messages); $i++) {
         if ($messages[$i]["sender"] != $user_id) {
@@ -21,6 +21,8 @@ if (Auth::isLoggedIn()) {
         }
     }
 
-    echo json_encode($messages);
+    $conversation = array('messages' => $messages, 'name' => $conversationName);
+
+    echo json_encode($conversation);
 }
 ?>

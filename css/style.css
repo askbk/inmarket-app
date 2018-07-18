@@ -2,8 +2,16 @@ a {
     text-decoration: none;
 }
 
+.link-underline {
+    text-decoration: underline;
+}
+
 button {
     cursor: pointer;
+}
+
+select {
+    background-color: #f9f9f9;
 }
 
 footer {
@@ -159,7 +167,7 @@ textarea {
 }
 
 .red-button:hover {
-    background-color: white!important;
+    background-color: white;
     color: #640507!important;
 }
 
@@ -201,6 +209,10 @@ textarea {
 
 #conversation {
     overflow: scroll;
+}
+
+.bg-white {
+    background-color: white;
 }
 
 /* latin-ext */

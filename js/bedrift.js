@@ -14,8 +14,13 @@ $(document).ready(function () {
             let bedrift = JSON.parse(data);
             printInfo(bedrift);
         },
-        error: function() {
-            console.log("not logged in");
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
         }
     });
 
@@ -29,8 +34,13 @@ $(document).ready(function () {
             let employees = JSON.parse(data);
             printEmployees(employees);
         },
-        error: function() {
-            console.log("not logged in");
+        error: function(data, textStatus, xhr) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
         }
     });
 
@@ -39,7 +49,7 @@ $(document).ready(function () {
 function printInfo(bedrift) {
     $("#currentPageHeader").text(bedrift["companyName"]);
     $("#description").text(bedrift["description"]);
-
+    document.title = bedrift["companyName"] + " | InMarket App";
 }
 
 function printEmployees(employees) {

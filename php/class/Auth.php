@@ -22,7 +22,7 @@ class Auth
             return true;
         } catch (\Exception $e) {
             header("HTTP/1.0 401 Unauthorized");
-            // echo $e;
+            echo $e;
             if (0 <= strpos($e, "Expired")) {
                 echo "Token expired";
             }
@@ -79,7 +79,7 @@ class Auth
     {
         $tokenId    = base64_encode(random_bytes(32));
         $issuedAt   = time();
-        $notBefore  = $issuedAt + 1;             //Adding 10 seconds
+        $notBefore  = $issuedAt;             //Adding 10 seconds
         $expire     = $notBefore + Config::getJWTExpiration();            // Adding 60 seconds
         $serverName = Config::getServerName(); // Retrieve the server name from config file
         $email = User::getUserEmail($user_id);

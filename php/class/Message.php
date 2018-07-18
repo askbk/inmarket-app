@@ -45,6 +45,7 @@ class Message
         $sql = "SELECT *
                 FROM message
                 WHERE conversation_id=$conversationId
+                ORDER BY timestamp DESC
                 LIMIT 1";
         //echo "<br>query: $sql<br>";
         return DB::returnValue(DB::select($sql));
@@ -52,10 +53,11 @@ class Message
 
     public static function sendMessage($conversationId, $sender_id, $content)
     {
-        $dateTime = date("Y-m-d H:i:s");
+        $date = new DateTime();
+        $timestamp = $date->getTimestamp();
 
-        $sql = "INSERT INTO message (conversation_id, sender, content, dateTime)
-                VALUES ($conversationId, $sender_id, '$content', '$dateTime')";
+        $sql = "INSERT INTO message (conversation_id, sender, content, timestamp)
+                VALUES ($conversationId, $sender_id, '$content', '$timestamp')";
 
         return DB::write($sql);
     }
@@ -112,9 +114,9 @@ class Message
                 FROM conversation
                 WHERE id=$conversationId";
 
-        $result = DB::returnResult(DB::select($sql));
+        $result = DB::returnValue(DB::select($sql));
 
-        if ($result[0]["groupConversation"] == 1) {
+        if ($result["groupConversation"] == 1) {
             return true;
         }
 
@@ -126,10 +128,9 @@ class Message
         $sql = "SELECT name
                 FROM conversation
                 WHERE id=$conversationId AND name IS NOT NULL";
-        // echo "convid $conversationId";
-        $result = DB::returnResult(DB::select($sql));
+        $result = DB::returnValue(DB::select($sql));
 
-        if (count($result) > 0) {
+        if ($result) {
             return $result["name"];
         } else {
             $sql = "SELECT user_id
@@ -144,15 +145,24 @@ class Message
                 $names[] = User::getUserName($participant["user_id"]);
             }
 
-            return $names;
+            return implode(", ", $names);
         }
+    }
+
+    public static function setConversationName($conversationId, $name)
+    {
+        $sql = "INSERT INTO conversation (name)
+                VALUES ('$name')
+                WHERE id=$conversationId";
+
+        return DB::write($sql);
     }
 }
 
 function sortByTime($a, $b)
 {
-    $ad = new DateTime($a['dateTime']);
-    $bd = new DateTime($b['dateTime']);
+    $ad = new DateTime($a['timestamp']);
+    $bd = new DateTime($b['timestamp']);
 
     if ($ad == $bd) {
         return 0;
