@@ -1,13 +1,15 @@
-<div class="w3-center">
-    <div id="conversation">
-        <div class="message w3-container">
-            <div class="{{styleClass}} w3-border w3-round">
-                {{content}}
-            </div>
+<div id="conversation" class="w3-hide">
+    <div class="message w3-container" id="{{id}}">
+        <div class="{{styleClass}} w3-border w3-round">
+            {{content}}
         </div>
     </div>
-    <div class="w3-bottom w3-row-padding">
-        <input type="text" name="" value="" class="w3-input w3-col m9" id="chatInput" placeholder="Skriv en melding…" >
-        <button type="button" name="button" class="w3-right red-button w3-col m3" id="sendBtn">Send</button>
+</div>
+<div class="w3-row fixed-bottom bg-white w3-padding">
+    <div class="w3-threequarter">
+        <input type="text" name="" value="" class="w3-input" id="chatInput" placeholder="Skriv en melding…" >
+    </div>
+    <div class="w3-quarter">
+        <button type="button" name="button" class="red-button" id="sendBtn">Send</button>
     </div>
 </div>

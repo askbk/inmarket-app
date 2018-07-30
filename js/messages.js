@@ -1,4 +1,7 @@
-$(document).ready(function () {
+let inbox = document.getElementById("inbox");
+let inboxTemplate = document.getElementById("template");
+
+function messages() {
     $("#currentPageHeader").text("Samtaler");
 
     $.ajax({
@@ -9,6 +12,7 @@ $(document).ready(function () {
         type: 'POST',
         success: function(data) {
             let messageList = JSON.parse(data);
+            console.log(data);
             printMessageList(messageList);
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -20,17 +24,20 @@ $(document).ready(function () {
             }
         }
     });
-});
+}
 
 function printMessageList(messageList) {
     document.title = "Innboks | InMarket App";
     if (messageList.length == 0) {
-        document.getElementById("inbox").innerHTML = "No messages";
+        inbox.innerHTML = "No messages";
     } else {
         console.log(messageList);
-        let template = document.getElementById("template").innerHTML;
+        let template = inboxTemplate.innerHTML;
         console.log("template: " + template);
         let rendered = Pattern.render(template, messageList);
-        document.getElementById("template").innerHTML = rendered;
+        inboxTemplate.innerHTML = rendered;
     }
+    inbox.classList.remove("w3-hide");
 }
+
+messages();

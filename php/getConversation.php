@@ -1,7 +1,6 @@
 <?php
 require_once 'class/Message.php';
 require_once 'class/Auth.php';
-require_once 'class/User.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
@@ -11,7 +10,6 @@ if (Auth::isLoggedIn()) {
     $offset = $_POST["offset"];
 
     $messages = Message::getConversationMessages($convId, $count, $offset);
-
 
     for ($i=0; $i < count($messages); $i++) {
         if ($messages[$i]["sender"] != $user_id) {

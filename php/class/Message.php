@@ -34,8 +34,21 @@ class Message
         $sql = "SELECT *
                 FROM message
                 WHERE conversation_id=$conversationId
-                LIMIT $count
-                OFFSET $offset";
+                ORDER BY id ASC";
+
+        $result = DB::returnResult(DB::select($sql));
+        //usort($result, "sortByTime");
+
+        return $result;
+    }
+
+    public static function getNewConversationMessages($conversationId, $prevId)
+    {
+        $sql = "SELECT *
+                FROM message
+                WHERE conversation_id=$conversationId
+                AND id > $prevId
+                ORDER BY timestamp ASC";
 
         return DB::returnResult(DB::select($sql));
     }

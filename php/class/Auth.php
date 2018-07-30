@@ -119,6 +119,8 @@ class Auth
             $request[$name] = $value;
         }
 
+        //var_dump($request);
+
         $jwt = explode(" ", $request["Authorization"])[1];
         return $jwt;
     }

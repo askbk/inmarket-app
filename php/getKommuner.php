@@ -24,7 +24,7 @@ if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
     file_put_contents($filePath, $jsonObj);
 }
 
-if($kommuneNr == "") {
+if($kommuneNr == -1) {
     echo file_get_contents($filePath);
 } else {
     $kommuner = json_decode(file_get_contents($filePath));

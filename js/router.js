@@ -20,11 +20,11 @@ let Router = {
             url         : "templates/videoList.html",
             controller  : "js/videos.js"
         },
-        "registrering"      : {
+        "registrering"  : {
             url         : "register.html",
             controller  : "js/register.js"
         },
-        "innlogging"         : {
+        "innlogging"    : {
             url         : "login.html",
             controller  : "js/login.js"
         },
@@ -51,12 +51,20 @@ let Router = {
         "instillinger"  : {
             url         : "settings.html",
             controller  : "js/settings.js"
+        },
+        "grupper"       : {
+            url         : "template/group.html",
+            controller  : "js/group.js"
         }
     },
     route           : function() {
         Router.parameters = window.location.hash.split('/');
         let page = Router.parameters[1];
-        $("#content").load(Router.routes[page].url);
+        try {
+            $("#content").load(Router.routes[page].url);
+        } catch (e) {
+            $("#content").load(Router.routes["feil"].url);
+        }
         Router.loadController(Router.routes[page].controller);
     },
     loadController  : function(url) {

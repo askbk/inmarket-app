@@ -1,11 +1,11 @@
 let postParams = {
-    "conversationId"    : Router.getParameters()[2],
+    "groupId"    : Router.getParameters()[2],
     "count"             : 10,
     "offset"            : 0
 };
 
 $.ajax({
-    url: 'php/getConversation.php',
+    url: 'php/getGroupPosts.php',
     beforeSend: function(request){
         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
     },

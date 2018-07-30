@@ -10,7 +10,6 @@
         <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
         <script src="js/patternjs/pattern.js" charset="utf-8"></script>
         <script src="js/router.js" charset="utf-8"></script>
-        <script charset="utf-8" id="pageController"></script>
     </head>
     <body>
         <div class="w3-bar w3-top bottom-accent bar bg-white">
@@ -19,8 +18,12 @@
             <div class=" w3-right" id="hidden-items-top">
                 <a href="#/meldinger" class="w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
                 <a href="#" class="w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
-                <a href="#/profil" class=""> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+                <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
             </div>
+        </div>
+        <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block" id="sidebar" style="right:0;">
+            <a href="#" class="w3-bar-item w3-button w3-mobile">instillinger</a>
+            <a href="#" class="w3-bar-item w3-button w3-mobile">Min Profil</a>
         </div>
         <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
             <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
@@ -33,7 +36,52 @@
         </section>
     </body>
     <script type="text/javascript">
-        window.onload = Router.route;
-        window.onhashchange = Router.route;
+        let sidebar = document.getElementById("sidebar");
+        let bottomNav = document.getElementById("bottomNav");
+        let hiddenItems = document.getElementById("hidden-items-top");
+
+        window.onload = function () {
+            Router.route();
+            interfaceController();
+        };
+
+        window.onhashchange = function () {
+            Router.route();
+            interfaceController();
+        };
+
+        function interfaceController() {
+            let page = Router.getParameters()[1];
+            switch (page) {
+                case "registrering":
+                    bottomNav.classList.add("w3-hide");
+                    hiddenItems.classList.add("w3-hide");
+                    break;
+                case "innlogging":
+                    bottomNav.classList.add("w3-hide");
+                    hiddenItems.classList.add("w3-hide");
+                    break;
+                case "bedrift":
+                    bottomNav.classList.add("w3-hide");
+                    hiddenItems.classList.remove("w3-hide");
+                    break;
+                case "samtale":
+                    bottomNav.classList.add("w3-hide");
+                    hiddenItems.classList.remove("w3-hide");
+                    break;
+                case "instillinger":
+                    bottomNav.classList.add("w3-hide");
+                    hiddenItems.classList.remove("w3-hide");
+                    break;
+                default:
+                    bottomNav.classList.remove("w3-hide");
+                    hiddenItems.classList.remove("w3-hide");
+                    break;
+            }
+        }
+
+        function sidebarToggle() {
+            sidebar.classList.toggle("w3-hide")
+        }
     </script>
 </html>

@@ -1,5 +1,6 @@
 <?php
 require_once 'DB.php';
+require_once 'Company.php';
 /**
  * Class for User management
  */
@@ -34,10 +35,10 @@ class User
     //  then that is also inserted into the company table. returns the user_id of the employee.
     public static function insertEmployee($user_id, $position, $education, $companyName)
     {
-        $companyId = self::getCompanyId($companyName);
+        $companyId = Company::getCompanyId($companyName);
 
         if($companyId == -1) {
-            $companyId = self::insertCompany($companyName);
+            $companyId = Company::insertCompany($companyName);
         }
 
         $sql = "INSERT INTO companyEmployee (user_id, position, education, company_id)

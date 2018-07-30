@@ -1,13 +1,11 @@
-$(document).ready(function () {
+function events() {
     let eventTable = document.getElementById("eventTable");
     let eventInfo = document.getElementById("eventInfo");
-
+    let infoTemplate = document.getElementById("infoTemplate");
     let parameter = -1;
     console.log(Router.getParameters());
     if (Router.getParameters().length == 3) {
         parameter = Router.getParameters()[2];
-        eventTable.classList.add("w3-hide");
-        eventInfo.classList.remove("w3-hide");
     }
 
     $.ajax({
@@ -18,7 +16,6 @@ $(document).ready(function () {
         type: 'GET',
         success: function(data) {
             let events = JSON.parse(data);
-
             if (parameter == -1) {
                 printTable(events);
             } else {
@@ -34,26 +31,29 @@ $(document).ready(function () {
             }
         }
     });
-});
+}
 
 function printTable(events) {
     $("#currentPageHeader").text("Eventer nær deg");
     if (events.length == 0) {
-        document.getElementById("eventTable").innerHTML = "<p>Ingen eventer</p>";
+        eventTable.innerHTML = "<p>Ingen eventer</p>";
     } else {
         console.log(events);
-        let template = document.getElementById("listTemplate").innerHTML;
+        let template = listTemplate.innerHTML;
         console.log("template: " + template);
         let rendered = Pattern.render(template, events);
-        document.getElementById("listTemplate").innerHTML = rendered;
+        listTemplate.innerHTML = rendered;
+        listTemplate.classList.remove("w3-hide");
     }
 }
 
 function printInfo(info) {
     console.log(info);
     $("#currentPageHeader").text(info[0]["type"]);
-
-    let template = document.getElementById("infoTemplate").innerHTML;
+    let template = infoTemplate.innerHTML;
     let rendered = Pattern.render(template, info);
-    document.getElementById("infoTemplate").innerHTML = rendered;
+    infoTemplate.innerHTML = rendered;
+    eventInfo.classList.remove("w3-hide");
 }
+
+events();

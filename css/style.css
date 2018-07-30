@@ -176,6 +176,14 @@ textarea {
     color: #000; !important;
 }
 
+.fixed-bottom {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+}
+
 .text-grey {
     color: #666;
 }
@@ -193,22 +201,23 @@ textarea {
     max-width: 50%;
     padding: 5px;
     float: right;
-    background-color: rgba(200, 100, 100, 0.5);
+    background-color: #640507;
+    color: white;
 }
 
 .receivedMessage {
     max-width: 50%;
     padding: 5px;
     float: left;
-    background-color: rgba(200, 200, 200, 0.5);
+    background-color: #f9f9f9;
 }
 
 .message {
-    min-height: 30px;
+    min-height: 40px;
 }
 
-#conversation {
-    overflow: scroll;
+#sendBtn {
+    width: 100%;
 }
 
 .bg-white {
