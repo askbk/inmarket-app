@@ -1,25 +1,33 @@
-<ul class="w3-ul">
-    <li id="template">
-        <div class="groupPost">
-            <div class="postContent">
-                <div class="">
-                    <a href="#/profil/{{postAuthorId}}"><img src="" alt="" class="postAuthorPicture"></a>
-                </div>
-                <div class="">
-                    <strong> <a href="#/profil/{{postAuthorId}}">{{postAuthorName}}</a> </strong>
-                    <p>{{postContent}}</p>
-                </div>
+<div class="w3-container">
+    <textarea name="name" rows="8" cols="80" id="newPostInput"></textarea>
+    <button type="button" name="button" class="red-button" onclick="createNewPost()">Post</button>
+</div>
+<ul id="groupPosts" class="w3-ul">
+</ul>
+
+<div id="postTemplate" class="w3-hide">
+    <div id="post{{post_id}}">
+        <div class="postContent">
+            <div class="">
+                <a href="#/profil/{{poster}}"><img src="" alt="" class="postAuthorPicture"></a>
             </div>
-            <div class="postComments">
-                <div class="comment">
-                    <div class="">
-                        <a href="#/profil/{{commentAuthorId}}"><img src="" alt="" class="commentAuthorPicture"></a>
-                    </div>
-                    <div class="commentContent">
-                        <p>{{commentContent}}</p>
-                    </div>
-                </div>
+            <div class="">
+                <strong> <a href="#/profil/{{poster}}">{{name}}</a> </strong>
+                <p>{{content}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="commentTemplate" class="w3-hide">
+    <li class="postComment">
+        <div id="comment{{postComment_id}}">
+            <div class="">
+                <a href="#/profil/{{user_id}}"><img src="" alt="" class="commentAuthorPicture"></a>
+            </div>
+            <div class="commentContent">
+                <p>{{content}}</p>
             </div>
         </div>
     </li>
-</ul>
+</div>

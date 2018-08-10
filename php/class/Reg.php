@@ -9,12 +9,15 @@ class Reg
     public static function registerUser($user)
     {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
-        $user_id = User::insertUser($user["name"], $user["email"], $user["phone"], 0, $user["isStudent"], $user["isEmployee"], $user["isPupil"], $password, $user["kommuneNr"]);
+        $user_id = User::insertUser($user["name"], $user["email"],
+                                    $user["phone"], 0, $user["isStudent"],
+                                    $user["isNeet"], $user["isPupil"],
+                                    $password, $user["kommuneNr"]);
 
         if ($user["isStudent"]) {
             self::registerStudent($user_id, $user);
-        } else if ($user["isEmployee"]) {
-            self::registerEmployee($user_id, $user);
+        } else if ($user["isNEET"]) {
+            self::registerNeet($user_id, $user);
         } else if ($user["isPupil"]) {
             self::registerPupil($user_id, $user);
         }
@@ -25,17 +28,19 @@ class Reg
 
     private static function registerStudent($user_id, $student)
     {
-        User::insertStudent($user_id, $student["school"], $student["schoolYear"], $student["program"]);
+        User::insertStudent($user_id, $student["school"],
+                            $student["schoolYear"], $student["program"]);
     }
 
-    private static function registerEmployee($user_id, $employee)
+    private static function registerNEET($user_id, $employee)
     {
-        User::insertEmployee($user_id, $employee["position"], $employee["education"], $employee["companyName"]);
+        User::insertNEET($user_id, " "," "," ");
     }
 
     private static function registerPupil($user_id, $pupil)
     {
-        User::insertPupil($user_id, $pupil["school"], $pupil["schoolYear"], $pupil["program"]);
+        User::insertPupil($user_id, $pupil["school"], $pupil["schoolYear"],
+                            $pupil["program"]);
     }
 
 

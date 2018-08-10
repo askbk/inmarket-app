@@ -1,7 +1,7 @@
-let inbox = document.getElementById("inbox");
-let inboxTemplate = document.getElementById("template");
-
 function messages() {
+    var inbox = inbox || document.getElementById("inbox");
+    var inboxTemplate = inboxTemplate || document.getElementById("template");
+
     $("#currentPageHeader").text("Samtaler");
 
     $.ajax({
@@ -27,6 +27,8 @@ function messages() {
 }
 
 function printMessageList(messageList) {
+    var inbox = document.getElementById("inbox");
+    var inboxTemplate = document.getElementById("template");
     document.title = "Innboks | InMarket App";
     if (messageList.length == 0) {
         inbox.innerHTML = "No messages";
@@ -39,5 +41,3 @@ function printMessageList(messageList) {
     }
     inbox.classList.remove("w3-hide");
 }
-
-messages();

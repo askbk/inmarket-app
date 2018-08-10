@@ -10,7 +10,7 @@ class Message
     {
         $sql = "SELECT conversation_id
                 FROM conversationParticipants
-                WHERE user_id=$user_id
+                WHERE user_id = $user_id
                 LIMIT $count
                 OFFSET $offset";
         //echo "query: $sql <br>";
@@ -33,8 +33,8 @@ class Message
     {
         $sql = "SELECT *
                 FROM message
-                WHERE conversation_id=$conversationId
-                ORDER BY id ASC";
+                WHERE conversation_id = $conversationId
+                ORDER BY message_id ASC";
 
         $result = DB::returnResult(DB::select($sql));
         //usort($result, "sortByTime");
@@ -46,8 +46,8 @@ class Message
     {
         $sql = "SELECT *
                 FROM message
-                WHERE conversation_id=$conversationId
-                AND id > $prevId
+                WHERE conversation_id = $conversationId
+                AND message_id > $prevId
                 ORDER BY timestamp ASC";
 
         return DB::returnResult(DB::select($sql));
@@ -57,7 +57,7 @@ class Message
     {
         $sql = "SELECT *
                 FROM message
-                WHERE conversation_id=$conversationId
+                WHERE conversation_id = $conversationId
                 ORDER BY timestamp DESC
                 LIMIT 1";
         //echo "<br>query: $sql<br>";
@@ -69,15 +69,17 @@ class Message
         $date = new DateTime();
         $timestamp = $date->getTimestamp();
 
-        $sql = "INSERT INTO message (conversation_id, sender, content, timestamp)
+        $sql = "INSERT INTO message (conversation_id, sender, content,
+                    timestamp)
                 VALUES ($conversationId, $sender_id, '$content', '$timestamp')";
 
         return DB::write($sql);
     }
 
-    public static function startConversation($user_id1, $user_id2, $isGroupConvo)
+    public static function startConversation($user_id1, $user_id2,
+                                                $isGroupConvo)
     {
-        $sql = "INSERT INTO conversation (groupConversation)
+        $sql = "INSERT INTO conversation (isGroupConversation)
                 VALUES ($isGroupConvo)";
 
         $conversationId = DB::write($sql);
@@ -109,7 +111,7 @@ class Message
     {
         $sql = "SELECT *
                 FROM conversationParticipants
-                WHERE user_id=$user_id AND conversation_id=$conversationId
+                WHERE user_id = $user_id AND conversation_id = $conversationId
                 LIMIT 1";
 
         $result = DB::select($sql);
@@ -123,13 +125,13 @@ class Message
 
     public static function isGroupConversation($conversationId)
     {
-        $sql = "SELECT groupConversation
+        $sql = "SELECT isGroupConversation
                 FROM conversation
-                WHERE id=$conversationId";
+                WHERE conversation_id = $conversationId";
 
         $result = DB::returnValue(DB::select($sql));
 
-        if ($result["groupConversation"] == 1) {
+        if ($result["isGroupConversation"] == 1) {
             return true;
         }
 
@@ -140,7 +142,7 @@ class Message
     {
         $sql = "SELECT name
                 FROM conversation
-                WHERE id=$conversationId AND name IS NOT NULL";
+                WHERE conversation_id = $conversationId AND name IS NOT NULL";
         $result = DB::returnValue(DB::select($sql));
 
         if ($result) {
@@ -148,7 +150,8 @@ class Message
         } else {
             $sql = "SELECT user_id
                     FROM conversationParticipants
-                    WHERE conversation_id=$conversationId AND user_id!=$user_id";
+                    WHERE conversation_id = $conversationId
+                        AND user_id != $user_id";
 
             $participants = DB::returnResult(DB::select($sql));
 
@@ -166,7 +169,7 @@ class Message
     {
         $sql = "INSERT INTO conversation (name)
                 VALUES ('$name')
-                WHERE id=$conversationId";
+                WHERE conversation_id = $conversationId";
 
         return DB::write($sql);
     }

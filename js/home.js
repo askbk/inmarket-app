@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function home() {
     $.ajax({
         url: 'php/getVideos.php',
         beforeSend: function(request){
@@ -7,7 +7,7 @@ $(document).ready(function () {
         type: 'GET',
         success: function(data) {
             console.log("success");
-            printVideos(data);
+            //printVideos(data);
             document.title = "Hjem | InMarket App";
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -20,8 +20,4 @@ $(document).ready(function () {
             }
         }
     });
-});
-
-function printVideos(videoList) {
-
 }

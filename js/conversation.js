@@ -1,44 +1,60 @@
-let postParams = {
-    "conversationId"    : Router.getParameters()[2],
-    "count"             : 10,
-    "offset"            : 0
-};
+let chatInput;
+let chat;
+let chatbox;
+let msgTemplate;
+let postParams;
 
-$.ajax({
-    url: 'php/getConversation.php',
-    beforeSend: function(request){
-        request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-    },
-    type: 'POST',
-    data: postParams,
-    success: function(data) {
-        let conversation = JSON.parse(data);
-        printConversation(conversation);
-    },
-    error: function(xhr, textStatus, errorThrown) {
-        if (xhr.status == 401) {
-            console.log("not logged in");
-            location.hash = "/innlogging";
-        } else {
-            console.log("error: " + xhr.status);
+function conversation() {
+    $("#sendBtn").click(sendMessage);
+
+    $('#chatInput').on('keypress', function(e) {
+        let keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            sendMessage();
         }
-    }
-});
+    });
 
-let chatInput = document.getElementById('chatInput');
-let chat = $("#conversation");
+    postParams = {
+        "conversationId"    : Router.getParameters()[2],
+        "count"             : 10,
+        "offset"            : 0
+    };
 
-$("#sendBtn").click(sendMessage);
+    $.ajax({
+        url: 'php/getConversation.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: postParams,
+        success: function(data) {
+            let conv = JSON.parse(data);
+            console.log(conv);
+            printConversation(conv);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
 
-$('#chatInput').on('keypress', function(e) {
-    let keyCode = e.keyCode || e.which;
-    if (keyCode === 13) {
-        sendMessage();
-    }
-});
+    let messagesRetrieval = setInterval("getNewMessages()", 1000);
 
-let chatbox = document.getElementById("conversation");
-const msgTemplate = document.getElementById("conversation").innerHTML;
+    window.addEventListener("hashchange", function () {
+        clearInterval(messagesRetrieval);
+    })
+
+    chatInput = document.getElementById('chatInput');
+    chat = $("#conversation");
+    chatbox = document.getElementById("conversation");
+    msgTemplate = document.getElementById("conversation").innerHTML;
+}
+
+
 
 function sendMessage() {
     let msg = chatInput.value;
@@ -72,43 +88,44 @@ function sendMessage() {
 }
 
 function getNewMessages() {
-    $(document).ready(function () {
-        let prevId = $("#conversation").children().last().attr("id");
+    let prevId = $("#conversation").children().last().attr("id");
+    if (prevId.indexOf("{") > -1) {
         console.log(prevId);
-        let params = {
-            "prevId"            : prevId,
-            "conversationId"    : postParams["conversationId"]
-        };
+        return;
+    }
+    let params = {
+        "prevId"            : prevId,
+        "conversationId"    : postParams["conversationId"]
+    };
 
-        $.ajax({
-            url: 'php/getNewConversationMessages.php',
-            beforeSend: function(request){
-                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-            },
-            type: 'POST',
-            data: params,
-            success: function(data) {
-                let newMsgs = JSON.parse(data);
-                if (newMsgs.length > 0) {
-                    printNewMessages(newMsgs);
-                }
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                if (xhr.status == 401) {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                } else {
-                    console.log("error: " + xhr.status);
-                }
+    $.ajax({
+        url: 'php/getNewConversationMessages.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: params,
+        success: function(data) {
+            let newMsgs = JSON.parse(data);
+            if (newMsgs.length > 0) {
+                printNewMessages(newMsgs);
             }
-        });
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
     });
 }
 
 function printMessage(msg, id) {
     let newMsg = msgTemplate.replace("{{content}}", msg);
     newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
-    newMsg = newMsg.replace("{{id}}", id);
+    newMsg = newMsg.replace("{{message_id}}", id);
     chatbox.innerHTML += newMsg;
     chatbox.scrollTop = chatbox.scrollHeight;
 }
@@ -117,6 +134,7 @@ function printConversation(conv) {
     $("#currentPageHeader").text(conv["name"]);
     let messages = conv["messages"];
     let rendered = Pattern.render(msgTemplate, messages);
+    console.log(chatbox);
     chatbox.innerHTML = rendered;
     chatbox.classList.remove("w3-hide");
     chatbox.scrollTop = chatbox.scrollHeight;
@@ -127,5 +145,3 @@ function printNewMessages(msg) {
     chatbox.innerHTML += rendered;
     chatbox.scrollTop = chatbox.scrollHeight;
 }
-
-let messagesRetrieval = setInterval("getNewMessages()", 1000);

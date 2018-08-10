@@ -7,9 +7,7 @@
         <link rel="stylesheet" href="css/w3pro.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="fontawesome-free-5.1.0-web/css/all.css">
-        <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
-        <script src="js/patternjs/pattern.js" charset="utf-8"></script>
-        <script src="js/router.js" charset="utf-8"></script>
+
     </head>
     <body>
         <div class="w3-bar w3-top bottom-accent bar bg-white">
@@ -35,10 +33,28 @@
         <section class="w3-content w3-container w3-padding-64" id="content">
         </section>
     </body>
+    <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
+    <script src="js/patternjs/pattern.js" charset="utf-8"></script>
+    <script src="js/messages.js" charset="utf-8"></script>
+    <script src="js/home.js" charset="utf-8"></script>
+    <script src="js/events.js" charset="utf-8"></script>
+    <script src="js/conversation.js" charset="utf-8"></script>
+    <script src="js/login.js" charset="utf-8"></script>
+    <script src="js/group.js" charset="utf-8"></script>
+    <script src="js/router.js" charset="utf-8"></script>
     <script type="text/javascript">
         let sidebar = document.getElementById("sidebar");
         let bottomNav = document.getElementById("bottomNav");
         let hiddenItems = document.getElementById("hidden-items-top");
+
+        Object.keys(Router.routes).forEach(function(page,index) {
+            // key: the name of the object key
+            // index: the ordinal position of the key within the object
+            $.get(Router.routes[page].url, function (htmlContent) {
+                // console.log(Router.routes[page].url);
+                Router.routes[page].html = htmlContent;
+            });
+        });
 
         window.onload = function () {
             Router.route();
@@ -84,4 +100,5 @@
             sidebar.classList.toggle("w3-hide")
         }
     </script>
+
 </html>

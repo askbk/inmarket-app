@@ -20,6 +20,7 @@ function events() {
                 printTable(events);
             } else {
                 printInfo(events);
+                bottomNav.classList.add("w3-hide");
             }
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -44,6 +45,7 @@ function printTable(events) {
         let rendered = Pattern.render(template, events);
         listTemplate.innerHTML = rendered;
         listTemplate.classList.remove("w3-hide");
+        // localStorage.eventTable =
     }
 }
 
@@ -55,5 +57,3 @@ function printInfo(info) {
     infoTemplate.innerHTML = rendered;
     eventInfo.classList.remove("w3-hide");
 }
-
-events();

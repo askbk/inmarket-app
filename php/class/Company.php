@@ -30,9 +30,9 @@ class Company
     //  returns the id of the company with the specified name if it exists, otherwise it returns -1.
     public static function getCompanyId($companyName)
     {
-        $sql = "SELECT id
+        $sql = "SELECT company_id
                 FROM company
-                WHERE name='$companyName'";
+                WHERE name = '$companyName'";
 
         $result = DB::select($sql);
 
@@ -47,7 +47,7 @@ class Company
     {
         $sql = "SELECT *
                 FROM company
-                WHERE id=$companyId";
+                WHERE company_id = $companyId";
 
         $result = DB::select($sql);
 
@@ -61,7 +61,7 @@ class Company
     //  adds a new picture to the company's picture collection
     public static function insertCompanyPicture($companyId, $picturePath, $description='')
     {
-        $sql = "INSERT INTO companyPictures (path, company_id, description)
+        $sql = "INSERT INTO companyPicture (path, company_id, description)
                 VALUES ('$picturePath', $companyId, $description)";
 
         return DB::write($sql);
@@ -71,8 +71,8 @@ class Company
     public static function setCompanyLogo($companyId, $picturePath)
     {
         $sql = "UPDATE company
-                SET logo='$picturePath'
-                WHERE id=$companyId";
+                SET logo = '$picturePath'
+                WHERE company_id = $companyId";
 
         DB::write($sql);
     }
@@ -81,8 +81,8 @@ class Company
     public static function setCompanyDescription($companyId, $description)
     {
         $sql = "UPDATE company
-                SET description='$description'
-                WHERE id=$companyId";
+                SET description = '$description'
+                WHERE company_id = $companyId";
 
         DB::write($sql);
     }
@@ -90,10 +90,11 @@ class Company
     //  returns all employees from the specified company
     public static function getCompanyEmployees($companyId)
     {
-        $sql = "SELECT user.name, companyEmployee.position, companyEmployee.education
+        $sql = "SELECT user.name, companyEmployee.position,
+                    companyEmployee.education
                 FROM user
                 INNER JOIN companyEmployee ON user.id = companyEmployee.user_id
-                WHERE companyEmployee.company_id=$companyId";
+                WHERE companyEmployee.company_id = $companyId";
 
         return DB::returnResult(DB::select($sql));
     }

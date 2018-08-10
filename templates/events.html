@@ -6,10 +6,10 @@
     </tr>
     <tbody id="listTemplate" class="w3-hide">
         <tr>
-            <td>{{date}}</td>
+            <td>{{dateTime}}</td>
             <td>{{type}}</td>
             <td>{{location}}</td>
-            <td> <a class="w3-button" href="#/eventer/{{id}}">Les mer</a> </td>
+            <td> <a class="w3-button" href="#/eventer/{{event_id}}">Les mer</a> </td>
         </tr>
     </tbody>
 
@@ -21,9 +21,9 @@
         </div>
         <div class="w3-col m9">
             <article id="eventDescription">
-                <p>{{date}}: {{description}}</p>
+                <p>{{dateTime}}: {{description}}</p>
                 <p>
-                    Starttid: {{time}}<br>
+                    Starttid: {{dateTime}}<br>
                     Varighet: {{duration}}<br>
                     Inngangspris: {{price}}<br>
                 </p>

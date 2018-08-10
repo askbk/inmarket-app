@@ -7,10 +7,14 @@ require_once 'Company.php';
 class User
 {
     //  inserts a new user into the database and returns the id.
-    public static function insertUser($name, $email, $phone, $isAdmin, $isStudent, $isEmployee, $isPupil, $password, $kommuneNr)
+    public static function insertUser($name, $email, $phone, $adminLevel,
+                                        $isStudent, $isNEET, $isPupil,
+                                        $password, $kommuneNr)
     {
-        $sql = "INSERT INTO user (name, email, phone, kommuneNr, isAdmin, password, createTime, isStudent, isEmployee, isPupil)
-                VALUES ('$name', '$email', '$phone', '$kommuneNr', $isAdmin, '$password', NOW(), $isStudent, '$isEmployee', '$isPupil')";
+        $sql = "INSERT INTO user (name, email, phone, kommuneNr, adminLevel,
+                    password, createTime, isStudent, isNEET, isPupil)
+                VALUES ('$name', '$email', '$phone', '$kommuneNr', 0,
+                    '$password', NOW(), $isStudent, '$isNEET', '$isPupil')";
 
         return DB::write($sql);
     }
@@ -19,7 +23,7 @@ class User
     {
         $sql = "SELECT *
                 FROM user
-                WHERE id=$user_id
+                WHERE user_id = $user_id
                 LIMIT 1";
 
         $result = DB::select($sql);
@@ -31,9 +35,11 @@ class User
         return false;
     }
 
-    //  inserts a new employee into the database. if the specified company does not exist,
-    //  then that is also inserted into the company table. returns the user_id of the employee.
-    public static function insertEmployee($user_id, $position, $education, $companyName)
+    //  inserts a new employee into the database. if the specified company does
+    //  not exist, then that is also inserted into the company table. returns
+    //  the user_id of the employee.
+    public static function insertEmployee($user_id, $position, $education,
+                                            $companyName)
     {
         $companyId = Company::getCompanyId($companyName);
 
@@ -41,14 +47,16 @@ class User
             $companyId = Company::insertCompany($companyName);
         }
 
-        $sql = "INSERT INTO companyEmployee (user_id, position, education, company_id)
+        $sql = "INSERT INTO companyEmployee (user_id, position, education,
+                    company_id)
                 VALUES ($user_id, '$position', '$education', $companyId)";
 
         return DB::write($sql);
     }
 
     //  inserts a new student into the database and returns the user_id.
-    public static function insertStudent($user_id, $school, $schoolYear, $program)
+    public static function insertStudent($user_id, $school, $schoolYear,
+                                            $program)
     {
         $sql = "INSERT INTO student (user_id, school, schoolYear, program)
                 VALUES ($user_id, '$school', '$schoolYear', '$program')";
@@ -69,7 +77,7 @@ class User
     public static function deleteUser($user_id)
     {
         $sql = "DELETE FROM user
-                WHERE id=$user_id";
+                WHERE user_id = $user_id";
         DB::write($sql);
     }
 
@@ -77,15 +85,15 @@ class User
     //  otherwise returns -1.
     public static function getUserId($email)
     {
-        $sql = "SELECT id
+        $sql = "SELECT user_id
                 FROM user
-                WHERE email='$email'
+                WHERE email = '$email'
                 LIMIT 1";
 
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]['id'];
+            return DB::returnResult($result)[0]['user_id'];
         }
 
         return -1;
@@ -93,7 +101,9 @@ class User
 
     public static function getUserPassword($user_id)
     {
-        $sql = "SELECT password FROM user WHERE id='$user_id'";
+        $sql = "SELECT password
+                FROM user
+                WHERE user_id = $user_id";
 
         $result = DB::select($sql);
 
@@ -106,7 +116,9 @@ class User
 
     public static function getUserName($user_id)
     {
-        $sql = "SELECT name FROM user WHERE id='$user_id'";
+        $sql = "SELECT name
+                FROM user
+                WHERE user_id = '$user_id'";
 
         $result = DB::select($sql);
 
@@ -119,7 +131,9 @@ class User
 
     public static function getUserEmail($user_id)
     {
-        $sql = "SELECT email FROM user WHERE id='$user_id'";
+        $sql = "SELECT email
+                FROM user
+                WHERE user_id = '$user_id'";
 
         $result = DB::select($sql);
 
@@ -134,7 +148,7 @@ class User
     {
         $sql = "SELECT isPupil, isStudent
                 FROM user
-                WHERE id=$user_id";
+                WHERE user_id = $user_id";
 
         $result = DB::returnValue(DB::select($sql));
 
@@ -152,7 +166,7 @@ class User
     {
         $sql = "SELECT isAdmin
                 FROM user
-                WHERE id=$id,isAdmin=1";
+                WHERE user_id = $id AND isAdmin = 1";
 
         return DB::select($sql)->num_rows > 0;
     }
@@ -161,7 +175,7 @@ class User
     {
         $sql = "UPDATE user
                 SET profilePicture='$picturePath'
-                WHERE id=$user_id";
+                WHERE user_id = $user_id";
 
         DB::write($sql);
     }

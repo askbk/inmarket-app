@@ -38,6 +38,7 @@ class Auth
 
         if ($user_id == -1) {
             header("HTTP/1.0 401 Unauthorized");
+            // echo "invalid email";
             return false;
         }
 
@@ -45,6 +46,7 @@ class Auth
             return $user_id;
         }
         header("HTTP/1.0 401 Unauthorized");
+        // echo "invalid password";
         return false;
     }
 

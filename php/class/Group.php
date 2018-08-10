@@ -6,43 +6,42 @@ require_once 'DB.php';
  */
 class Group
 {
-    public static function getGroupMembers($groupId)
+    public static function getMembers($groupId)
     {
-        $sql = "SELECT user.id, user.name, user.profilePicture, groupMember.isGroupAdmin
+        $sql = "SELECT user.user_id, user.name, user.profilePicture,
+                    groupMember.isGroupAdmin
                 FROM user
-                INNER JOIN groupMember on user.id=groupMember.user_id";
+                INNER JOIN groupMember on user.user_id = groupMember.user_id";
 
-        $result = DB::returnResult(DB::select($sql));
-
-        echo json_encode($result);
+        return DB::returnResult(DB::select($sql));
     }
 
-    public static function getGroupDetails($groupId)
+    public static function getDetails($groupId)
     {
         $sql = "SELECT name, description
-                FROM group
-                WHERE id=$groupId";
+                FROM `group`
+                WHERE group_id = $groupId";
 
-        echo DB::returnResult(DB::select($sql));
+        return DB::returnResult(DB::select($sql));
     }
 
-    public static function createGroup($groupName, $groupDescription)
+    public static function insert($groupName, $groupDescription)
     {
-        $sql = "INSERT INTO group (name, description)
+        $sql = "INSERT INTO `group` (name, description)
                 VALUES ('$groupName', '$groupDescription')";
 
         return DB::write($sql);
     }
 
-    public static function addGroupMember($groupId, $userId, $isAdmin)
+    public static function addMember($groupId, $userId, $isAdmin)
     {
         $sql = "INSERT INTO groupMember (user_id, group_id, isGroupAdmin)
-                VALUES ($userId,$groupId, $isAdmin)";
+                VALUES ($userId, $groupId, $isAdmin)";
 
         return DB::write($sql);
     }
 
-    public static function createGroupPost($groupId, $userId, $content)
+    public static function insertPost($groupId, $userId, $content)
     {
         $date = new DateTime();
         $timestamp = $date->getTimestamp();
@@ -53,7 +52,7 @@ class Group
         return DB::write($sql);
     }
 
-    public static function postComment($postId, $userId, $content)
+    public static function insertComment($postId, $userId, $content)
     {
         $date = new DateTime();
         $timestamp = $date->getTimestamp();
@@ -64,32 +63,66 @@ class Group
         return DB::write($sql);
     }
 
-    public static function getGroupPosts($groupId)
+    public static function getPosts($groupId)
     {
-        $sql = "SELECT id, poster, content, timestamp
+        $sql = "SELECT user.name, post.post_id, post.poster, post.content,
+                    post.timestamp
                 FROM post
-                WHERE group_id=$groupId";
+                INNER JOIN user
+                ON post.poster = user.user_id
+                WHERE group_id = $groupId";
 
-        $result = DB::returnResult(DB::select($sql));
-
-        $posts = array()
-
-        foreach ($result as $OP) {
-            $postId = $OP["id"];
-            $sql = "SELECT id, user_id, timestamp, content
-                    FROM postComment
-                    WHERE post_id=$postId";
-
-            $comments = DB::select($sql);
-
-            $posts[] = array('OP' => $OP, 'comments' => $comments);
-        }
-
-        echo json_encode($posts);
-
+        return DB::returnResult(DB::select($sql));
     }
 
+    public static function getNewPosts($groupId, $prevId)
+    {
+        $sql = "SELECT user.name, post.post_id, post.poster, post.content,
+                    post.timestamp
+                FROM post
+                INNER JOIN user
+                ON post.poster = user.user_id
+                WHERE group_id = $groupId
+                AND post_id > $prevId
+                ORDER BY timestamp ASC";
 
+        return DB::returnResult(DB::select($sql));
+    }
+
+    public static function getNewComments($groupId, $prevId)
+    {
+        // code...
+    }
+
+    public static function getPostComments($postId)
+    {
+        $sql = "SELECT user.name, postComment.postComment_id,
+                    postComment.user_id, postComment.timestamp,
+                    postComment.content
+                FROM postComment
+                INNER JOIN user
+                ON postComment.user_id = user.user_id
+                WHERE postComment.post_id = $postId
+                ORDER BY postComment.postComment_id ASC";
+
+        return DB::returnResult(DB::select($sql));
+    }
+
+    public static function isAdmin($userId, $groupId)
+    {
+        $sql = "SELECT isGroupAdmin
+                FROM groupMember
+                WHERE user_id = $user_id AND group_id = $groupId
+                LIMIT 1";
+
+        $result = DB::select($sql);
+
+        if($result->num_rows > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 ?>
