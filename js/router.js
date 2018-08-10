@@ -35,12 +35,18 @@ let Router = {
         "videoer"       : {
             url         : "templates/videoList.html",
             html        : "",
-            controller  : "js/videos.js"
+            controller  : "js/videos.js",
+            load        : function () {
+                //home();
+            }
         },
         "registrering"  : {
             url         : "register.html",
             html        : "",
-            controller  : "js/register.js"
+            controller  : "js/register.js",
+            load        : function () {
+                //home();
+            }
         },
         "innlogging"    : {
             url         : "login.html",
@@ -53,7 +59,10 @@ let Router = {
         "bedrift"       : {
             url         : "templates/bedrift.html",
             html        : "",
-            controller  : "js/bedrift.js"
+            controller  : "js/bedrift.js",
+            load        : function () {
+                //company();
+            }
         },
         "meldinger"     : {
             url         : "templates/messages.html",
@@ -74,17 +83,26 @@ let Router = {
         "kontakt"       : {
             url         : "kontakt.html",
             html        : "",
-            controller  : "js/contact.js"
+            controller  : "js/contact.js",
+            load        : function () {
+                //contact();
+            }
         },
         "feil"          : {
             url         : "error.html",
             html        : "",
-            controller  : "js/error.js"
+            controller  : "js/error.js",
+            load        : function () {
+                //error();
+            }
         },
         "instillinger"  : {
             url         : "settings.html",
             html        : "",
-            controller  : "js/settings.js"
+            controller  : "js/settings.js",
+            load        : function () {
+                settings();
+            }
         },
         "gruppe"       : {
             url         : "templates/group.html",

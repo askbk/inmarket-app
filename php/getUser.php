@@ -4,6 +4,7 @@ require_once 'class/Auth.php';
 
 $name = $_POST["name"];
 $picture = $_POST["picture"];
+$id = $_POST["id"]
 $type = $_POST["type"];
 
 if (Auth::isLoggedIn()) {
@@ -11,8 +12,8 @@ if (Auth::isLoggedIn()) {
     $result = array();
     if ($name == 1) {
         $result[] = User::getUserName($user_id);
-    } else if ($type == 1) {
-        $result[] = User::getUserType($user_id);
+    } else if ($id == 1) {
+        $result[] = $user_id;
     }
 
     echo json_encode($result);

@@ -56,7 +56,12 @@ function createNewPost() {
         type: 'POST',
         data: data,
         success: function(id) {
-            getNewPosts(post, id);
+            printNewPost([{
+                content :   post,
+                name    :   localStorage.name,
+                post_id :   id,
+                poster  :   localStorage.id
+            }]);
             document.getElementById("newPostInput").value = "";
         },
         error: function() {
@@ -72,6 +77,12 @@ function printPosts(posts) {
         let opSection = Pattern.render(postTemplate, post.OP)
         $("#groupPosts").append("<li>" + opSection + commentSection + "</li>")
     }
+}
+
+function printNewPost(post) {
+    let commentSection = "<ul class='w3-ul'></ul>";
+    let opSection = Pattern.render(postTemplate, post)
+    $("#groupPosts").prepend("<li>" + opSection + commentSection + "</li>")
 }
 
 function printNewComments(comments) {
@@ -99,7 +110,7 @@ function getNewContent() {
             if (content.post.length > 0) {
                 printPosts(content.post);
             }
-            
+
             if (content.comment.length > 0) {
                 printNewComments(content.comment);
             }

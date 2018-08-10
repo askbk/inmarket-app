@@ -13,6 +13,20 @@ let login = {
                     let JWT = JSON.parse(data);
                     localStorage.jwt = JWT["jwt"];
                     location.hash = "/hjem";
+                    $.ajax({
+                        url: 'php/getUser.php',
+                        beforeSend: function(request){
+                            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                        },
+                        type: 'POST',
+                        data: "name=1&picture=1&id=1",
+                        success: function(data) {
+                            let user = JSON.parse(data);
+                            localStorage.name = user[0];
+                            localStorage.id = user[1];
+                        },
+                        error: function() {}
+                    });
                 },
                 error: function() {
                     console.log("not logged in");

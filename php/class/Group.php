@@ -87,7 +87,8 @@ class Group
                 FROM post
                 INNER JOIN user
                 ON post.poster = user.user_id
-                WHERE group_id = $groupId";
+                WHERE group_id = $groupId
+                ORDER BY post.post_id DESC";
 
         return DB::returnResult(DB::select($sql));
     }

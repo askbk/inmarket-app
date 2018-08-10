@@ -7,6 +7,6 @@ if (Auth::isLoggedIn()) {
     $groupId = $_POST["groupId"];
     $content = $_POST["content"];
 
-    Group::insertPost($groupId, $user_id, $content);
+    echo Group::insertPost($groupId, $user_id, $content);
 }
 ?>
