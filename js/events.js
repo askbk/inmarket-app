@@ -3,7 +3,7 @@ function events() {
     let eventInfo = document.getElementById("eventInfo");
     let infoTemplate = document.getElementById("infoTemplate");
     let parameter = -1;
-    console.log(Router.getParameters());
+    //console.log(Router.getParameters());
     if (Router.getParameters().length == 3) {
         parameter = Router.getParameters()[2];
     }
@@ -39,9 +39,9 @@ function printTable(events) {
     if (events.length == 0) {
         eventTable.innerHTML = "<p>Ingen eventer</p>";
     } else {
-        console.log(events);
+        //console.log(events);
         let template = listTemplate.innerHTML;
-        console.log("template: " + template);
+        //console.log("template: " + template);
         let rendered = Pattern.render(template, events);
         listTemplate.innerHTML = rendered;
         listTemplate.classList.remove("w3-hide");
@@ -50,7 +50,7 @@ function printTable(events) {
 }
 
 function printInfo(info) {
-    console.log(info);
+    //console.log(info);
     $("#currentPageHeader").text(info[0]["type"]);
     let template = infoTemplate.innerHTML;
     let rendered = Pattern.render(template, info);

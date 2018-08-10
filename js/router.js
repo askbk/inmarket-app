@@ -86,12 +86,20 @@ let Router = {
             html        : "",
             controller  : "js/settings.js"
         },
-        "grupper"       : {
+        "gruppe"       : {
             url         : "templates/group.html",
             html        : "",
             controller  : "js/group.js",
             load        : function () {
                 group();
+            }
+        },
+        "grupper"       : {
+            url         : "templates/groups.html",
+            html        : "",
+            controller  : "js/groups.js",
+            load        : function () {
+                groups();
             }
         }
     },
@@ -101,7 +109,7 @@ let Router = {
         if (Router.routes[page]) {
             document.getElementById("content").innerHTML = Router.routes[page].html;
 
-            console.log(Router.routes[page].html);
+            //console.log(Router.routes[page].html);
 
             Router.routes[page].load();
         } else {

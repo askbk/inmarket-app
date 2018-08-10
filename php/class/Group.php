@@ -16,13 +16,30 @@ class Group
         return DB::returnResult(DB::select($sql));
     }
 
+    public static function getGroupList($user_id)
+    {
+        $sql = "SELECT group_id
+                FROM groupMember
+                WHERE user_id = $user_id";
+
+        $groupIds = DB::returnResult(DB::select($sql));
+
+        $groupList = array();
+
+        for ($i=0; $i < count($groupIds); $i++) {
+            $groupList[] = self::getDetails($groupIds[$i]["group_id"]);
+        }
+
+        return $groupList;
+    }
+
     public static function getDetails($groupId)
     {
-        $sql = "SELECT name, description
+        $sql = "SELECT *
                 FROM `group`
                 WHERE group_id = $groupId";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnValue(DB::select($sql));
     }
 
     public static function insert($groupName, $groupDescription)

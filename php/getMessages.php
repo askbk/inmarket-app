@@ -1,7 +1,6 @@
 <?php
 require_once 'class/Message.php';
 require_once 'class/Auth.php';
-require_once 'class/User.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
