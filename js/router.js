@@ -53,7 +53,7 @@ let Router = {
             html        : "",
             controller  : "js/login.js",
             load        : function () {
-                login.load();
+                login();
             }
         },
         "bedrift"       : {
