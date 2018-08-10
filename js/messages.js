@@ -1,6 +1,8 @@
+let inbox, inboxTemplate;
+
 function messages() {
-    var inbox = inbox || document.getElementById("inbox");
-    var inboxTemplate = inboxTemplate || document.getElementById("template");
+    inbox = document.getElementById("inbox");
+    inboxTemplate = document.getElementById("template");
 
     $("#currentPageHeader").text("Samtaler");
 
@@ -12,7 +14,6 @@ function messages() {
         type: 'POST',
         success: function(data) {
             let messageList = JSON.parse(data);
-            console.log(data);
             printMessageList(messageList);
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -27,15 +28,11 @@ function messages() {
 }
 
 function printMessageList(messageList) {
-    var inbox = document.getElementById("inbox");
-    var inboxTemplate = document.getElementById("template");
     document.title = "Innboks | InMarket App";
     if (messageList.length == 0) {
         inbox.innerHTML = "No messages";
     } else {
-        console.log(messageList);
         let template = inboxTemplate.innerHTML;
-        console.log("template: " + template);
         let rendered = Pattern.render(template, messageList);
         inboxTemplate.innerHTML = rendered;
     }

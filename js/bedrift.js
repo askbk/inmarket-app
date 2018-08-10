@@ -55,9 +55,7 @@ function printEmployees(employees) {
     if (employees.length == 0) {
         employeeTable.innerHTML = "<p>Ingen registrerte ansatte</p>";
     } else {
-        console.log(employees);
         let template = employeeTemplate.innerHTML;
-        console.log("template: " + template);
         let rendered = Pattern.render(template, employees);
         employeeTemplate.innerHTML = rendered;
     }

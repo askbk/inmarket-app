@@ -1,6 +1,6 @@
-$(document).ready(function() {
+function settings() {
     $("button[name='logout']").click(function() {
-        localStorage.removeItem("jwt");
+        localStorage.clear();
         location.hash = "/innlogging";
     })
-});
+}

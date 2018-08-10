@@ -45,7 +45,7 @@ let Router = {
             html        : "",
             controller  : "js/register.js",
             load        : function () {
-                //home();
+                register();
             }
         },
         "innlogging"    : {
@@ -85,7 +85,7 @@ let Router = {
             html        : "",
             controller  : "js/contact.js",
             load        : function () {
-                //contact();
+                contact();
             }
         },
         "feil"          : {

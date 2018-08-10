@@ -1,4 +1,4 @@
-$(document).ready(function() {
+function register() {
     let user = {
         name            : "",
         email           : "",
@@ -36,7 +36,6 @@ $(document).ready(function() {
 
     //  when the user has selected what they are
     $(".clientType").click(function() {
-        console.log("clientType clicked");
         switch (this.value) {
             case "pupil":
                 user.isPupil = 1;
@@ -74,23 +73,28 @@ $(document).ready(function() {
 
         user.kommuneNr = $("select").val();
 
-        if (user.isPupil || user.isStudent) {
-            user.school = $("input[name='school']").val();
-            user.schoolYear = $("input[name='schoolYear']").val();
-            user.program = $("input[name='program']").val();
+        if (user.isPupil) {
+            user.school = $("input[name='schoolPupil']").val();
+            user.schoolYear = $("input[name='schoolYearPupil']").val();
+            user.program = $("input[name='programPupil']").val();
+        } else if (user.isStudent) {
+            user.school = $("input[name='schoolStudent']").val();
+            user.schoolYear = $("input[name='schoolYearStudent']").val();
+            user.program = $("input[name='programStudent']").val();
         } else if (user.isEmployee) {
             user.companyName = $("input[name='companyName']").val();
             user.position = $("input[name='position']").val();
             user.education = $("input[name='education']").val();
         }
-        console.log(user);
 
         $.post(
             "php/register.php", user, function(data) {
                 $("#responseText").text(data);
-                console.log(data);
-                location.hash = "/innlogging";
+
             }
         );
+
+        delete user;
+        location.hash = "/innlogging";
     });
-});
+}

@@ -29,7 +29,6 @@ function conversation() {
         data: postParams,
         success: function(data) {
             let conv = JSON.parse(data);
-            console.log(conv);
             printConversation(conv);
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -90,7 +89,6 @@ function sendMessage() {
 function getNewMessages() {
     let prevId = $("#conversation").children().last().attr("id");
     if (prevId.indexOf("{") > -1) {
-        console.log(prevId);
         return;
     }
     let params = {
@@ -134,7 +132,6 @@ function printConversation(conv) {
     $("#currentPageHeader").text(conv["name"]);
     let messages = conv["messages"];
     let rendered = Pattern.render(msgTemplate, messages);
-    console.log(chatbox);
     chatbox.innerHTML = rendered;
     chatbox.classList.remove("w3-hide");
     chatbox.scrollTop = chatbox.scrollHeight;

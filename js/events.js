@@ -3,7 +3,6 @@ function events() {
     let eventInfo = document.getElementById("eventInfo");
     let infoTemplate = document.getElementById("infoTemplate");
     let parameter = -1;
-    //console.log(Router.getParameters());
     if (Router.getParameters().length == 3) {
         parameter = Router.getParameters()[2];
     }

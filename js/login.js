@@ -20,6 +20,7 @@ function login() {
                         let user = JSON.parse(data);
                         localStorage.name = user[0];
                         localStorage.id = user[1];
+                        localStorage.type = user[2];
                     },
                     error: function() {}
                 });
