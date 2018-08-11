@@ -11,7 +11,8 @@ class Group
         $sql = "SELECT user.user_id, user.name, user.profilePicture,
                     groupMember.isGroupAdmin
                 FROM user
-                INNER JOIN groupMember on user.user_id = groupMember.user_id";
+                INNER JOIN groupMember ON user.user_id = groupMember.user_id
+                WHERE groupMember.group_id = $groupId";
 
         return DB::returnResult(DB::select($sql));
     }

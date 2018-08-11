@@ -1,6 +1,7 @@
 let postTemplate;
 let commentTemplate;
 let commentInputTemplate;
+let newPostInput;
 
 function group() {
     let postParams = {
@@ -9,9 +10,10 @@ function group() {
         "offset"    : 0
     };
 
-    postTemplate = $("#postTemplate").html();
-    commentTemplate = document.getElementById("commentTemplate").innerHTML;
-    commentInputTemplate = document.getElementById("commentInputTemplate").innerHTML;
+    postTemplate = postTemplate || $("#postTemplate").html();
+    commentTemplate = commentTemplate || document.getElementById("commentTemplate").innerHTML;
+    commentInputTemplate = commentInputTemplate || document.getElementById("commentInputTemplate").innerHTML;
+    newPostInput = newPostInput || document.getElementById("newPostInput")
     $("#currentPageHeader").text("Gruppe");
 
     commentInputTemplate = commentInputTemplate.replace("{{name}}", localStorage.name);
@@ -40,7 +42,7 @@ function group() {
 }
 
 function createNewPost() {
-    let post = document.getElementById("newPostInput").value;
+    let post = newPostInput.value;
     post = post.trim();
 
     if (post == "") {
@@ -66,7 +68,7 @@ function createNewPost() {
                 post_id :   id,
                 poster  :   localStorage.id
             }]);
-            document.getElementById("newPostInput").value = "";
+            newPostInput.value = "";
         },
         error: function() {
             console.log("not logged in");

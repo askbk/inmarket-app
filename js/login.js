@@ -27,7 +27,7 @@ function login() {
             },
             error: function() {
                 console.log("not logged in");
-                $("#responseText").text("Wrong username/password combination!");
+                $("#responseText").text("Feil brukernavn/passord.");
             }
         });
     });

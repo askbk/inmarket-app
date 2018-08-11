@@ -1,3 +1,6 @@
+let groupListCont;
+let groupListTemplate;
+
 function groups() {
     $("#currentPageHeader").text("Grupper");
     document.title = "Grupper | InMarket App";
@@ -24,13 +27,13 @@ function groups() {
 }
 
 function printGroupList(groupList) {
-    let groupListCont = document.getElementById("groupList");
-    let template = document.getElementById("template");
+    groupListCont = groupListCont || document.getElementById("groupList");
+    groupListTemplate = groupListTemplate || document.getElementById("template");
     if (groupList.length == 0) {
         groupListCont.innerHTML = "Du er ikke med i noen grupper.";
     } else {
-        let rendered = Pattern.render(template.innerHTML, groupList);
-        template.innerHTML = rendered;
+        let rendered = Pattern.render(groupListTemplate.innerHTML, groupList);
+        groupListTemplate.innerHTML = rendered;
     }
     groupListCont.classList.remove("w3-hide");
 }

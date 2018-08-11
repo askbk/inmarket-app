@@ -11,7 +11,7 @@ class Reg
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
         $user_id = User::insertUser($user["name"], $user["email"],
                                     $user["phone"], 0, $user["isStudent"],
-                                    $user["isNeet"], $user["isPupil"],
+                                    $user["isNEET"], $user["isPupil"],
                                     $password, $user["kommuneNr"]);
 
         if ($user["isStudent"]) {

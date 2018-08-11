@@ -7,7 +7,7 @@ function register() {
         kommuneNr       : 0,
         isPupil         : 0,
         isStudent       : 0,
-        isEmployee      : 0,
+        isNEET          : 0,
         emailVerified   : 0
     };
 
@@ -94,7 +94,7 @@ function register() {
             }
         );
 
-        delete user;
+        user = null;
         location.hash = "/innlogging";
     });
 }

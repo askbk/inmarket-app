@@ -179,6 +179,56 @@ class User
 
         DB::write($sql);
     }
+
+    public static function getPublicProfile($user_id)
+    {
+        $userType = self::getUserType($user_id);
+        $user = array();
+
+        switch ($userType) {
+            case 0:
+                $sql = "SELECT user.name, user.profilePicture, user.createTime,
+                                user.biography, pupil.school, pupil.schoolYear,
+                                pupil.program
+                        FROM user
+                        INNER JOIN pupil
+                            ON user.user_id = pupil.user_id
+                        WHERE user.user_id = $user_id";
+
+                $user[] = DB::returnValue(DB::select($sql));
+                break;
+            case 1:
+                $sql = "SELECT user.name, user.profilePicture, user.createTime,
+                                user.biography, student.school,
+                                student.schoolYear, student.program
+                        FROM user
+                        INNER JOIN student
+                            ON user.user_id = student.user_id
+                        WHERE user.user_id = $user_id";
+
+                $user[] = DB::returnValue(DB::select($sql));
+                break;
+            case 2:
+                $sql = "SELECT user.name, user.profilePicture, user.createTime,
+                                user.biography
+                        FROM user
+                        WHERE u.user_id = $user_id";
+
+                $user[] = DB::returnValue(DB::select($sql));
+                break;
+            default:
+                // code...
+                break;
+        }
+
+        $sql = "SELECT userFile_id, path, description
+                FROM userFile
+                WHERE user_id = $user_id";
+
+        $user[] = DB::returnResult(DB::select($sql));
+
+        return $user;
+    }
 }
 
 

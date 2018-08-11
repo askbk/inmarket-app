@@ -19,9 +19,10 @@
                 <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
             </div>
         </div>
-        <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block" id="sidebar" style="right:0;">
-            <a href="#" class="w3-bar-item w3-button w3-mobile">instillinger</a>
-            <a href="#" class="w3-bar-item w3-button w3-mobile">Min Profil</a>
+        <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card" id="sidebar" style="right:0;">
+            <button type="button" name="closeSidebar" class="w3-bar-item w3-button w3-mobile" onclick="sidebarToggle()">Lukk<span class="w3-right">&times</span></button>
+            <a href="#/instillinger" class="w3-bar-item w3-button w3-mobile">Instillinger</a>
+            <button type="button" name="myProfile" class="w3-bar-item w3-button w3-mobile">Min profil</button>
         </div>
         <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
             <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
@@ -45,7 +46,9 @@
     <script src="js/home.js" charset="utf-8"></script>
     <script src="js/login.js" charset="utf-8"></script>
     <script src="js/messages.js" charset="utf-8"></script>
+    <script src="js/profile.js" charset="utf-8"></script>
     <script src="js/register.js" charset="utf-8"></script>
+    <script src="js/settings.js" charset="utf-8"></script>
     <script src="js/router.js" charset="utf-8"></script>
     <script type="text/javascript">
         let sidebar = document.getElementById("sidebar");
@@ -104,6 +107,11 @@
         function sidebarToggle() {
             sidebar.classList.toggle("w3-hide")
         }
+
+        $("button[name='myProfile']").click(function () {
+            location.hash = "/profil/" + localStorage.id;
+            sidebarToggle();
+        });
     </script>
 
 </html>

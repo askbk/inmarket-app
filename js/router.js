@@ -61,7 +61,7 @@ let Router = {
             html        : "",
             controller  : "js/bedrift.js",
             load        : function () {
-                //company();
+                company();
             }
         },
         "meldinger"     : {
@@ -118,6 +118,22 @@ let Router = {
             controller  : "js/groups.js",
             load        : function () {
                 groups();
+            }
+        },
+        "profil"       : {
+            url         : "profile.html",
+            html        : "",
+            controller  : "js/profile.js",
+            load        : function () {
+                profile();
+            }
+        },
+        "meg"       : {
+            url         : "myProfile.html",
+            html        : "",
+            controller  : "js/myProfile.js",
+            load        : function () {
+                //myProfile();
             }
         }
     },

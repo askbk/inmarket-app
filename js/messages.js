@@ -1,8 +1,8 @@
 let inbox, inboxTemplate;
 
 function messages() {
-    inbox = document.getElementById("inbox");
-    inboxTemplate = document.getElementById("template");
+    inbox = inbox || document.getElementById("inbox");
+    inboxTemplate = inboxTemplate || document.getElementById("template");
 
     $("#currentPageHeader").text("Samtaler");
 

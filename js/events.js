@@ -1,7 +1,11 @@
+let eventTable;
+let eventInfo;
+let infoTemplate;
+
 function events() {
-    let eventTable = document.getElementById("eventTable");
-    let eventInfo = document.getElementById("eventInfo");
-    let infoTemplate = document.getElementById("infoTemplate");
+    eventTable = eventTable || document.getElementById("eventTable");
+    eventInfo = eventInfo || document.getElementById("eventInfo");
+    infoTemplate = infoTemplate || document.getElementById("infoTemplate");
     let parameter = -1;
     if (Router.getParameters().length == 3) {
         parameter = Router.getParameters()[2];
