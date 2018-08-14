@@ -18,9 +18,9 @@ function login() {
                     data: "name=1&picture=1&id=1",
                     success: function(data) {
                         let user = JSON.parse(data);
-                        localStorage.name = user[0];
-                        localStorage.id = user[1];
-                        localStorage.type = user[2];
+                        localStorage.name = user["name"];
+                        localStorage.id = user["id"];
+                        localStorage.type = user["type"];
                     },
                     error: function() {}
                 });

@@ -10,14 +10,18 @@ $type = $_POST["type"];
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $result = array();
-    if ($name == 1) {
-        $result[] = User::getUserName($user_id);
+    
+    if (isset($_POST["name"])) {
+        $result["name"] = User::getUserName($user_id);
     }
-    if ($id == 1) {
-        $result[] = $user_id;
+    if (isset($_POST["id"])) {
+        $result["id"] = $user_id;
     }
-    if ($type == 1) {
-        $result[] = User::getUserType($user_id);
+    if (isset($_POST["type"])) {
+        $result["type"] = User::getUserType($user_id);
+    }
+    if (isset($_POST["picture"])) {
+        $result["picture"] = User::getProfilePicture($user_id);
     }
 
     echo json_encode($result);

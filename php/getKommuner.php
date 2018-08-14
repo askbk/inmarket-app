@@ -1,20 +1,16 @@
 <?php
-
-$filePath = "kommuner.json";
-
-$kommuneNr = $_GET["kommuneNr"];
+$filePath = $_SERVER['DOCUMENT_ROOT'] . "/data/kommuner.json";
 
 if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
     $rawData = json_decode(file_get_contents("https://register.geonorge.no/api/subregister/sosi-kodelister/kartverket/kommunenummer-alle.json?"), true);
     $result = array();
-    //var_dump($rawData["containeditems"][0]);
     $index = 0;
+
     foreach ($rawData["containeditems"] as $kommuneObj) {
         if ($kommuneObj["status"] == "Gyldig") {
             $kommuneNr = $kommuneObj["label"];
-            $result[$index++] =  array('kommuneNr' => $kommuneNr, 'kommuneNavn' => $kommuneObj["description"]);
+            $result[$index++] = array('kommuneNr' => $kommuneNr, 'kommuneNavn' => $kommuneObj["description"]);
         }
-
     }
 
     usort($result, "sortByName");
@@ -24,9 +20,10 @@ if(!file_exists($filePath) || time() - filemtime($filePath) > 6000) {
     file_put_contents($filePath, $jsonObj);
 }
 
-if($kommuneNr == -1) {
+if (!isset($_GET["kommuneNr"])) {
     echo file_get_contents($filePath);
 } else {
+    $kommuneNr = $_GET["kommuneNr"];
     $kommuner = json_decode(file_get_contents($filePath));
 
     foreach ($kommuner as $kommune) {

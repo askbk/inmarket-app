@@ -161,14 +161,14 @@ class User
         }
     }
 
-    //  checks whether the user is an admin.
-    public static function isAdmin($id)
+    //  checks admin level of user
+    public static function getAdminLevel($id)
     {
-        $sql = "SELECT isAdmin
+        $sql = "SELECT adminLevel
                 FROM user
-                WHERE user_id = $id AND isAdmin = 1";
+                WHERE user_id = $id";
 
-        return DB::select($sql)->num_rows > 0;
+        return DB::returnValue(DB::select($sql));
     }
 
     public static function setProfilePicture($user_id, $picturePath)
@@ -177,7 +177,16 @@ class User
                 SET profilePicture='$picturePath'
                 WHERE user_id = $user_id";
 
-        DB::write($sql);
+        return DB::write($sql);
+    }
+
+    public static function getProfilePicture($user_id)
+    {
+        $sql = "SELECT profilePicture
+                FROM user
+                WHERE user_id = $user_id";
+
+        return DB::returnValue(DB::select($sql));
     }
 
     public static function getPublicProfile($user_id)
@@ -227,7 +236,17 @@ class User
 
         $user[] = DB::returnResult(DB::select($sql));
 
+        $user[0]["userType"] = $userType;
+
         return $user;
+    }
+
+    public static function insertFile($user_id, $file_path, $description = '')
+    {
+        $sql = "INSERT INTO userFile (path, description, user_id)
+                VALUES ('$file_path', '$description', $user_id)";
+
+        return DB::write($sql);
     }
 }
 

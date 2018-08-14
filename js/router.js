@@ -120,7 +120,7 @@ let Router = {
                 groups();
             }
         },
-        "profil"       : {
+        "profil"        : {
             url         : "profile.html",
             html        : "",
             controller  : "js/profile.js",
@@ -128,12 +128,12 @@ let Router = {
                 profile();
             }
         },
-        "meg"       : {
+        "meg"           : {
             url         : "myProfile.html",
             html        : "",
             controller  : "js/myProfile.js",
             load        : function () {
-                //myProfile();
+                myProfile();
             }
         }
     },
