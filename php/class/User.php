@@ -1,6 +1,7 @@
 <?php
 require_once 'DB.php';
 require_once 'Company.php';
+require_once 'Image.php';
 /**
  * Class for User management
  */
@@ -173,8 +174,19 @@ class User
 
     public static function setProfilePicture($user_id, $picturePath)
     {
+        $path = Image::adaptImage($picturePath);
+
         $sql = "UPDATE user
-                SET profilePicture='$picturePath'
+                SET profilePicture = '$path'
+                WHERE user_id = $user_id";
+
+        return DB::write($sql);
+    }
+
+    public static function updateBio($bio, $user_id)
+    {
+        $sql = "UPDATE user
+                SET biography = '$bio'
                 WHERE user_id = $user_id";
 
         return DB::write($sql);
@@ -183,6 +195,15 @@ class User
     public static function getProfilePicture($user_id)
     {
         $sql = "SELECT profilePicture
+                FROM user
+                WHERE user_id = $user_id";
+
+        return DB::returnValue(DB::select($sql));
+    }
+
+    public static function getProfileThumb($user_id)
+    {
+        $sql = "SELECT profilePictureThumb
                 FROM user
                 WHERE user_id = $user_id";
 
@@ -230,9 +251,11 @@ class User
                 break;
         }
 
-        $sql = "SELECT userFile_id, path, description
+        $sql = "SELECT userFile_id, path, description, name
                 FROM userFile
                 WHERE user_id = $user_id";
+
+        // echo $sql;
 
         $user[] = DB::returnResult(DB::select($sql));
 
@@ -243,8 +266,21 @@ class User
 
     public static function insertFile($user_id, $file_path, $description = '')
     {
-        $sql = "INSERT INTO userFile (path, description, user_id)
-                VALUES ('$file_path', '$description', $user_id)";
+        $name = preg_replace('/.*\//', '', $file_path);
+
+        $sql = "INSERT INTO userFile (path, description, user_id, name)
+                VALUES ('$file_path', '$description', $user_id, '$name')";
+
+        // echo $sql;
+
+        return DB::write($sql);
+    }
+
+    public static function deleteFile($user_id, $userFile_id)
+    {
+        $sql = "DELETE FROM userFile
+                WHERE userFile_id = $userFile_id
+                    AND user_id = $user_id";
 
         return DB::write($sql);
     }

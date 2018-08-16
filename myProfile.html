@@ -3,17 +3,21 @@
     <div class="profilePic w3-center">
         <img src="" alt="" class="w3-img w3-circle" id="profilePicture">
     </div>
-    <form class="" action="index.html" method="post">
+    <form class="w3-container" action="index.html" method="post">
         <input type="file" name="pictureSelect" id="pictureSelect" value="" class="w3-hide" onchange="upload(this.files[0], true)">
         <label for="pictureSelect" class="red-button line-height-inherit w3-right">Endre profilbilde</label>
     </form>
     <h4 class="margin-bottom-0" id="nameHeader">{{name}}</h4>
     <span style="color:#aaa;" id="userTypeHeader"></span>
 
-    <p id="bio">{{biography}}</p>
+    <form class="w3-container" action="" method="post" id="bioForm">
+        <textarea name="bio" rows="8" cols="80" id="bio"></textarea>
+        <input type="submit" name="" value="Lagre" class="red-button">
+    </form>
 
     <h3 class="w3-center">Mine filer</h3>
-    <form class="" action="index.html" method="post">
+    <p>Her kan du laste opp filer som er relevante for arbeidsgivere</p>
+    <form class="w3-container" action="index.html" method="post">
         <input type="file" id="fileInput" value="Last opp filer" class="w3-hide" onchange="upload(this.files[0])">
         <label for="fileInput" class="red-button line-height-inherit w3-right">Velg fil…</label>
     </form>
@@ -24,16 +28,13 @@
 
 
 <div class="w3-hide" id="fileListTemplate">
-    <li>
-        <div class="w3-row">
-            <div class="w3-col m4">
-                <a href="{{path}}">fil</a>
+    <li id="li{{userFile_id}}">
+        <div class="w3-row" id="{{userFile_id}}">
+            <div class="w3-col m6">
+                <a href="{{path}}" target="_blank">{{name}}</a>
             </div>
             <div class="w3-col m6">
-                <p style="width:100%;"></p>
-            </div>
-            <div class="w3-col m2">
-                <button type="button" name="deleteFile" class="red-button w3-right">Slett</button>
+                <button type="button" name="deleteFile" class="red-button w3-right" onclick="deleteFile(this)">Slett</button>
             </div>
         </div>
     </li>

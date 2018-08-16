@@ -30,6 +30,30 @@ function myProfile() {
             }
         }
     });
+
+    $("#bioForm").submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: 'php/updateBio.php',
+            beforeSend: function(request){
+                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+            },
+            type: 'POST',
+            data: "bio=" + bio.value,
+            success: function(data) {
+                console.log("bio updated");
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                if (xhr.status == 401) {
+                    console.log("not logged in");
+                    location.hash = "/innlogging";
+                } else {
+                    console.log("error: " + xhr.status);
+                }
+            }
+        });
+    });
 }
 
 function upload(file, isProfilePicture = false) {
@@ -50,8 +74,31 @@ function upload(file, isProfilePicture = false) {
         processData: false,
         data: form_data,
         type: 'post',
-        success: function(data){
-
+        success: function(userFile_id){
+            if (isProfilePicture) {
+                $.ajax({
+                    url: 'php/getUser.php',
+                    beforeSend: function(request){
+                        request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                    },
+                    type: 'POST',
+                    data: "picture=1",
+                    success: function(data) {
+                        let response = JSON.parse(data);
+                        profilePic.src = response["picture"]["profilePicture"];
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        if (xhr.status == 401) {
+                            console.log("not logged in");
+                            // location.hash = "/innlogging";
+                        } else {
+                            console.log("error: " + xhr.status);
+                        }
+                    }
+                });
+            } else {
+                console.log(data);
+            }
         }
      });
 }
@@ -72,13 +119,38 @@ function printMyProfile(profileData) {
         break;
     }
 
-    bio.innerHTML = profileData[0].biography;
+    bio.value = profileData[0].biography;
 
     printMyFileList(profileData[1])
 }
 
 function printMyFileList(fileListData) {
     let rendered = Pattern.render(fileListTemplate.innerHTML, fileListData);
+    //console.log(fileListData);
+    fileList.innerHTML += rendered;
+}
 
-    fileList.innerHTML = rendered;
+function deleteFile(el) {
+    let fileId = ($(el).closest("li").attr("id")).replace( /^\D+/g, '');
+    console.log(fileId);
+
+    $.ajax({
+        url: 'php/deleteFile.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: "userFile_id=" + fileId,
+        success: function(data) {
+            $("#li" + fileId).remove();
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                // location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
 }
