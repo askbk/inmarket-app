@@ -16,17 +16,14 @@ tillegg vil det være mulighet for å stille spørsmål til
 et panel bestående av de arrangerende bedriftene.
 ", 1, "2t 30min", "Gratis", "Konsert");
 
-// Message::startConversation(1, 2, 0);
-// Message::sendMessage(1,1,"helo");
-// Message::sendMessage(1,2,"helo agaun");
-//
-// Group::insert("gruppe1", "testgruppe");
-// Group::addMember(1, 1, 1);
-// Group::addMember(1, 2, 0);
-// Group::insertPost(1, 1, "mitt første innlegg ;)");
-// Group::insertComment(1, 2, "kommentar1");
-// Group::insertComment(1, 1, "svar på kommentar1");
+Message::startConversation(1, 2, 0);
+Message::sendMessage(1,1,"helo");
+Message::sendMessage(1,2,"helo agaun");
 
-
-
- ?>
+Group::insert("gruppe1", "testgruppe");
+Group::addMember(1, 1, 1);
+Group::addMember(1, 2, 0);
+Group::insertPost(1, 1, "mitt første innlegg ;)");
+Group::insertComment(1, 2, "kommentar1");
+Group::insertComment(1, 1, "svar på kommentar1");
+?>
