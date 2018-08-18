@@ -17,7 +17,7 @@ function myProfile() {
         data: "userId=" + localStorage.id,
         success: function(data) {
             let profileData = JSON.parse(data);
-            console.log(profileData);
+            // console.log(profileData);
             printMyProfile(profileData);
             document.getElementById("profilePage").classList.remove("w3-hide");
         },
@@ -104,7 +104,6 @@ function upload(file, isProfilePicture = false) {
 }
 
 function printMyProfile(profileData) {
-    console.log("hello");
     profilePic.src = profileData[0].profilePicture;
     nameHeader.innerHTML = profileData[0].name;
 

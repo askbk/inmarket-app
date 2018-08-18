@@ -142,19 +142,14 @@ let Router = {
         let page = Router.parameters[1];
         if (Router.routes[page]) {
             document.getElementById("content").innerHTML = Router.routes[page].html;
-
             Router.routes[page].load();
         } else {
-            $("#content").load(Router.routes["feil"].url);
+            document.getElementById("content").innerHTML = Router.routes["feil"].html;
+            document.getElementById("content").onload = function() {
+                Router.routes["feil"].load();
+            }
         }
     },
-    // loadController  : function(url) {
-    //     $("#pageController").remove();
-    //     let s = document.createElement("script");
-    //     s.src = url;
-    //     s.id = "pageController";
-    //     document.head.appendChild(s);
-    // },
     parameters      : [],
     getParameters   : function() {
         return Router.parameters;

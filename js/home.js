@@ -6,7 +6,7 @@ function home() {
         },
         type: 'GET',
         success: function(data) {
-            console.log("success");
+            // console.log("success");
             //printVideos(data);
             document.title = "Hjem | InMarket App";
         },

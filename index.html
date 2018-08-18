@@ -22,7 +22,6 @@
         <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card" id="sidebar" style="right:0;">
             <button type="button" name="closeSidebar" class="w3-bar-item w3-button w3-mobile">Lukk<span class="w3-right">&times</span></button>
             <a href="#/instillinger" class="w3-bar-item w3-button w3-mobile">Instillinger</a>
-            <!-- <button type="button" name="myProfile" class="w3-bar-item w3-button w3-mobile">Min profil</button> -->
             <a href="#/meg" class="w3-bar-item w3-button w3-mobile">Min profil</a>
         </div>
         <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
@@ -56,23 +55,29 @@
         let sidebar = document.getElementById("sidebar");
         let bottomNav = document.getElementById("bottomNav");
         let hiddenItems = document.getElementById("hidden-items-top");
+        let olp = Router.getParameters()[1];
 
         Object.keys(Router.routes).forEach(function(page,index) {
             // key: the name of the object key
             // index: the ordinal position of the key within the object
-            $.get(Router.routes[page].url, function (htmlContent) {
-                // console.log(Router.routes[page].url);
-                Router.routes[page].html = htmlContent;
+            // $.get(, function (htmlContent) {
+            //     // console.log(Router.routes[page].url);
+            //     Router.routes[page].html = htmlContent;
+            // });
+            $.ajax({
+              url: Router.routes[page].url,
+              success: function (htmlContent) {
+                  // console.log(Router.routes[page].url);
+                  Router.routes[page].html = htmlContent;
+              },
+              complete: function () {
+                  if (olp = page) {
+                      Router.route();
+                      interfaceController();
+                  }
+              }
             });
         });
-
-        window.onload = function () {
-            setTimeout(function () {
-                console.log("hello");
-                Router.route();
-            }, 200);
-            interfaceController();
-        };
 
         window.onhashchange = function () {
             Router.route();
