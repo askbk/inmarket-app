@@ -97,7 +97,7 @@ function upload(file, isProfilePicture = false) {
                     }
                 });
             } else {
-                console.log(data);
+                console.log(userFile_id);
             }
         }
      });

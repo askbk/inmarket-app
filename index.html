@@ -67,7 +67,10 @@
         });
 
         window.onload = function () {
-            Router.route();
+            setTimeout(function () {
+                console.log("hello");
+                Router.route();
+            }, 200);
             interfaceController();
         };
 
@@ -113,13 +116,6 @@
         $("#sidebar").click(function () {
             sidebarToggle();
         });
-
-        // $("button[name='myProfile']").click(function () {
-        //     location.hash = "/profil/" + localStorage.id;
-        //     sidebarToggle();
-        // });
-
-
     </script>
 
 </html>
