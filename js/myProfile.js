@@ -1,12 +1,12 @@
-let profilePic, nameHeader, userTypeHeader, bio, fileList, fileListTemplate;
+let myProfilePic, myNameHeader, myUserTypeHeader, myBio, myFileList, myFileListTemplate;
 
 function myProfile() {
-    profilePic = profilePic || document.getElementById("profilePicture");
-    nameHeader = nameHeader || document.getElementById("nameHeader");
-    userTypeHeader = userTypeHeader || document.getElementById("userTypeHeader");
-    bio = bio || document.getElementById("bio");
-    fileList = fileList || document.getElementById("fileList");
-    fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate");
+    myProfilePic = myProfilePic || document.getElementById("profilePicture");
+    myNameHeader = myNameHeader || document.getElementById("nameHeader");
+    myUserTypeHeader = myUserTypeHeader || document.getElementById("userTypeHeader");
+    myBio = myBio || document.getElementById("bio");
+    myFileList = myFileList || document.getElementById("fileList");
+    myFileListTemplate = myFileListTemplate || document.getElementById("fileListTemplate");
 
     $.ajax({
         url: 'php/getProfile.php',
@@ -40,7 +40,7 @@ function myProfile() {
                 request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
             },
             type: 'POST',
-            data: "bio=" + bio.value,
+            data: "bio=" + myBio.value,
             success: function(data) {
                 console.log("bio updated");
             },
@@ -74,7 +74,7 @@ function upload(file, isProfilePicture = false) {
         processData: false,
         data: form_data,
         type: 'post',
-        success: function(userFile_id){
+        success: function(fileData){
             if (isProfilePicture) {
                 $.ajax({
                     url: 'php/getUser.php',
@@ -85,7 +85,7 @@ function upload(file, isProfilePicture = false) {
                     data: "picture=1",
                     success: function(data) {
                         let response = JSON.parse(data);
-                        profilePic.src = response["picture"]["profilePicture"];
+                        myProfilePic.src = response["picture"]["profilePicture"];
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         if (xhr.status == 401) {
@@ -97,41 +97,40 @@ function upload(file, isProfilePicture = false) {
                     }
                 });
             } else {
-                console.log(userFile_id);
+                let data = JSON.parse(fileData);
+                myFileList.innerHTML += "<li id='li" + data.id + "'><div class='w3-row' id='" + data.id + "'><div class='w3-col s6'><a href='" + data.path + "' target='_blank'>" + data.name + "</a></div><div class='w3-col s6'><button type='button' name='deleteFile' class='red-button w3-right' onclick='deleteFile(this)'>Slett</button></div></div></li>";
             }
         }
      });
 }
 
 function printMyProfile(profileData) {
-    profilePic.src = profileData[0].profilePicture;
-    nameHeader.innerHTML = profileData[0].name;
+    myProfilePic.src = profileData[0].profilePicture;
+    myNameHeader.innerHTML = profileData[0].name;
 
     switch (profileData[0].userType) {
         case 0:
-            userTypeHeader.innerHTML = "Elev";
+            myUserTypeHeader.innerHTML = "Elev";
             break;
         case 1:
-            userTypeHeader.innerHTML = "Student";
+            myUserTypeHeader.innerHTML = "Student";
             break;
         default:
         break;
     }
 
-    bio.value = profileData[0].biography;
+    myBio.value = profileData[0].biography;
 
-    printMyFileList(profileData[1])
+    printMyFileList(profileData[1]);
 }
 
 function printMyFileList(fileListData) {
-    let rendered = Pattern.render(fileListTemplate.innerHTML, fileListData);
-    //console.log(fileListData);
-    fileList.innerHTML += rendered;
+    let rendered = Pattern.render(myFileListTemplate.innerHTML, fileListData);
+    myFileList.innerHTML += rendered;
 }
 
 function deleteFile(el) {
     let fileId = ($(el).closest("li").attr("id")).replace( /^\D+/g, '');
-    console.log(fileId);
 
     $.ajax({
         url: 'php/deleteFile.php',

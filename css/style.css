@@ -136,6 +136,10 @@ label input:checked ~ .radio {
     margin-bottom: 0 !important;
 }
 
+.sidebar-button {
+    text-align: left !important;
+}
+
 textarea {
     border: 1px solid #888;
     background-color: transparent;
@@ -229,6 +233,14 @@ textarea {
 
 #sendBtn {
     width: 100%;
+}
+
+#profilePicture {
+    max-width: 100%;
+}
+
+#bio {
+    height: 4em;
 }
 
 .bg-white {

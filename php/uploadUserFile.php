@@ -1,7 +1,6 @@
 <?php
 require_once 'class/Auth.php';
 require_once 'class/User.php';
-//$root = $_SERVER['DOCUMENT_ROOT'];
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
@@ -32,7 +31,12 @@ if (Auth::isLoggedIn()) {
 
             $path = "data/" . $user_id . "/" . $_FILES['file']['name'];
 
-            echo User::insertFile($user_id, $path);
+            $id = User::insertFile($user_id, $path);
+            $name = preg_replace('/.*\//', '', $path);
+
+            $data = array('id' => $id, 'name' => $name, 'path' => $path);
+
+            echo json_encode($data);
         }
     }
 }
