@@ -11,7 +11,7 @@ if (Auth::isLoggedIn()) {
             $path = "../img/profile/";
 
             if (!is_dir($path . $user_id)) {
-                mkdir($path . $user_id);
+                echo mkdir($path . $user_id);
             }
 
             $path = $path . $user_id . "/" . $_FILES['file']['name'];
