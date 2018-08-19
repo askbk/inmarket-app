@@ -31,6 +31,8 @@ function myProfile() {
         }
     });
 
+    $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
+
     $("#bioForm").submit(function (e) {
         e.preventDefault();
 
@@ -98,7 +100,7 @@ function upload(file, isProfilePicture = false) {
                 });
             } else {
                 let data = JSON.parse(fileData);
-                myFileList.innerHTML += "<li id='li" + data.id + "'><div class='w3-row' id='" + data.id + "'><div class='w3-col s6'><a href='" + data.path + "' target='_blank'>" + data.name + "</a></div><div class='w3-col s6'><button type='button' name='deleteFile' class='red-button w3-right' onclick='deleteFile(this)'>Slett</button></div></div></li>";
+                myFileList.innerHTML += "<li id='li" + data.id + "'><div class='w3-row' id='" + data.id + "'><div class='w3-col s6'><a href='" + data.path + "' target='_blank'>" + data.name + "</a></div><div class='w3-col s6'><button type='button' name='deleteFile' class='red-button w3-card w3-right' onclick='deleteFile(this)'>Slett</button></div></div></li>";
             }
         }
      });
