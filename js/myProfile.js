@@ -1,16 +1,16 @@
 let myProfilePic, myNameHeader, myUserTypeHeader, myBio, myFileList, myFileListTemplate;
 
 function myProfile() {
-    myProfilePic = myProfilePic || document.getElementById("profilePicture");
-    myNameHeader = myNameHeader || document.getElementById("nameHeader");
-    myUserTypeHeader = myUserTypeHeader || document.getElementById("userTypeHeader");
-    myBio = myBio || document.getElementById("bio");
-    myFileList = myFileList || document.getElementById("fileList");
-    myFileListTemplate = myFileListTemplate || document.getElementById("fileListTemplate");
+    myProfilePic = document.getElementById("profilePicture");
+    myNameHeader = document.getElementById("nameHeader");
+    myUserTypeHeader = document.getElementById("userTypeHeader");
+    myBio = document.getElementById("bio");
+    myFileList = document.getElementById("fileList");
+    myFileListTemplate = myFileListTemplate || document.getElementById("fileListTemplate").innerHTML;
 
     $.ajax({
         url: 'php/getProfile.php',
-        beforeSend: function(request){
+        beforeSend: function(request) {
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
         type: 'POST',
@@ -33,12 +33,12 @@ function myProfile() {
 
     $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
 
-    $("#bioForm").submit(function (e) {
+    $("#bioForm").submit(function(e) {
         e.preventDefault();
 
         $.ajax({
             url: 'php/updateBio.php',
-            beforeSend: function(request){
+            beforeSend: function(request) {
                 request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
             },
             type: 'POST',
@@ -66,21 +66,21 @@ function upload(file, isProfilePicture = false) {
     }
 
     $.ajax({
-        url: 'php/uploadUserFile.php', // point to server-side PHP script
-        beforeSend: function(request){
+        url: 'php/uploadUserFile.php',
+        beforeSend: function(request) {
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
-        dataType: 'text',  // what to expect back from the PHP script, if anything
+        dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: form_data,
         type: 'post',
-        success: function(fileData){
+        success: function(fileData) {
             if (isProfilePicture) {
                 $.ajax({
                     url: 'php/getUser.php',
-                    beforeSend: function(request){
+                    beforeSend: function(request) {
                         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                     },
                     type: 'POST',
@@ -103,7 +103,7 @@ function upload(file, isProfilePicture = false) {
                 myFileList.innerHTML += "<li id='li" + data.id + "'><div class='w3-row' id='" + data.id + "'><div class='w3-col s6'><a href='" + data.path + "' target='_blank'>" + data.name + "</a></div><div class='w3-col s6'><button type='button' name='deleteFile' class='red-button w3-card w3-right' onclick='deleteFile(this)'>Slett</button></div></div></li>";
             }
         }
-     });
+    });
 }
 
 function printMyProfile(profileData) {
@@ -118,7 +118,7 @@ function printMyProfile(profileData) {
             myUserTypeHeader.innerHTML = "Student";
             break;
         default:
-        break;
+            break;
     }
 
     myBio.value = profileData[0].biography;
@@ -127,16 +127,16 @@ function printMyProfile(profileData) {
 }
 
 function printMyFileList(fileListData) {
-    let rendered = Pattern.render(myFileListTemplate.innerHTML, fileListData);
+    let rendered = Pattern.render(myFileListTemplate, fileListData);
     myFileList.innerHTML += rendered;
 }
 
 function deleteFile(el) {
-    let fileId = ($(el).closest("li").attr("id")).replace( /^\D+/g, '');
+    let fileId = ($(el).closest("li").attr("id")).replace(/^\D+/g, '');
 
     $.ajax({
         url: 'php/deleteFile.php',
-        beforeSend: function(request){
+        beforeSend: function(request) {
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
         type: 'POST',
@@ -147,7 +147,7 @@ function deleteFile(el) {
         error: function(xhr, textStatus, errorThrown) {
             if (xhr.status == 401) {
                 console.log("not logged in");
-                // location.hash = "/innlogging";
+                location.hash = "/innlogging";
             } else {
                 console.log("error: " + xhr.status);
             }

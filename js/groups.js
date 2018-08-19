@@ -1,4 +1,4 @@
-let groupListCont;
+let groupsCont;
 let groupListTemplate;
 
 function groups() {
@@ -27,13 +27,13 @@ function groups() {
 }
 
 function printGroupList(groupList) {
-    groupListCont = groupListCont || document.getElementById("groupList");
-    groupListTemplate = groupListTemplate || document.getElementById("template");
+    groupsCont = document.getElementById("groupList");
+    groupListTemplate = groupListTemplate || document.getElementById("template").innerHTML;
     if (groupList.length == 0) {
         groupListCont.innerHTML = "Du er ikke med i noen grupper.";
     } else {
-        let rendered = Pattern.render(groupListTemplate.innerHTML, groupList);
-        groupListTemplate.innerHTML = rendered;
+        let rendered = Pattern.render(groupListTemplate, groupList);
+        groupsCont.innerHTML = rendered;
     }
-    groupListCont.classList.remove("w3-hide");
+    document.getElementById("groups").classList.remove("w3-hide");
 }

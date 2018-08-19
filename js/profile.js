@@ -1,12 +1,12 @@
 let profilePic, nameHeader, userTypeHeader, bio, fileList, fileListTemplate;
 
 function profile() {
-    profilePic = profilePic || document.getElementById("profilePicture");
-    nameHeader = nameHeader || document.getElementById("nameHeader");
-    userTypeHeader = userTypeHeader || document.getElementById("userTypeHeader");
-    bio = bio || document.getElementById("bio");
-    fileList = fileList || document.getElementById("fileList");
-    fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate");
+    profilePic = document.getElementById("profilePicture");
+    nameHeader = document.getElementById("nameHeader");
+    userTypeHeader = document.getElementById("userTypeHeader");
+    bio = document.getElementById("bio");
+    fileList = document.getElementById("fileList");
+    fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate").innerHTML;
 
     $.ajax({
         url: 'php/getProfile.php',
@@ -54,6 +54,6 @@ function printProfile(profileData) {
 }
 
 function printFileList(fileListData) {
-    let rendered = Pattern.render(fileListTemplate.innerHTML, fileListData);
+    let rendered = Pattern.render(fileListTemplate, fileListData);
     fileList.innerHTML += rendered;
 }

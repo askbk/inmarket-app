@@ -1,8 +1,8 @@
 let inbox, inboxTemplate;
 
 function messages() {
-    inbox = inbox || document.getElementById("inbox");
-    inboxTemplate = inboxTemplate || document.getElementById("template");
+    inbox = document.getElementById("inbox");
+    inboxTemplate = inboxTemplate || document.getElementById("template").innerHTML;
 
     $("#currentPageHeader").text("Samtaler");
 
@@ -32,9 +32,8 @@ function printMessageList(messageList) {
     if (messageList.length == 0) {
         inbox.innerHTML = "No messages";
     } else {
-        let template = inboxTemplate.innerHTML;
-        let rendered = Pattern.render(template, messageList);
-        inboxTemplate.innerHTML = rendered;
+        let rendered = Pattern.render(inboxTemplate, messageList);
+        document.getElementById("conversationList").innerHTML = rendered;
     }
     inbox.classList.remove("w3-hide");
 }

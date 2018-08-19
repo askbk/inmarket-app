@@ -1,12 +1,16 @@
 <div id="inbox" class="w3-hide">
-    <ul class="w3-ul" id="template">
-        <li class="w3-grey hover-bg-grey">
-            <a href="#/samtale/{{conversation_id}}" class="">
-                <div class="">
-                    <h5>{{name}}</h5>
-                    <p class="text-grey">{{content}}</p>
-                </div>
-            </a>
-        </li>
+    <ul class="w3-ul" id="conversationList">
+
     </ul>
+</div>
+
+<div class="w3-hide" id="template">
+    <li class="w3-grey hover-bg-grey">
+        <a href="#/samtale/{{conversation_id}}" class="">
+            <div class="">
+                <h5>{{name}}</h5>
+                <p class="text-grey">{{content}}</p>
+            </div>
+        </a>
+    </li>
 </div>

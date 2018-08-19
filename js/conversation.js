@@ -47,13 +47,11 @@ function conversation() {
         clearInterval(messagesRetrieval);
     })
 
-    chatInput = chatInput || document.getElementById('chatInput');
-    chat = chat || $("#conversation");
-    chatbox = chatbox || document.getElementById("conversation");
+    chatInput = document.getElementById('chatInput');
+    chat = $("#conversation");
+    chatbox = document.getElementById("conversation");
     msgTemplate = msgTemplate || document.getElementById("conversation").innerHTML;
 }
-
-
 
 function sendMessage() {
     let msg = chatInput.value;

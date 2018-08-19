@@ -1,19 +1,17 @@
-let postTemplate;
-let commentTemplate;
-let commentInputTemplate;
-let newPostInput;
+let postTemplate, commentTemplate, commentInputTemplate, newPostInput;
 
 function group() {
+    postTemplate = postTemplate || $("#postTemplate").html();
+    commentTemplate = commentTemplate || document.getElementById("commentTemplate").innerHTML;
+    commentInputTemplate = commentInputTemplate || document.getElementById("commentInputTemplate").innerHTML;
+    newPostInput = newPostInput || document.getElementById("newPostInput")
+
     let postParams = {
         "groupId"   : Router.getParameters()[2],
         "count"     : 10,
         "offset"    : 0
     };
 
-    postTemplate = postTemplate || $("#postTemplate").html();
-    commentTemplate = commentTemplate || document.getElementById("commentTemplate").innerHTML;
-    commentInputTemplate = commentInputTemplate || document.getElementById("commentInputTemplate").innerHTML;
-    newPostInput = newPostInput || document.getElementById("newPostInput")
     $("#currentPageHeader").text("Gruppe");
 
     commentInputTemplate = commentInputTemplate.replace("{{name}}", localStorage.name);
