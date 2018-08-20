@@ -1,7 +1,8 @@
-let postTemplate, commentTemplate, commentInputTemplate, newPostInput;
+let postTemplate, commentTemplate, commentInputTemplate, newPostInput, newPostContainer;
 
 function group() {
     postTemplate = postTemplate || $("#postTemplate").html();
+    newPostContainer = document.getElementById('newPostContainer');
     commentTemplate = commentTemplate || document.getElementById("commentTemplate").innerHTML;
     commentInputTemplate = commentInputTemplate || document.getElementById("commentInputTemplate").innerHTML;
     newPostInput = newPostInput || document.getElementById("newPostInput")
@@ -13,6 +14,14 @@ function group() {
     };
 
     $("#currentPageHeader").text("Gruppe");
+
+    let adminGroups = JSON.parse(localStorage.adminGroups);
+
+    let isGroupAdmin = adminGroups.filter(g => g == Router.getParameters()[2]);
+
+    if (isGroupAdmin.length != 0) {
+        newPostContainer.classList.remove("w3-hide");
+    }
 
     commentInputTemplate = commentInputTemplate.replace("{{name}}", localStorage.name);
     commentInputTemplate = commentInputTemplate.replace("{{user_id}}", localStorage.id);

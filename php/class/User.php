@@ -163,6 +163,10 @@ class User
     }
 
     //  checks admin level of user
+    //  0 - ordinary user
+    //  1 - volunteer
+    //  5 - InMarket employee
+    // 10 - administrator
     public static function getAdminLevel($id)
     {
         $sql = "SELECT adminLevel

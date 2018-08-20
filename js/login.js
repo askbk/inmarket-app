@@ -15,12 +15,14 @@ function login() {
                         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                     },
                     type: 'POST',
-                    data: "name=1&picture=1&id=1",
+                    data: "name=1&picture=1&id=1&adminLevel=1&adminGroups=1&type=1",
                     success: function(data) {
                         let user = JSON.parse(data);
                         localStorage.name = user["name"];
                         localStorage.id = user["id"];
                         localStorage.type = user["type"];
+                        localStorage.adminLevel = user["adminLevel"];
+                        localStorage.adminGroups = JSON.stringify(user["adminGroups"]);
                     },
                     error: function() {}
                 });

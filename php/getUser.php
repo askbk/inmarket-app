@@ -1,6 +1,7 @@
 <?php
 require_once 'class/User.php';
 require_once 'class/Auth.php';
+require_once 'class/Group.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
@@ -20,6 +21,20 @@ if (Auth::isLoggedIn()) {
     }
     if (isset($_POST["thumb"])) {
         $result["thumb"] = User::getProfileThumb($user_id);
+    }
+    if (isset($_POST["adminLevel"])) {
+        $result["adminLevel"] = User::getAdminLevel($user_id)["adminLevel"];
+    }
+    if (isset($_POST["adminGroups"])) {
+        $queryResult = Group::getAdminGroups($user_id);
+        
+        $groupIds = array();
+
+        foreach ($queryResult as $row) {
+            $groupIds[] = $row["group_id"];
+        }
+
+        $result["adminGroups"] = $groupIds;
     }
 
     echo json_encode($result);

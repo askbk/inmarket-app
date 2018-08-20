@@ -142,6 +142,15 @@ class Group
 
         return false;
     }
+
+    public static function getAdminGroups($user_id)
+    {
+        $sql = "SELECT group_id
+                FROM groupMember
+                WHERE user_id = $user_id AND isGroupAdmin = 1";
+
+        return DB::returnResult(DB::select($sql));
+    }
 }
 
 ?>
