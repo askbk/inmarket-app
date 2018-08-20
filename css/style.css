@@ -118,6 +118,10 @@ label input:checked ~ .radio {
     background-color: #f9f9f9;
 }
 
+.bg-white {
+    background-color: white;
+}
+
 .bottom-accent {
     border-bottom-style: solid;
     border-bottom-color: #640507;

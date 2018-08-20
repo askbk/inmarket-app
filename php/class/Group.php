@@ -127,7 +127,7 @@ class Group
         return DB::returnResult(DB::select($sql));
     }
 
-    public static function isAdmin($userId, $groupId)
+    public static function isAdmin($user_id, $groupId)
     {
         $sql = "SELECT isGroupAdmin
                 FROM groupMember

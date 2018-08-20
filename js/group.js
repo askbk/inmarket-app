@@ -121,9 +121,9 @@ function createNewComment(comment, postId) {
 
 function printPosts(posts) {
     for (post of posts) {
-        let commentSection = "<ul class='w3-ul commentSection w3-card w3-round'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
+        let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
         let opSection = Pattern.render(postTemplate, post.OP)
-        $("#groupPosts").append("<li class='postWrapper'>" + opSection + commentSection + "</li>")
+        $("#groupPosts").append("<li class='postWrapper  bg-light-grey'>" + opSection + commentSection + "</li>")
     }
 
     $("form").submit(function (ev) {
