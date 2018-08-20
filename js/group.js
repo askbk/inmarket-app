@@ -46,6 +46,12 @@ function group() {
             }
         }
     });
+
+    //let contentRetrieval = setInterval("getNewContent()", 1000);
+
+    window.addEventListener("hashchange", function () {
+        clearInterval(contentRetrieval);
+    })
 }
 
 function createNewPost() {
@@ -108,7 +114,7 @@ function createNewComment(comment, postId) {
                 content         :   comment,
                 name            :   localStorage.name,
                 postComment_id  :   id,
-                poster          :   localStorage.id,
+                user_id         :   localStorage.id,
                 post_id         :   postId
             }]);
         },
