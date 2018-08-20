@@ -123,7 +123,7 @@ function printPosts(posts) {
     for (post of posts) {
         let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
         let opSection = Pattern.render(postTemplate, post.OP)
-        $("#groupPosts").append("<li class='postWrapper  bg-light-grey'>" + opSection + commentSection + "</li>")
+        $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
     }
 
     $("form").submit(function (ev) {
@@ -136,9 +136,9 @@ function printPosts(posts) {
 }
 
 function printNewPost(post) {
-    let commentSection = "<ul class='w3-ul commentSection'></ul>";
+    let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
     let opSection = Pattern.render(postTemplate, post)
-    $("#groupPosts").prepend("<li>" + opSection + commentSection + "</li>")
+    $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
 }
 
 function printNewComments(comments) {
