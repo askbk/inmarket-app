@@ -30,7 +30,7 @@ function printGroupList(groupList) {
     groupsCont = document.getElementById("groupList");
     groupListTemplate = groupListTemplate || document.getElementById("template").innerHTML;
     if (groupList.length == 0) {
-        groupListCont.innerHTML = "Du er ikke med i noen grupper.";
+        groupsCont.innerHTML = "Du er ikke med i noen grupper.";
     } else {
         let rendered = Pattern.render(groupListTemplate, groupList);
         groupsCont.innerHTML = rendered;
