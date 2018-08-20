@@ -49,9 +49,9 @@ function group() {
 
     //let contentRetrieval = setInterval("getNewContent()", 1000);
 
-    window.addEventListener("hashchange", function () {
-        clearInterval(contentRetrieval);
-    })
+    // window.addEventListener("hashchange", function () {
+    //     clearInterval(contentRetrieval);
+    // })
 }
 
 function createNewPost() {
@@ -188,4 +188,20 @@ function getNewContent() {
             }
         }
     });
+}
+
+function latestCommentId() {
+    let max = -1;
+    $("#groupPosts").children().children(".commentSection").children().each(function () {
+        let currId = $(this).children().first().attr("id");
+
+        if (typeof currId !== 'undefined') {
+            currId = currId.replace( /^\D+/g, '');
+            if (currId > max) {
+                max = currId;
+            }
+        }
+    });
+
+    return max;
 }
