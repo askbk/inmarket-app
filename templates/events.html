@@ -4,15 +4,6 @@
         <th>Hva</th>
         <th>Hvor</th>
     </tr>
-    <tbody id="listTemplate" class="w3-hide">
-        <tr>
-            <td>{{dateTime}}</td>
-            <td>{{type}}</td>
-            <td>{{location}}</td>
-            <td> <a class="w3-button" href="#/eventer/{{event_id}}">Les mer</a> </td>
-        </tr>
-    </tbody>
-
 </table>
 <div class="w3-container w3-hide" id="eventInfo">
     <div class="w3-row-padding" id="infoTemplate">
@@ -30,4 +21,13 @@
             </article>
         </div>
     </div>
+</div>
+
+<div class="w3-hide" id="listTemplate">
+    <tr>
+        <td>{{dateTime}}</td>
+        <td>{{type}}</td>
+        <td>{{location}}</td>
+        <td> <a class="w3-button" href="#/eventer/{{event_id}}">Les mer</a> </td>
+    </tr>
 </div>

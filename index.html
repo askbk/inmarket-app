@@ -56,18 +56,11 @@
         let bottomNav = document.getElementById("bottomNav");
         let hiddenItems = document.getElementById("hidden-items-top");
         let olp = window.location.hash.split('/')[1] || "undefined";
-        
+
         Object.keys(Router.routes).forEach(function(page,index) {
-            // key: the name of the object key
-            // index: the ordinal position of the key within the object
-            // $.get(, function (htmlContent) {
-            //     // console.log(Router.routes[page].url);
-            //     Router.routes[page].html = htmlContent;
-            // });
             $.ajax({
               url: Router.routes[page].url,
               success: function (htmlContent) {
-                  // console.log(Router.routes[page].url);
                   Router.routes[page].html = htmlContent;
               },
               complete: function () {

@@ -50,7 +50,7 @@ function conversation() {
     chatInput = document.getElementById('chatInput');
     chat = $("#conversation");
     chatbox = document.getElementById("conversation");
-    msgTemplate = msgTemplate || document.getElementById("conversation").innerHTML;
+    msgTemplate = msgTemplate || document.getElementById("messageTemplate").innerHTML;
 }
 
 function sendMessage() {

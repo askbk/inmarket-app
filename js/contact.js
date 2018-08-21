@@ -10,4 +10,10 @@ function contact() {
             document.getElementById("2").classList.remove("w3-hide");
             break;
     }
+
+    $("form").submit(function (ev) {
+        ev.preventDefault();
+
+        
+    })
 }

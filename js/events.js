@@ -1,11 +1,13 @@
 let eventTable;
 let eventInfo;
 let infoTemplate;
+let listTemplate;
 
 function events() {
-    eventTable = eventTable || document.getElementById("eventTable");
-    eventInfo = eventInfo || document.getElementById("eventInfo");
-    infoTemplate = infoTemplate || document.getElementById("infoTemplate");
+    eventTable = document.getElementById("eventTable");
+    eventInfo = document.getElementById("eventInfo");
+    listTemplate = listTemplate || document.getElementById("listTemplate").innerHTML;
+    infoTemplate = infoTemplate || document.getElementById("infoTemplate").innerHTML;
     let parameter = -1;
     if (Router.getParameters().length == 3) {
         parameter = Router.getParameters()[2];
@@ -42,13 +44,9 @@ function printTable(events) {
     if (events.length == 0) {
         eventTable.innerHTML = "<p>Ingen eventer</p>";
     } else {
-        //console.log(events);
-        let template = listTemplate.innerHTML;
-        //console.log("template: " + template);
-        let rendered = Pattern.render(template, events);
-        listTemplate.innerHTML = rendered;
-        listTemplate.classList.remove("w3-hide");
-        // localStorage.eventTable =
+        let rendered = Pattern.render(listTemplate, events);
+        eventTable.innerHTML += rendered;
+        eventTable.classList.remove("w3-hide");
     }
 }
 
