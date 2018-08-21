@@ -6,7 +6,7 @@ require_once 'DB.php';
  */
 class Media
 {
-    //  returns the id of the picture with the specified path if it exists,
+    //  Returns the id of the picture with the specified path if it exists,
     //  otherwise it returns -1.
     public static function getPictureId($picturePath)
     {
@@ -17,14 +17,14 @@ class Media
 
         $result = self::select($sql);
             if($result->num_rows > 0) {
-            return self::returnResult($result)[0]['id'];
+            return self::returnArray($result)[0]['id'];
         }
 
         return -1;
     }
 
-    //  inserts a new video with the specified properties and returns the video
-    //  id.
+    //  Inserts a new video with the specified properties and returns the video
+    //  ID.
     public static function insertVideo($companyId, $videoPath, $title,
                                         $description)
     {
@@ -35,6 +35,7 @@ class Media
         return self::write($sql);
     }
 
+    //  Returns a list of recent videos.
     public static function getRecentVideos($count, $offset)
     {
         $sql = "SELECT company.company_id, company.name, company.logo,
@@ -47,7 +48,7 @@ class Media
                 LIMIT $count
                 OFFSET $offset";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 }
 

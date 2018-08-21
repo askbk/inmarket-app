@@ -6,6 +6,8 @@ require_once 'DB.php';
  */
 class Message
 {
+    //  Returns a list of all conversations the user is a member of, ordered by
+    //  how recently a message was sent (by any member).
     public static function getConversationList($user_id, $count, $offset)
     {
         $sql = "SELECT conversation_id
@@ -14,7 +16,7 @@ class Message
                 LIMIT $count
                 OFFSET $offset";
         //echo "query: $sql <br>";
-        $conversationIds = DB::returnResult(DB::select($sql));
+        $conversationIds = DB::returnArray(DB::select($sql));
         //echo "conversation ids:";
         // var_dump($conversationIds);
 
@@ -29,19 +31,20 @@ class Message
         return $latestMessages;
     }
 
-    public static function getConversationMessages($conversationId, $count, $offset)
+    //  Returns a list of all messages in a conversation.
+    public static function getConversationMessages($conversationId, $count,
+                                                    $offset)
     {
         $sql = "SELECT *
                 FROM message
                 WHERE conversation_id = $conversationId
                 ORDER BY message_id ASC";
 
-        $result = DB::returnResult(DB::select($sql));
-        //usort($result, "sortByTime");
-
-        return $result;
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns a list of messages in the group that are more recent than the
+    //  given.
     public static function getNewConversationMessages($conversationId, $prevId)
     {
         $sql = "SELECT *
@@ -50,9 +53,10 @@ class Message
                 AND message_id > $prevId
                 ORDER BY timestamp ASC";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns the most recent message in a conversation.
     private static function getLatestMessage($conversationId)
     {
         $sql = "SELECT *
@@ -64,6 +68,7 @@ class Message
         return DB::returnValue(DB::select($sql));
     }
 
+    //  Sends a message to the given conversation.
     public static function sendMessage($conversationId, $sender_id, $content)
     {
         $date = new DateTime();
@@ -76,6 +81,7 @@ class Message
         return DB::write($sql);
     }
 
+    //  Starts a conversation between two people. Can add more participants.
     public static function startConversation($user_id1, $user_id2,
                                                 $isGroupConvo)
     {
@@ -92,14 +98,7 @@ class Message
 
     public static function addParticipant($conversationId, $user_id)
     {
-        /*$sql = "SELECT groupConversation
-                FROM conversation
-                WHERE id=$conversationId";
-
-        if (DB::returnResult(DB::select($sql))[0] == 0) {
-            echo "cannot add participants to private conversations";
-            exit();
-        }*/
+        // TODO: Check whether the conversation is marked as a group convo.
 
         $sql = "INSERT INTO conversationParticipants (user_id, conversation_id)
                 VALUES ($user_id, $conversationId)";
@@ -107,6 +106,7 @@ class Message
         DB::write($sql);
     }
 
+    //  Checks if a user is a participant in a conversation.
     public static function isParticipant($user_id, $conversationId)
     {
         $sql = "SELECT *
@@ -123,6 +123,7 @@ class Message
         return false;
     }
 
+    //  Checks if a conversation is a group conversation.
     public static function isGroupConversation($conversationId)
     {
         $sql = "SELECT isGroupConversation
@@ -138,6 +139,7 @@ class Message
         return false;
     }
 
+    //  Returns the name of the conversation.
     public static function getConversationName($conversationId, $user_id)
     {
         $sql = "SELECT name
@@ -153,7 +155,7 @@ class Message
                     WHERE conversation_id = $conversationId
                         AND user_id != $user_id";
 
-            $participants = DB::returnResult(DB::select($sql));
+            $participants = DB::returnArray(DB::select($sql));
 
             $names = array();
 
@@ -165,6 +167,7 @@ class Message
         }
     }
 
+    // Updates the name of the conversation.
     public static function setConversationName($conversationId, $name)
     {
         $sql = "INSERT INTO conversation (name)

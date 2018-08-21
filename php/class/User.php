@@ -7,7 +7,7 @@ require_once 'Image.php';
  */
 class User
 {
-    //  inserts a new user into the database and returns the id.
+    //  Inserts a new user into the database and returns the id.
     public static function insertUser($name, $email, $phone, $adminLevel,
                                         $isStudent, $isNEET, $isPupil,
                                         $password, $kommuneNr)
@@ -20,6 +20,7 @@ class User
         return DB::write($sql);
     }
 
+    //  Checks if a user with the given ID exists.
     public static function userExists($user_id)
     {
         $sql = "SELECT *
@@ -36,7 +37,9 @@ class User
         return false;
     }
 
-    //  inserts a new employee into the database. if the specified company does
+    // TODO: This method is no longer needed. Rewrite to fit a different type of
+    //  client.
+    //  Inserts a new employee into the database. if the specified company does
     //  not exist, then that is also inserted into the company table. returns
     //  the user_id of the employee.
     public static function insertEmployee($user_id, $position, $education,
@@ -55,7 +58,7 @@ class User
         return DB::write($sql);
     }
 
-    //  inserts a new student into the database and returns the user_id.
+    //  Inserts a new student into the database and returns the ID
     public static function insertStudent($user_id, $school, $schoolYear,
                                             $program)
     {
@@ -65,7 +68,7 @@ class User
         return DB::write($sql);
     }
 
-    //  inserts a new pupil into the database and returns the user_id.
+    //  Inserts a new pupil into the database and returns the user_id.
     public static function insertPupil($user_id, $school, $schoolYear, $program)
     {
         $sql = "INSERT INTO pupil (user_id, school, schoolYear, program)
@@ -74,7 +77,7 @@ class User
         return DB::write($sql);
     }
 
-    //  deletes a user with the specified id.
+    //  Deletes a user with the specified id.
     public static function deleteUser($user_id)
     {
         $sql = "DELETE FROM user
@@ -82,8 +85,8 @@ class User
         DB::write($sql);
     }
 
-    //  returns user_id of the user with this email address if it exists.
-    //  otherwise returns -1.
+    //  Returns user_id of the user with this email address if it exists.
+    //  Otherwise returns -1.
     public static function getUserId($email)
     {
         $sql = "SELECT user_id
@@ -94,12 +97,13 @@ class User
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]['user_id'];
+            return DB::returnArray($result)[0]['user_id'];
         }
 
         return -1;
     }
 
+    //  Returns the hashed and salted version of the user's password.
     public static function getUserPassword($user_id)
     {
         $sql = "SELECT password
@@ -109,12 +113,13 @@ class User
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]["password"];
+            return DB::returnArray($result)[0]["password"];
         }
 
         return -1;
     }
 
+    //  Returns the name of a given user.
     public static function getUserName($user_id)
     {
         $sql = "SELECT name
@@ -124,12 +129,13 @@ class User
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]["name"];
+            return DB::returnArray($result)[0]["name"];
         }
 
         return -1;
     }
 
+    //  Returns the email of the given user.
     public static function getUserEmail($user_id)
     {
         $sql = "SELECT email
@@ -139,12 +145,13 @@ class User
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]["email"];
+            return DB::returnArray($result)[0]["email"];
         }
 
         return -1;
     }
 
+    //  Returns the user type of a given user.
     public static function getUserType($user_id)
     {
         $sql = "SELECT isPupil, isStudent
@@ -162,7 +169,7 @@ class User
         }
     }
 
-    //  checks admin level of user
+    //  Checks admin level of a given user.
     //  0 - ordinary user
     //  1 - volunteer
     //  5 - InMarket employee
@@ -176,6 +183,7 @@ class User
         return DB::returnValue(DB::select($sql));
     }
 
+    // Updates the profile picture of the user.
     public static function setProfilePicture($user_id, $picturePath)
     {
         $path = Image::adaptImage($picturePath);
@@ -187,6 +195,7 @@ class User
         return DB::write($sql);
     }
 
+    // Updates the biography of the user.
     public static function updateBio($bio, $user_id)
     {
         $sql = "UPDATE user
@@ -196,6 +205,7 @@ class User
         return DB::write($sql);
     }
 
+    // Returns the path to the profile picture of the user.
     public static function getProfilePicture($user_id)
     {
         $sql = "SELECT profilePicture
@@ -205,6 +215,7 @@ class User
         return DB::returnValue(DB::select($sql));
     }
 
+    //  Returns the thumbnail of the profile picture of the user.
     public static function getProfileThumb($user_id)
     {
         $sql = "SELECT profilePictureThumb
@@ -214,6 +225,8 @@ class User
         return DB::returnValue(DB::select($sql));
     }
 
+    // Returns all public details of the user.
+    // TODO:  $user should not be an array.
     public static function getPublicProfile($user_id)
     {
         $userType = self::getUserType($user_id);
@@ -250,24 +263,20 @@ class User
 
                 $user[] = DB::returnValue(DB::select($sql));
                 break;
-            default:
-                // code...
-                break;
         }
 
         $sql = "SELECT userFile_id, path, description, name
                 FROM userFile
                 WHERE user_id = $user_id";
 
-        // echo $sql;
-
-        $user[] = DB::returnResult(DB::select($sql));
+        $user[] = DB::returnArray(DB::select($sql));
 
         $user[0]["userType"] = $userType;
 
         return $user;
     }
 
+    //  Inserts a new file belonging to the given user.
     public static function insertFile($user_id, $file_path, $description = '')
     {
         $name = preg_replace('/.*\//', '', $file_path);
@@ -275,11 +284,11 @@ class User
         $sql = "INSERT INTO userFile (path, description, user_id, name)
                 VALUES ('$file_path', '$description', $user_id, '$name')";
 
-        // echo $sql;
-
         return DB::write($sql);
     }
 
+    //  Removes the given file from the database.
+    // TODO: Files should also be deleted from the server.
     public static function deleteFile($user_id, $userFile_id)
     {
         $sql = "DELETE FROM userFile

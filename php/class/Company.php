@@ -6,7 +6,7 @@ require_once 'DB.php';
  */
 class Company
 {
-    //  inserts a new company into the database and returns the id.
+    //  Inserts a new company into the database and returns the id.
     public static function insertCompany($companyName, $companyDescription = '')
     {
         $sql = "INSERT INTO company (name, description)
@@ -15,7 +15,7 @@ class Company
         return DB::write($sql);
     }
 
-    //  checks whether a company with the specified name already exists.
+    //  Checks whether a company with the specified name already exists.
     public static function companyExists($company = '', $id = '')
     {
         if ($id == '') {
@@ -27,7 +27,8 @@ class Company
         return -1;
     }
 
-    //  returns the id of the company with the specified name if it exists, otherwise it returns -1.
+    //  Returns the id of the company with the specified name if it exists,
+    //  otherwise it returns -1.
     public static function getCompanyId($companyName)
     {
         $sql = "SELECT company_id
@@ -37,7 +38,7 @@ class Company
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0]['id'];
+            return DB::returnArray($result)[0]['id'];
         }
 
         return -1;
@@ -52,14 +53,15 @@ class Company
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnResult($result)[0];
+            return DB::returnArray($result)[0];
         }
 
         return -1;
     }
 
-    //  adds a new picture to the company's picture collection
-    public static function insertCompanyPicture($companyId, $picturePath, $description='')
+    //  Adds a new picture to the company's picture collection.
+    public static function insertCompanyPicture($companyId, $picturePath,
+                                                    $description='')
     {
         $sql = "INSERT INTO companyPicture (path, company_id, description)
                 VALUES ('$picturePath', $companyId, $description)";
@@ -67,7 +69,7 @@ class Company
         return DB::write($sql);
     }
 
-    //  sets the company logo.
+    //  Sets the company logo.
     public static function setCompanyLogo($companyId, $picturePath)
     {
         $sql = "UPDATE company
@@ -77,7 +79,7 @@ class Company
         DB::write($sql);
     }
 
-    //  sets the company description.
+    //  Sets the company description.
     public static function setCompanyDescription($companyId, $description)
     {
         $sql = "UPDATE company
@@ -87,7 +89,7 @@ class Company
         DB::write($sql);
     }
 
-    //  returns all employees from the specified company
+    //  Returns all employees from the specified company
     public static function getCompanyEmployees($companyId)
     {
         $sql = "SELECT user.name, companyEmployee.position,
@@ -96,14 +98,14 @@ class Company
                 INNER JOIN companyEmployee ON user.id = companyEmployee.user_id
                 WHERE companyEmployee.company_id = $companyId";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
     public static function getCompanies()
     {
         $sql = "SELECT * FROM company";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 }
 

@@ -9,6 +9,7 @@ use \Firebase\JWT\JWT;
  */
 class Auth
 {
+    //  Checks if the client has a valid Authorization header in its request
     public static function isLoggedIn()
     {
         $jwt = self::getToken();
@@ -17,28 +18,24 @@ class Auth
             $secretKey = base64_decode(Config::getJWTKey());
             $token = JWT::decode($jwt, $secretKey, array('HS512'));
 
-            //var_dump($token);
-
             return true;
         } catch (\Exception $e) {
             header("HTTP/1.0 401 Unauthorized");
             echo $e;
-            if (0 <= strpos($e, "Expired")) {
-                echo "Token expired";
-            }
 
             return false;
         }
 
     }
 
+    //  Checks if the given credentials are valid. Returns user ID if successful
+    //  Otherwise, it throws an error.
     public static function validateCredentials($email, $password)
     {
         $user_id = User::getUserId($email);
 
         if ($user_id == -1) {
             header("HTTP/1.0 401 Unauthorized");
-            // echo "invalid email";
             return false;
         }
 
@@ -46,10 +43,10 @@ class Auth
             return $user_id;
         }
         header("HTTP/1.0 401 Unauthorized");
-        // echo "invalid password";
         return false;
     }
 
+    //  Retrieves the user ID by decrypting the JWT. Returns -1 if unsuccessful
     public static function getUserId()
     {
         $jwt = self::getToken();
@@ -68,23 +65,24 @@ class Auth
 
         } catch (\Exception $e) {
             header("HTTP/1.0 401 Unauthorized");
-            // echo $e;
-            if (0 <= strpos($e, "Expired")) {
-                echo "Token expired";
-            }
+            echo $e;
 
             return -1;
         }
     }
 
+    //  Issues a new token to the given user.
     public static function issueToken($user_id)
     {
         $tokenId    = base64_encode(random_bytes(32));
+        $notBefore  = $issuedAt;
+        //Adding 10 seconds
         $issuedAt   = time();
-        $notBefore  = $issuedAt;             //Adding 10 seconds
-        $expire     = $notBefore + Config::getJWTExpiration();            // Adding 60 seconds
-        $serverName = Config::getServerName(); // Retrieve the server name from config file
-        $email = User::getUserEmail($user_id);
+        // Adding 60 seconds
+        $expire     = $notBefore + Config::getJWTExpiration();
+        // Retrieve the server name from config file
+        $serverName = Config::getServerName();
+        $email      = User::getUserEmail($user_id);
 
         /*
          * Create the token as an array
@@ -113,6 +111,7 @@ class Auth
        return json_encode($unencodedArray);
     }
 
+    // Retrieves the token from the Authorization header in the request.
     private static function getToken()
     {
         $request = array();
@@ -121,9 +120,8 @@ class Auth
             $request[$name] = $value;
         }
 
-        //var_dump($request);
-
         $jwt = explode(" ", $request["Authorization"])[1];
+
         return $jwt;
     }
 }

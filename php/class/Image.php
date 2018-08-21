@@ -4,6 +4,7 @@
  */
 class Image
 {
+    //  Creates a small thumbnail version of the image.
     public static function createThumbnail($path)
     {
         $paths = self::prepImgPaths($path, ".thumb.jpeg");
@@ -19,6 +20,7 @@ class Image
         return $paths["newPath"];
     }
 
+    // Scales and resizes an image to 300x300.
     public static function adaptImage($path)
     {
         $paths = self::prepImgPaths($path, ".profile.jpeg");
@@ -47,6 +49,7 @@ class Image
         return $paths["newPath"];
     }
 
+    //  Returns different versions of the same image path.
     private static function prepImgPaths($path, $ext)
     {
         $root = $_SERVER['DOCUMENT_ROOT'] . "/";

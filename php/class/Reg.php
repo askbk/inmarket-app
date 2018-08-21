@@ -6,6 +6,7 @@ require_once 'User.php';
  */
 class Reg
 {
+    //  Registers a user.
     public static function registerUser($user)
     {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
@@ -25,6 +26,8 @@ class Reg
         return $user_id;
 
     }
+
+    // Methods for registering different types of clients.
 
     private static function registerStudent($user_id, $student)
     {

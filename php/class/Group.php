@@ -2,10 +2,11 @@
 require_once 'DB.php';
 
 /**
- * Class for doing stuff with groups
+ * Class for managing groups
  */
 class Group
 {
+    //  Returns members of the group with the given ID.
     public static function getMembers($groupId)
     {
         $sql = "SELECT user.user_id, user.name, user.profilePicture,
@@ -14,16 +15,17 @@ class Group
                 INNER JOIN groupMember ON user.user_id = groupMember.user_id
                 WHERE groupMember.group_id = $groupId";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns a list of all groups the given user is a member of.
     public static function getGroupList($user_id)
     {
         $sql = "SELECT group_id
                 FROM groupMember
                 WHERE user_id = $user_id";
 
-        $groupIds = DB::returnResult(DB::select($sql));
+        $groupIds = DB::returnArray(DB::select($sql));
 
         $groupList = array();
 
@@ -34,6 +36,7 @@ class Group
         return $groupList;
     }
 
+    //  Returns some details about the group.
     public static function getDetails($groupId)
     {
         $sql = "SELECT *
@@ -43,6 +46,8 @@ class Group
         return DB::returnValue(DB::select($sql));
     }
 
+    //  Inserts a new group into the database with the given name and
+    //  description.
     public static function insert($groupName, $groupDescription)
     {
         $sql = "INSERT INTO `group` (name, description)
@@ -51,7 +56,8 @@ class Group
         return DB::write($sql);
     }
 
-    public static function addMember($groupId, $userId, $isAdmin)
+    //  Adds a new member to the specified group.
+    public static function addMember($groupId, $userId, $isAdmin = 0)
     {
         $sql = "INSERT INTO groupMember (user_id, group_id, isGroupAdmin)
                 VALUES ($userId, $groupId, $isAdmin)";
@@ -59,6 +65,7 @@ class Group
         return DB::write($sql);
     }
 
+    //  Inserts a new post into the given group.
     public static function insertPost($groupId, $userId, $content)
     {
         $date = new DateTime();
@@ -70,6 +77,7 @@ class Group
         return DB::write($sql);
     }
 
+    //  Inserts a new comment into the given post.
     public static function insertComment($postId, $userId, $content)
     {
         $date = new DateTime();
@@ -81,6 +89,7 @@ class Group
         return DB::write($sql);
     }
 
+    //  Returns all posts belonging to the given group.
     public static function getPosts($groupId)
     {
         $sql = "SELECT user.name, post.post_id, post.poster, post.content,
@@ -91,9 +100,11 @@ class Group
                 WHERE group_id = $groupId
                 ORDER BY post.post_id DESC";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns all posts belonging to the given group that have an ID greater
+    //  than the given post.
     public static function getNewPosts($groupId, $prevId)
     {
         $sql = "SELECT user.name, post.post_id, post.poster, post.content,
@@ -104,9 +115,12 @@ class Group
                 WHERE group_id = $groupId
                 AND post_id > $prevId";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns all comments of the post that have an ID greater than the given
+    //  comment.
+    // TODO: this method can easily be merged with getPostComments().
     public static function getNewComments($postId, $prevId)
     {
         $sql = "SELECT user.name, postComment.postComment_id,
@@ -118,9 +132,10 @@ class Group
                 WHERE postComment.post_id = $postId
                     AND postComment.postComment_id > $prevId";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Returns all comments for a given post.
     public static function getPostComments($postId)
     {
         $sql = "SELECT user.name, postComment.postComment_id,
@@ -132,9 +147,10 @@ class Group
                 WHERE postComment.post_id = $postId
                 ORDER BY postComment.postComment_id ASC";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 
+    //  Checks if the user is admin of the given group.
     public static function isAdmin($user_id, $groupId)
     {
         $sql = "SELECT isGroupAdmin
@@ -151,13 +167,14 @@ class Group
         return false;
     }
 
+    //  Returns a list of all gorups that the user is an admin of.
     public static function getAdminGroups($user_id)
     {
         $sql = "SELECT group_id
                 FROM groupMember
                 WHERE user_id = $user_id AND isGroupAdmin = 1";
 
-        return DB::returnResult(DB::select($sql));
+        return DB::returnArray(DB::select($sql));
     }
 }
 
