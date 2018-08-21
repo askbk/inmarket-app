@@ -149,7 +149,7 @@ function printNewPost(post) {
 
 function printNewComments(comments) {
     for (comment of comments) {
-        $("#post" + comment.post_id).next().children().last().before(Pattern.render(commentTemplate, [comment]));
+        $("#post" + comment[0].post_id).next().children().last().before(Pattern.render(commentTemplate, comment));
     }
 }
 
@@ -158,7 +158,8 @@ function getNewContent() {
     let postParams = {
         "groupId"       : Router.getParameters()[2],
         "prevPostId"    : ($("#groupPosts").children().first().children().first().attr("id")).replace( /^\D+/g, ''),
-        "prevCommId"    : ($("#groupPosts").children().first().children().last().attr("id")).replace( /^\D+/g, '')
+        "postIds"       : postIds(),
+        "prevCommId"    : latestCommentId()
     };
 
     $.ajax({
@@ -171,12 +172,12 @@ function getNewContent() {
         success: function(data) {
             let content = JSON.parse(data);
 
-            if (content.post.length > 0) {
-                printPosts(content.post);
+            if (content.posts.length > 0) {
+                printPosts(content.posts);
             }
 
-            if (content.comment.length > 0) {
-                printNewComments(content.comment);
+            if (content.comments.length > 0) {
+                printNewComments(content.comments);
             }
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -195,8 +196,8 @@ function latestCommentId() {
     $("#groupPosts").children().children(".commentSection").children().each(function () {
         let currId = $(this).children().first().attr("id");
 
-        if (typeof currId !== 'undefined') {
-            currId = currId.replace( /^\D+/g, '');
+        if (currId) {
+            currId = Number(currId.replace( /^\D+/g, ''));
             if (currId > max) {
                 max = currId;
             }
@@ -204,4 +205,17 @@ function latestCommentId() {
     });
 
     return max;
+}
+
+function postIds() {
+    let ids = [];
+    $("#groupPosts").children().children(".w3-panel").each(function () {
+        let currId = $(this).attr("id");
+
+        if (typeof currId !== 'undefined') {
+            currId = currId.replace( /^\D+/g, '');
+            ids.push(currId);
+        }
+    });
+    return ids;
 }

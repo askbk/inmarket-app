@@ -102,15 +102,23 @@ class Group
                 INNER JOIN user
                 ON post.poster = user.user_id
                 WHERE group_id = $groupId
-                AND post_id > $prevId
-                ORDER BY timestamp ASC";
+                AND post_id > $prevId";
 
         return DB::returnResult(DB::select($sql));
     }
 
-    public static function getNewComments($groupId, $prevId)
+    public static function getNewComments($postId, $prevId)
     {
-        // code...
+        $sql = "SELECT user.name, postComment.postComment_id,
+                    postComment.user_id, postComment.timestamp,
+                    postComment.content, postComment.post_id
+                FROM postComment
+                INNER JOIN user
+                ON postComment.user_id = user.user_id
+                WHERE postComment.post_id = $postId
+                    AND postComment.postComment_id > $prevId";
+
+        return DB::returnResult(DB::select($sql));
     }
 
     public static function getPostComments($postId)
