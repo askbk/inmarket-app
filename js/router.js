@@ -41,7 +41,7 @@ let Router = {
             }
         },
         "registrering"  : {
-            url         : "register.html",
+            url         : "templates/register.html",
             html        : "",
             controller  : "js/register.js",
             load        : function () {
@@ -49,7 +49,7 @@ let Router = {
             }
         },
         "innlogging"    : {
-            url         : "login.html",
+            url         : "templates/login.html",
             html        : "",
             controller  : "js/login.js",
             load        : function () {
@@ -81,7 +81,7 @@ let Router = {
             }
         },
         "kontakt"       : {
-            url         : "kontakt.html",
+            url         : "templates/kontakt.html",
             html        : "",
             controller  : "js/contact.js",
             load        : function () {
@@ -89,7 +89,7 @@ let Router = {
             }
         },
         "feil"          : {
-            url         : "error.html",
+            url         : "templates/error.html",
             html        : "",
             controller  : "js/error.js",
             load        : function () {
@@ -97,7 +97,7 @@ let Router = {
             }
         },
         "instillinger"  : {
-            url         : "settings.html",
+            url         : "templates/settings.html",
             html        : "",
             controller  : "js/settings.js",
             load        : function () {
@@ -121,7 +121,7 @@ let Router = {
             }
         },
         "profil"        : {
-            url         : "profile.html",
+            url         : "templates/profile.html",
             html        : "",
             controller  : "js/profile.js",
             load        : function () {
@@ -129,7 +129,7 @@ let Router = {
             }
         },
         "meg"           : {
-            url         : "myProfile.html",
+            url         : "templates/myProfile.html",
             html        : "",
             controller  : "js/myProfile.js",
             load        : function () {
