@@ -111,15 +111,7 @@ function createNewComment(comment, postId) {
         },
         type: 'POST',
         data: data,
-        success: function(id) {
-            printNewComments([{
-                content         :   comment,
-                name            :   localStorage.name,
-                postComment_id  :   id,
-                user_id         :   localStorage.id,
-                post_id         :   postId
-            }]);
-        },
+        success: function() {},
         error: function() {
             console.log("not logged in");
             location.hash = "/innlogging";
@@ -137,7 +129,6 @@ function printPosts(posts) {
 
 function printNewPosts(posts) {
     for (post of posts) {
-        console.log(post);
         let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
         let opSection = Pattern.render(postTemplate, post.OP)
         $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
@@ -151,7 +142,6 @@ function printNewComments(comments) {
 }
 
 function getNewContent() {
-
     let postParams = {
         "groupId"       : Router.getParameters()[2],
         "prevPostId"    : ($("#groupPosts").children().first().children().first().attr("id")).replace( /^\D+/g, ''),

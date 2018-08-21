@@ -17,7 +17,6 @@ function myProfile() {
         data: "userId=" + localStorage.id,
         success: function(data) {
             let profileData = JSON.parse(data);
-            // console.log(profileData);
             printMyProfile(profileData);
             document.getElementById("profilePage").classList.remove("w3-hide");
         },
@@ -92,7 +91,7 @@ function upload(file, isProfilePicture = false) {
                     error: function(xhr, textStatus, errorThrown) {
                         if (xhr.status == 401) {
                             console.log("not logged in");
-                            // location.hash = "/innlogging";
+                            location.hash = "/innlogging";
                         } else {
                             console.log("error: " + xhr.status);
                         }

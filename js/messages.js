@@ -2,7 +2,7 @@ let inbox, inboxTemplate;
 
 function messages() {
     inbox = document.getElementById("inbox");
-    inboxTemplate = inboxTemplate || document.getElementById("template").innerHTML;
+    inboxTemplate = inboxTemplate || document.getElementById("inboxTemplate").innerHTML;
 
     $("#currentPageHeader").text("Samtaler");
 

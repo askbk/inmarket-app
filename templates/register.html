@@ -20,8 +20,8 @@
     <div class="thirdPage w3-hide">
         <label class="">
             Hjemkommune:
-            <select class=" w3-input" name="" placeholder="hjemkommune"  id="kommuneTemplate">
-                <option value="{{kommuneNr}}">{{kommuneNavn}}</option>
+            <select class=" w3-input" name="" placeholder="hjemkommune"  id="kommuneList">
+                
             </select>
         </label>
 
@@ -48,3 +48,7 @@
 </form>
 
 <p id="responseText"></p>
+
+<div class="w3-hide" id="kommuneTemplate">
+    <option value="{{kommuneNr}}">{{kommuneNavn}}</option>
+</div>

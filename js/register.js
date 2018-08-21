@@ -1,4 +1,15 @@
+let firstPage, secondPage, thirdPage, pupilPage, studentPage, employeePage, kommuneTemplate, kommuneList;
+
 function register() {
+    firstPage = document.getElementsByClassName("firstPage");
+    secondPage = document.getElementsByClassName("secondPage");
+    thirdPage = document.getElementsByClassName("thirdPage");
+    pupilPage = document.getElementsByClassName("pupilPage");
+    studentPage = document.getElementsByClassName("studentPage");
+    employeePage = document.getElementsByClassName("employeePage");
+    kommuneTemplate = kommuneTemplate || document.getElementById("kommuneTemplate").innerHTML;
+    kommuneList = document.getElementById("kommuneList");
+
     let user = {
         name            : "",
         email           : "",
@@ -15,10 +26,9 @@ function register() {
 
     $.get("php/getKommuner.php", function(data, status) {
         let kommuner = JSON.parse(data);
-        let template = document.getElementById("kommuneTemplate");
-        let rendered = Pattern.render(template.innerHTML, kommuner);
-        template.innerHTML = rendered;
+        kommuneList.innerHTML = Pattern.render(kommuneTemplate, kommuner);
     });
+
     $('#registration').on('keyup keypress', function(e) {
         let keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
@@ -26,13 +36,6 @@ function register() {
             return false;
         }
     });
-
-    let firstPage = document.getElementsByClassName("firstPage");
-    let secondPage = document.getElementsByClassName("secondPage");
-    let thirdPage = document.getElementsByClassName("thirdPage");
-    let pupilPage = document.getElementsByClassName("pupilPage");
-    let studentPage = document.getElementsByClassName("studentPage");
-    let employeePage = document.getElementsByClassName("employeePage");
 
     //  when the user has selected what they are
     $(".clientType").click(function() {
