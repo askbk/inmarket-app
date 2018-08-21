@@ -141,15 +141,20 @@ function printPosts(posts) {
     });
 }
 
-function printNewPost(post) {
-    let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
-    let opSection = Pattern.render(postTemplate, post)
-    $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
+function printNewPosts(posts) {
+    console.log(posts);
+    for (post of posts) {
+        console.log(post);
+        let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
+        let opSection = Pattern.render(postTemplate, post.OP)
+        $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
+    }
 }
 
 function printNewComments(comments) {
+    console.log(comments);
     for (comment of comments) {
-        $("#post" + comment[0].post_id).next().children().last().before(Pattern.render(commentTemplate, comment));
+        $("#post" + comment.post_id).next().children().last().before(Pattern.render(commentTemplate, [comment]));
     }
 }
 
@@ -173,7 +178,7 @@ function getNewContent() {
             let content = JSON.parse(data);
 
             if (content.posts.length > 0) {
-                printPosts(content.posts);
+                printNewPosts(content.posts);
             }
 
             if (content.comments.length > 0) {

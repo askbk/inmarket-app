@@ -15,7 +15,7 @@ if (Auth::isLoggedIn()) {
     foreach ($postIds as $postId) {
         $temp = Group::getNewComments($postId, $prevCommId);
         if (sizeof($temp) > 0) {
-            $newComments[] = $temp;
+            $newComments = array_merge($newComments, $temp);
         }
     }
 
