@@ -6,9 +6,7 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $groupId = $_POST["groupId"];
     if (Group::isAdmin($user_id, $groupId) || User::getAdminLevel($user_id) > 1) {
-        $content = $_POST["content"];
-        echo Group::insertPost($groupId, $user_id, $content);
+        Group::insertPost($groupId, $user_id, $_POST["content"]);
     }
-
 }
 ?>

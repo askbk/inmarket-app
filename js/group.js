@@ -47,11 +47,19 @@ function group() {
         }
     });
 
-    //let contentRetrieval = setInterval("getNewContent()", 1000);
+    let contentRetrieval = setInterval("getNewContent()", 1000);
 
-    // window.addEventListener("hashchange", function () {
-    //     clearInterval(contentRetrieval);
-    // })
+    window.addEventListener("hashchange", function () {
+        clearInterval(contentRetrieval);
+    })
+
+    $(document).on("submit", 'form', function (ev) {
+        ev.preventDefault();
+        let postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
+        let comment = $(this).children().first().val();
+        createNewComment(comment, postId);
+        ev.currentTarget.firstElementChild.value = "";
+    });
 }
 
 function createNewPost() {
@@ -74,13 +82,7 @@ function createNewPost() {
         },
         type: 'POST',
         data: data,
-        success: function(id) {
-            printNewPost([{
-                content :   post,
-                name    :   localStorage.name,
-                post_id :   id,
-                poster  :   localStorage.id
-            }]);
+        success: function() {
             newPostInput.value = "";
         },
         error: function() {
@@ -131,18 +133,9 @@ function printPosts(posts) {
         let opSection = Pattern.render(postTemplate, post.OP)
         $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
     }
-
-    $("form").submit(function (ev) {
-        ev.preventDefault();
-        let postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
-        let comment = $(this).children().first().val();
-        createNewComment(comment, postId);
-        ev.currentTarget.firstElementChild.value = "";
-    });
 }
 
 function printNewPosts(posts) {
-    console.log(posts);
     for (post of posts) {
         console.log(post);
         let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
@@ -152,7 +145,6 @@ function printNewPosts(posts) {
 }
 
 function printNewComments(comments) {
-    console.log(comments);
     for (comment of comments) {
         $("#post" + comment.post_id).next().children().last().before(Pattern.render(commentTemplate, [comment]));
     }
