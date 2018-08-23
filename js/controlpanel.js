@@ -26,4 +26,21 @@ function controlpanel() {
             }
         }
     });
+
+    $(document).on("click", 'button', function (ev) {
+        ev.preventDefault();
+        let type = ev.currentTarget.name;
+        console.log();
+        switch (type) {
+            case "group":
+                groupControls(ev.currentTarget.attributes.groupid.value);
+                break;
+            default:
+                break;
+        }
+    });
+}
+
+function groupControls(groupId) {
+    
 }

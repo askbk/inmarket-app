@@ -28,12 +28,10 @@
 </div>
 
 <div id="groupListTemplate" class="w3-hide">
-    <li class="w3-grey hover-bg-grey">
-        <a href="#/gruppe/{{group_id}}" class="">
-            <div class="">
-                <h5>{{name}}</h5>
-                <p class="text-grey">{{description}}</p>
-            </div>
-        </a>
+    <li class="w3-grey hover-bg-grey w3-row">
+        <button type="button" name="group" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{group_id}}" class="groupItem">
+            <h5>{{name}}</h5>
+            <p class="text-grey">{{description}}</p>
+        </button>
     </li>
 </div>
