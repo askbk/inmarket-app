@@ -19,21 +19,31 @@ class Group
     }
 
     //  Returns a list of all groups the given user is a member of.
-    public static function getGroupList($user_id)
+    //  adminGroups:    returns only groups that the user is an admin of if true
+    //  details:        returns the list of groups including group details
+    public static function getGroupList($user_id, $adminGroups = false,
+                                            $details = true)
     {
         $sql = "SELECT group_id
-                FROM groupMember
-                WHERE user_id = $user_id";
+        FROM groupMember
+        WHERE user_id = $user_id";
+
+        if ($adminGroups) {
+            $sql .= " AND isGroupAdmin = 1";
+        }
 
         $groupIds = DB::returnArray(DB::select($sql));
 
-        $groupList = array();
+        if ($details) {
+            $groupList = array();
 
-        for ($i=0; $i < count($groupIds); $i++) {
-            $groupList[] = self::getDetails($groupIds[$i]["group_id"]);
+            for ($i=0; $i < count($groupIds); $i++) {
+                $groupList[] = self::getDetails($groupIds[$i]["group_id"]);
+            }
+            return $groupList;
         }
 
-        return $groupList;
+        return $groupIds;
     }
 
     //  Returns some details about the group.
@@ -120,8 +130,7 @@ class Group
 
     //  Returns all comments of the post that have an ID greater than the given
     //  comment.
-    // TODO: this method can easily be merged with getPostComments().
-    public static function getNewComments($postId, $prevId)
+    public static function getPostComments($postId, $prevId = 0)
     {
         $sql = "SELECT user.name, postComment.postComment_id,
                     postComment.user_id, postComment.timestamp,
@@ -130,21 +139,7 @@ class Group
                 INNER JOIN user
                 ON postComment.user_id = user.user_id
                 WHERE postComment.post_id = $postId
-                    AND postComment.postComment_id > $prevId";
-
-        return DB::returnArray(DB::select($sql));
-    }
-
-    //  Returns all comments for a given post.
-    public static function getPostComments($postId)
-    {
-        $sql = "SELECT user.name, postComment.postComment_id,
-                    postComment.user_id, postComment.timestamp,
-                    postComment.content
-                FROM postComment
-                INNER JOIN user
-                ON postComment.user_id = user.user_id
-                WHERE postComment.post_id = $postId
+                    AND postComment.postComment_id > $prevId
                 ORDER BY postComment.postComment_id ASC";
 
         return DB::returnArray(DB::select($sql));
@@ -165,16 +160,6 @@ class Group
         }
 
         return false;
-    }
-
-    //  Returns a list of all gorups that the user is an admin of.
-    public static function getAdminGroups($user_id)
-    {
-        $sql = "SELECT group_id
-                FROM groupMember
-                WHERE user_id = $user_id AND isGroupAdmin = 1";
-
-        return DB::returnArray(DB::select($sql));
     }
 }
 

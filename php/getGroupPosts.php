@@ -14,7 +14,6 @@ if (Auth::isLoggedIn()) {
     $posts = array();
 
     foreach ($OPs as $OP) {
-        // var_dump(Group::getPostComments($OP["post_id"]));
         $comments = Group::getPostComments($OP["post_id"]);
         $posts[] = array('OP' => array($OP), 'comments' => $comments);
     }

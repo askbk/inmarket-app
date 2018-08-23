@@ -7,15 +7,7 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
 
     if (User::getAdminLevel($user_id) > 0) {
-        echo json_encode(Group::getAdminGroups($user_id));
-
-        // $groups = array();
-        //
-        // foreach ($queryResult as $row) {
-        //     $groupIds[] = $row["group_id"];
-        // }
-        //
-        // echo json_encode($groupIds);
+        echo json_encode(Group::getGroupList($user_id, true));
     }
 }
 
