@@ -23,6 +23,10 @@ function login() {
                         localStorage.type = user["type"];
                         localStorage.adminLevel = user["adminLevel"];
                         localStorage.adminGroups = JSON.stringify(user["adminGroups"]);
+
+                        if (localStorage.adminLevel > 0) {
+                            document.getElementById("controlpanelLink").classList.remove("w3-hide");
+                        }
                     },
                     error: function() {}
                 });

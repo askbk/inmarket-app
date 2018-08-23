@@ -28,7 +28,7 @@ function groups() {
 
 function printGroupList(groupList) {
     groupsCont = document.getElementById("groupList");
-    groupListTemplate = groupListTemplate || document.getElementById("groupListTemplate").innerHTML;
+    groupListTemplate = document.getElementById("groupListTemplate").innerHTML;
     if (groupList.length == 0) {
         groupsCont.innerHTML = "Du er ikke med i noen grupper.";
     } else {

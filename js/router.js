@@ -135,6 +135,14 @@ let Router = {
             load        : function () {
                 myProfile();
             }
+        },
+        "kontrollpanel" : {
+            url         : "templates/controlpanel.html",
+            html        : "",
+            controller  : "js/controlpanel.js",
+            load        : function () {
+                controlpanel();
+            }
         }
     },
     route           : function() {
@@ -145,9 +153,7 @@ let Router = {
             Router.routes[page].load();
         } else {
             document.getElementById("content").innerHTML = Router.routes["feil"].html;
-            document.getElementById("content").onload = function() {
-                Router.routes["feil"].load();
-            }
+            Router.routes["feil"].load();
         }
     },
     parameters      : [],

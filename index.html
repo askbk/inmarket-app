@@ -24,6 +24,7 @@
             <button type="button" name="closeSidebar" class="w3-bar-item w3-button w3-mobile sidebar-button">Lukk<span class="w3-right">&times</span></button>
             <a href="#/instillinger" class="w3-bar-item w3-button w3-mobile sidebar-button">Instillinger</a>
             <a href="#/meg" class="w3-bar-item w3-button w3-mobile sidebar-button">Min profil</a>
+            <a href="#/kontrollpanel" class="w3-bar-item w3-button w3-mobile sidebar-button w3-hide" id="controlpanelLink">Kontrollpanel</a>
         </div>
         <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
             <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
@@ -41,6 +42,7 @@
     <script src="js/bedrift.js" charset="utf-8"></script>
     <script src="js/contact.js" charset="utf-8"></script>
     <script src="js/conversation.js" charset="utf-8"></script>
+    <script src="js/controlpanel.js" charset="utf-8"></script>
     <script src="js/events.js" charset="utf-8"></script>
     <script src="js/group.js" charset="utf-8"></script>
     <script src="js/groups.js" charset="utf-8"></script>
@@ -77,6 +79,12 @@
             Router.route();
             interfaceController();
         };
+
+        window.onload = function () {
+            if (localStorage.adminLevel > 0) {
+                document.getElementById("controlpanelLink").classList.remove("w3-hide");
+            }
+        }
 
         function interfaceController() {
             let page = Router.getParameters()[1];
