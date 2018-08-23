@@ -297,6 +297,18 @@ class User
 
         return DB::write($sql);
     }
+
+    //  Searches database for user matching the query
+    public static function search($string, $limit)
+    {
+        $sql = "SELECT user_id, name, profilePicture, email
+                FROM user
+                WHERE name LIKE '%$string%'
+                    OR email LIKE '%$string%'
+                LIMIT 5";
+
+        return DB::returnArray(DB::select($sql));
+    }
 }
 
 

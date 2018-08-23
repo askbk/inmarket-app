@@ -68,15 +68,11 @@ function controlpanel() {
         });
         $(document).on("change", '#addMemberInput', function (ev) {
             ev.preventDefault();
-            let input = ev.currentTarget.value;
-            console.log();
-            switch (type) {
-                case "group":
-                    groupControls(ev.currentTarget.attributes.groupid.value);
-                    break;
-                default:
-                    break;
-            }
+            console.log(ev);
+        });
+        $(document).on("submit", '#addGroupMemberForm', function (ev) {
+            ev.preventDefault();
+            console.log(ev);
         });
     });
 }
