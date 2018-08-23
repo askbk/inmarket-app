@@ -75,6 +75,27 @@ class Group
         return DB::write($sql);
     }
 
+    //  Removes a group member from the given group.
+    public static function removeMember($userId, $groupId)
+    {
+        $sql = "DELETE FROM groupMember
+                WHERE user_id = $userId
+                    AND group_id = $groupId";
+
+        return DB::write($sql);
+    }
+
+    // Sets the admin status of a user in a given group.
+    public static function changeAdminStatus($user_id, $groupId, $status)
+    {
+        $sql = "UPDATE groupMember
+                SET isGroupAdmin = $status
+                WHERE user_id = $user_id
+                    AND group_id = $groupId";
+
+        return DB::write($sql);
+    }
+
     //  Inserts a new post into the given group.
     public static function insertPost($groupId, $userId, $content)
     {

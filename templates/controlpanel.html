@@ -7,7 +7,7 @@
 <div class="w3-section" id="groupControlSection">
     <article class="">
         <h2>Grupper</h2>
-        <div class="">
+        <div class="" id="groups">
             <ul class="w3-ul" id="groupList">
 
             </ul>
@@ -18,13 +18,34 @@
 <div class="w3-section" id="conversationControlSection">
     <article class="">
         <h2>Samtaler</h2>
-        <div class="" id="groups">
+        <div class="" id="conversations">
             <ul id="conversationList" class="w3-ul">
 
             </ul>
             <button type="button" name="button" class="red-button w3-card">Start ny samtale</button>
         </div>
     </article>
+</div>
+
+<div class="w3-modal" id="modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h4 id="modalListType"></h4>
+        <ul id="modalList" class="w3-ul">
+
+        </ul>
+        <div class="w3-hide" id="groupModalContent">
+            <form class="" action="index.html" method="post">
+                <input list="addMember" name="" value="" id="addMemberInput">
+                <datalist id="addMember">
+
+                </datalist>
+                <input type="submit" name="" value="Legg til gruppemedlem" class="red-button w3-card w3-margin">
+            </form>
+        </div>
+      </div>
+    </div>
 </div>
 
 <div id="groupListTemplate" class="w3-hide">
@@ -34,4 +55,15 @@
             <p class="text-grey">{{description}}</p>
         </button>
     </li>
+</div>
+
+<div id="groupMembersTemplate" class="w3-hide">
+    <li>
+        <a href="#/profil/{{user_id}}"><img src="{{profilePicture}}" alt="" class="w3-img w3-circle w3-margin-right" width="60"><strong>{{name}}</strong></a>
+        <button type="button" name="button" class="red-button w3-card w3-right removeMember" userid="{{user_id}}">Fjern</button>
+    </li>
+</div>
+
+<div class="addMemberSuggestion">
+    <option value="{{user_id}}">{{name}} - <{{email}}></option>
 </div>
