@@ -1,0 +1,21 @@
+{
+  "short_name": "InMarket",
+  "name": "InMarket App",
+  "icons": [
+    {
+      "src": "/img/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "#/hjem",
+  "background_color": "#640507",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ffffff"
+}
