@@ -75,10 +75,11 @@ class Auth
     public static function issueToken($user_id)
     {
         $tokenId    = base64_encode(random_bytes(32));
-        $notBefore  = $issuedAt;
-        //Adding 10 seconds
+        //  issuedAt:  When the token is issued
         $issuedAt   = time();
-        // Adding 60 seconds
+        //  notBefore:  When the token becomes valid
+        $notBefore  = $issuedAt;
+        //  expire:     When the token expires
         $expire     = $notBefore + Config::getJWTExpiration();
         // Retrieve the server name from config file
         $serverName = Config::getServerName();

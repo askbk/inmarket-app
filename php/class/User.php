@@ -288,7 +288,7 @@ class User
     }
 
     //  Removes the given file from the database.
-    // TODO: Files should also be deleted from the server.
+    //  TODO: Files should also be deleted from the server.
     public static function deleteFile($user_id, $userFile_id)
     {
         $sql = "DELETE FROM userFile
