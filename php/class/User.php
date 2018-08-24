@@ -21,7 +21,7 @@ class User
     }
 
     //  Checks if a user with the given ID exists.
-    public static function userExists($user_id)
+    public static function exists($user_id)
     {
         $sql = "SELECT *
                 FROM user

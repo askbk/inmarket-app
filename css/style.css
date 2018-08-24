@@ -167,7 +167,7 @@ textarea {
     line-height: 3.5;
 }
 
-.red-button {
+.red-button,.red-button-small {
     background-color: #640507;
     color: white;
     border: none;
@@ -181,7 +181,11 @@ textarea {
     white-space: nowrap;
 }
 
-.red-button:hover {
+.red-button-small {
+    padding: 2px 12px;
+}
+
+.red-button:hover,.red-button-small:hover {
     background-color: #f9f9f9;
     color: #640507!important;
 }

@@ -36,13 +36,10 @@
 
         </ul>
         <div class="w3-hide" id="groupModalContent">
-            <form class="" action="index.html" method="post" id="addGroupMemberForm">
-                <input list="addMember" name="" value="" id="addMemberInput">
-                <datalist id="addMember">
+            <input type="text" name="" value="" id="addMemberInput">
+            <ul class="w3-ul" id="memberSearchResults">
 
-                </datalist>
-                <input type="submit" name="" value="Legg til gruppemedlem" class="red-button w3-card w3-margin">
-            </form>
+            </ul>
         </div>
       </div>
     </div>
@@ -64,6 +61,8 @@
     </li>
 </div>
 
-<div class="addMemberSuggestion w3-hide">
-    <option value="{{user_id}}">{{name}} - <{{email}}></option>
+<div class="w3-hide" id="memberSearchResultsTemplate">
+    <li>
+        {{user_id}} {{name}} {{email}} <button type="button" name="button" class="red-button-small w3-right w3-card addMember" userid="{{user_id}}">Legg til</button> <br>
+    </li>
 </div>

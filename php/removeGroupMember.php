@@ -4,10 +4,10 @@ require_once 'class/Group.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
-    if (Group::isAdmin($user_id)) {
+    $groupId = $_POST["groupId"];
+    if (Group::isAdmin($user_id, $groupId)) {
         $remove_id = $_POST["removeId"];
-        $groupId = $_POST["groupId"];
-        Group::removeMember($groupId, $remove_id);
+        Group::removeMember($remove_id, $groupId);
     }
 }
 ?>

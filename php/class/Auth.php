@@ -57,7 +57,7 @@ class Auth
 
             $user_id = $token->data->userId;
 
-            if (User::userExists($user_id)) {
+            if (User::exists($user_id)) {
                 return $user_id;
             }
 

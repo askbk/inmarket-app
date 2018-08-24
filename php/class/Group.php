@@ -182,6 +182,43 @@ class Group
 
         return false;
     }
+
+    //  Checks if a user is member of the given group
+    public static function isMember($user_id, $groupId)
+    {
+        $sql = "SELECT user_id
+                FROM groupMember
+                WHERE user_id = $user_id
+                    AND group_id = $groupId
+                LIMIT 1";
+
+        $result = DB::select($sql);
+
+        if($result->num_rows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //  Searches for users not in the given group
+    public static function exclusiveSearch($string, $groupId)
+    {
+        $sql = "SELECT user_id, name, profilePicture, email
+                FROM user AS u
+                WHERE
+                    NOT EXISTS (
+                        SELECT user_id
+                        FROM groupMember AS m
+                        WHERE u.user_id=m.user_id
+                    )
+                    AND (
+                        name LIKE '%$string%'
+                        OR email LIKE '%$string%'
+                    )";
+
+        return DB::returnArray(DB::select($sql));
+    }
 }
 
 ?>
