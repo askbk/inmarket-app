@@ -27,20 +27,24 @@
     </article>
 </div>
 
-<div class="w3-modal" id="modal">
+<div class="w3-modal" id="groupModal">
     <div class="w3-modal-content">
       <div class="w3-container">
-        <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <h4 id="modalListType"></h4>
-        <ul id="modalList" class="w3-ul">
+        <span onclick="document.getElementById('groupModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h4>Gruppeinstillinger</h4>
+        <input type="text" name="" value="" id="groupNameChange">
+        <textarea name="name" class="width-100" id="groupDescriptionChange"></textarea>
+        <h5>Gruppemedlemmer</h5>
+        <ul id="groupMemberList" class="w3-ul scrollable max-height-15em">
 
         </ul>
-        <div class="w3-hide" id="groupModalContent">
+        <label for="addMemberInput">
+            Legg til nye medlemmer:
             <input type="text" name="" value="" id="addMemberInput">
-            <ul class="w3-ul" id="memberSearchResults">
+        </label>
+        <ul class="w3-ul" id="memberSearchResults">
 
-            </ul>
-        </div>
+        </ul>
       </div>
     </div>
 </div>
@@ -54,10 +58,44 @@
     </li>
 </div>
 
+<div id="eventListTemplate" class="w3-hide">
+    <li class="w3-grey hover-bg-grey w3-row">
+        <button type="button" name="event" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{event_id}}" class="eventItem">
+            <h5>{{name}}</h5>
+            <p class="text-grey">{{description}}</p>
+            <p>{{dateTime}}</p>
+        </button>
+    </li>
+</div>
+
+<div id="conversationListTemplate" class="w3-hide">
+    <li class="w3-grey hover-bg-grey w3-row">
+        <button type="button" name="conversation" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{conversation_id}}" class="conversationItem">
+            <h5>{{name}}</h5>
+            <p class="text-grey">{{description}}</p>
+        </button>
+    </li>
+</div>
+
 <div id="groupMembersTemplate" class="w3-hide">
     <li>
         <a href="#/profil/{{user_id}}"><img src="{{profilePicture}}" alt="" class="w3-img w3-circle w3-margin-right" width="60"><strong>{{name}}</strong></a>
-        <button type="button" name="button" class="red-button w3-card w3-right removeMember" userid="{{user_id}}">Fjern</button>
+        <div class="w3-right">
+            <button onfocusout="dropdownToggle(this)" onclick="dropdownToggle(this)" class="red-button-small dropdownToggle width-6em w3-card">Click Me!</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card width-6em">
+                <ul class="w3-ul">
+                    <li class="remove-padding remove-margin">
+                        <button type="button" name="button" class="grey-button-small width-100 adminMember" userid="{{user_id}}">Admin</button>
+                    </li>
+                    <li class="remove-padding remove-margin">
+                        <button type="button" name="button" class="grey-button-small width-100 removeMember" userid="{{user_id}}">Fjern</button>
+                    </li>
+                    <li class="remove-padding remove-margin">
+                        <button type="button" name="button" class="grey-button-small width-100 messageMember" userid="{{user_id}}">Melding</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </li>
 </div>
 

@@ -9,7 +9,7 @@ if (Auth::isLoggedIn()) {
     $memberId = $_POST["memberId"];
 
     if (Group::isAdmin($user_id, $groupId) && User::exists($memberId)) {
-        Group::addMember($groupId, $memberId);
+        echo Group::addMember($groupId, $memberId);
     } else {
         echo Group::isAdmin($user_id, $groupId);
         echo User::exists($memberId);

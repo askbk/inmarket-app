@@ -14,11 +14,6 @@ select {
     background-color: #f9f9f9;
 }
 
-footer {
-    padding-top: 16px;
-    border-top: solid #640507;
-}
-
 @media (max-width: 600px) {
     h1 {
         font-size: 36px!important;
@@ -32,74 +27,19 @@ footer {
     #navbar-img {
         margin-left: 0em!important;
     }
-    .profile-text {
-        margin-left: 0px!important;
-        margin-top: 16px;
-    }
 
 }
 
-@media (min-width: 600px) {
-    #about-1 p {
-        padding-left: 32px;
-    }
+@media (min-width: 600px) {}
 
-    #about-2 p {
-        padding-right: 32px;
-    }
-}
-
-@media (max-width:992px) {
-
-}
-
-#hva h5 {
-    font-size: 18px;
-    margin-bottom: -8px;
-    margin-left: 25px;
-    text-align: left;
-}
-
-li {
-    display: list-item;
-    margin-top: 0.5em;
-}
-
-/* ul {
-    display: block;
-    margin-top: 1em;
-    margin-right: 0;
-    margin-bottom: 1em;
-    margin-left: 0;
-    list-style-type: circle;
-} */
+@media (max-width:992px) {}
 
 body, html {
-    line-height: 1.8;
     height: 100%;
-}
-
-.radio {
-    cursor: pointer;
-    color: #d2d2d2;
-}
-
-input[type=radio] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
 }
 
 label {
     line-height: 3;
-}
-
-label:hover .radio {
-    color: #000;
-}
-
-label input:checked ~ .radio {
-    color: #640507;
 }
 
 .bar {
@@ -153,12 +93,6 @@ textarea {
     cursor: pointer;
 }
 
-#navbar-button {
-    padding-right: 3em;
-    line-height: 3.5em;
-    padding-left: 4em;
-}
-
 .header-text {
     font-weight: 100;
 }
@@ -167,7 +101,7 @@ textarea {
     line-height: 3.5;
 }
 
-.red-button,.red-button-small {
+.red-button,.red-button-small, .red-button-grouped, .grey-button-small {
     background-color: #640507;
     color: white;
     border: none;
@@ -181,26 +115,45 @@ textarea {
     white-space: nowrap;
 }
 
-.red-button-small {
+.red-button-small, .grey-button-small {
     padding: 2px 12px;
 }
 
-.red-button:hover,.red-button-small:hover {
+.grey-button-small {
+    background-color: #e6e6e6 !important;
+    color: #666 !important;
+}
+
+.red-button-grouped {
+    padding: 2px 12px;
+    margin-left: 0;
+    margin-right: 0;
+    border-left: #540e0e solid 1px;
+}
+.red-button-left {
+    border-left: none !important;
+}
+
+.red-button:hover,.red-button-small:hover, .red-button-grouped:hover {
     background-color: #f9f9f9;
     color: #640507!important;
 }
 
-.hover-bg-grey:hover {
-    background-color: #F9F9F9;
-    color: #000; !important;
+.grey-button-small:hover {
+    background-color: white !important;
 }
 
-.fixed-bottom {
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
+.hover-bg-grey:hover {
+    background-color: #F9F9F9;
+    color: #000 !important;
+}
+
+.remove-padding {
+    padding: 0 !important;
+}
+
+.remove-margin {
+    margin: 0 !important;
 }
 
 .text-grey {
@@ -211,13 +164,16 @@ textarea {
     width: 100%;
 }
 
-#navbar {
-    background-color: RGBA(255,255,255,0.8);
+.width-6em {
+    min-width: 6em !important;
 }
 
-#navbar-dropdown {
-    background-color: #640507;
-    color: white;
+.max-height-15em {
+    max-height: 15em;
+}
+
+.scrollable {
+    overflow-y: scroll;
 }
 
 .sentMessage {
@@ -239,10 +195,6 @@ textarea {
     min-height: 40px;
 }
 
-#sendBtn {
-    width: 100%;
-}
-
 #profilePicture {
     max-width: 100%;
 }
@@ -253,24 +205,4 @@ textarea {
 
 .bg-white {
     background-color: white;
-}
-
-/* latin-ext */
-
-@font-face {
-    font-family: "Lato";
-    font-weight: 400;
-    font-style: normal;
-    src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v14/UyBMtLsHKBKXelqf4x7VRQ.woff2) format("woff2");
-    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* latin */
-
-@font-face {
-    font-family: "Lato";
-    font-weight: 400;
-    font-style: normal;
-    src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v14/1YwB1sO8YE1Lyjf12WNiUA.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }

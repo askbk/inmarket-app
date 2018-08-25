@@ -25,6 +25,7 @@ function login() {
                         localStorage.adminGroups = JSON.stringify(user["adminGroups"]);
 
                         if (localStorage.adminLevel > 0) {
+                            console.log(localStorage.adminLevel);
                             document.getElementById("controlpanelLink").classList.remove("w3-hide");
                         }
                     },

@@ -1,5 +1,5 @@
 let eventControlSection, groupControlSection, conversationControlSection,
-    groupControlListTemplate, modalList, groupMembersTemplate;
+    groupControlListTemplate, groupMemberList, groupMembersTemplate;
 
 function controlpanel() {
     if (localStorage.adminLevel == 0) {
@@ -7,7 +7,7 @@ function controlpanel() {
     }
 
     groupsCont = document.getElementById("groupList");
-    modalList = document.getElementById("modalList");
+    groupMemberList = document.getElementById("groupMemberList");
     groupMembersTemplate = document.getElementById("groupMembersTemplate").innerHTML;
 
     $.ajax({
@@ -45,11 +45,32 @@ function controlpanel() {
 }
 
 function groupControls(groupId) {
-    printMemberList(groupId);
+    document.getElementById("groupModal").style.display = "block";
 
     let addMemberInput = document.getElementById("addMemberInput"),
         memberSearchResults = document.getElementById("memberSearchResults"),
         memberSearchResultsTemplate = document.getElementById("memberSearchResultsTemplate").innerHTML;
+
+    $.ajax({
+        url: 'php/getGroup.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: "groupId=" + groupId + "&members=1&details=1",
+        success: function(data) {
+            let details = JSON.parse(data);
+            groupMemberList.innerHTML = Pattern.render(groupMembersTemplate, details.members);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
 
     addMemberInput.addEventListener("keyup", function () {
         $.ajax({
@@ -62,6 +83,8 @@ function groupControls(groupId) {
             success: function(data) {
                 if (data.length > 0) {
                     memberSearchResults.innerHTML = Pattern.render(memberSearchResultsTemplate, JSON.parse(data));
+                } else {
+                    memberSearchResults.innerHTML = "";
                 }
             },
             error: function(xhr, textStatus, errorThrown) {
@@ -74,6 +97,7 @@ function groupControls(groupId) {
             }
         });
     });
+
     $(document).on("click", '.addMember', function (ev) {
         ev.preventDefault();
         let newMemberId = ev.currentTarget.attributes.userid.value;
@@ -123,31 +147,32 @@ function groupControls(groupId) {
             }
         });
     });
+
+    $(document).on("click", '.messageMember', function (ev) {
+        ev.preventDefault();
+        let user_id = ev.currentTarget.attributes.userid.value;
+
+        $.ajax({
+            url: 'php/startConversation.php',
+            beforeSend: function(request){
+                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+            },
+            type: 'POST',
+            data: "userId=" + user_id,
+            success: function(data) {
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                if (xhr.status == 401) {
+                    console.log("not logged in");
+                    location.hash = "/innlogging";
+                } else {
+                    console.log("error: " + xhr.status);
+                }
+            }
+        });
+    });
 }
 
-function printMemberList(groupId) {
-    let memberList;
-    $.ajax({
-        url: 'php/getGroupMembers.php',
-        beforeSend: function(request){
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: "groupId=" + groupId,
-        success: function(data) {
-            let memberList = JSON.parse(data);
-            modalList.innerHTML = Pattern.render(groupMembersTemplate, memberList);
-            document.getElementById("modalListType").innerHTML = "Gruppemedlemmer";
-            document.getElementById('modal').style.display = 'block';
-            document.getElementById("groupModalContent").classList.remove("w3-hide");
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            if (xhr.status == 401) {
-                console.log("not logged in");
-                location.hash = "/innlogging";
-            } else {
-                console.log("error: " + xhr.status);
-            }
-        }
-    });
+function dropdownToggle(el) {
+    el.nextElementSibling.classList.toggle("w3-show");
 }

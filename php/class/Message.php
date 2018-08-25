@@ -8,18 +8,22 @@ class Message
 {
     //  Returns a list of all conversations the user is a member of, ordered by
     //  how recently a message was sent (by any member).
-    public static function getConversationList($user_id, $count, $offset)
+    public static function getConversationList($user_id, $includeDetails = 1 $count = -1, $offset = 0)
     {
         $sql = "SELECT conversation_id
                 FROM conversationParticipants
-                WHERE user_id = $user_id
-                LIMIT $count
-                OFFSET $offset";
-        //echo "query: $sql <br>";
-        $conversationIds = DB::returnArray(DB::select($sql));
-        //echo "conversation ids:";
-        // var_dump($conversationIds);
+                WHERE user_id = $user_id";
+        if ($count > 0) {
+              $sql .= " LIMIT $count
+              OFFSET $offset";
+        }
 
+        $conversationIds = DB::returnArray(DB::select($sql));
+
+        if ($includeDetails == 0) {
+            return $conversationIds
+        }
+        
         $latestMessages = array();
 
         for ($i=0; $i < count($conversationIds); $i++) {
@@ -83,7 +87,7 @@ class Message
 
     //  Starts a conversation between two people. Can add more participants.
     public static function startConversation($user_id1, $user_id2,
-                                                $isGroupConvo)
+                                                $isGroupConvo = 0)
     {
         $sql = "INSERT INTO conversation (isGroupConversation)
                 VALUES ($isGroupConvo)";
@@ -94,6 +98,22 @@ class Message
         self::addParticipant($conversationId, $user_id2);
 
         return $conversationId;
+    }
+
+    //  Checks if there already exists a private conversation between to users
+    public static function conversationExists($user_id1, $user_id2)
+    {
+        $conversationIds = self::getConversationList($user_id1);
+
+        var_dump($conversationIds);
+
+        foreach ($conversationIds as $conversationId) {
+            if (!self::isGroupConversation($conversationId["conversationId"]) && self::isParticipant($user_id2)) {
+                return $conversationId["conversationId"];
+            }
+        }
+
+        return -1;
     }
 
     public static function addParticipant($conversationId, $user_id)
