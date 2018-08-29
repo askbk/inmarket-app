@@ -95,7 +95,7 @@ function getNewMessages() {
     };
 
     $.ajax({
-        url: 'php/getNewConversationMessages.php',
+        url: 'php/getConversation.php',
         beforeSend: function(request){
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },

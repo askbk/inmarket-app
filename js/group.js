@@ -150,7 +150,7 @@ function getNewContent() {
     };
 
     $.ajax({
-        url: 'php/getNewGroupContent.php',
+        url: 'php/getGroupPosts.php',
         beforeSend: function(request){
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },

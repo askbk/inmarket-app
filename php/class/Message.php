@@ -8,7 +8,7 @@ class Message
 {
     //  Returns a list of all conversations the user is a member of, ordered by
     //  how recently a message was sent (by any member).
-    public static function getConversationList($user_id, $includeDetails = 1 $count = -1, $offset = 0)
+    public static function getConversationList($user_id, $includeDetails = 1, $count = -1, $offset = 0)
     {
         $sql = "SELECT conversation_id
                 FROM conversationParticipants
@@ -21,9 +21,9 @@ class Message
         $conversationIds = DB::returnArray(DB::select($sql));
 
         if ($includeDetails == 0) {
-            return $conversationIds
+            return $conversationIds;
         }
-        
+
         $latestMessages = array();
 
         for ($i=0; $i < count($conversationIds); $i++) {

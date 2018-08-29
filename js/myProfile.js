@@ -9,12 +9,12 @@ function myProfile() {
     myFileListTemplate = myFileListTemplate || document.getElementById("fileListTemplate").innerHTML;
 
     $.ajax({
-        url: 'php/getProfile.php',
+        url: 'php/getUser.php',
         beforeSend: function(request) {
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
         type: 'POST',
-        data: "userId=" + localStorage.id,
+        data: "userId=" + localStorage.id + "&profile=1",
         success: function(data) {
             let profileData = JSON.parse(data);
             printMyProfile(profileData);

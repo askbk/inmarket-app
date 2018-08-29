@@ -176,6 +176,11 @@ textarea {
     overflow-y: scroll;
 }
 
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+}
+
 .sentMessage {
     max-width: 50%;
     padding: 5px;

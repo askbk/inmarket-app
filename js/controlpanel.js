@@ -11,11 +11,12 @@ function controlpanel() {
     groupMembersTemplate = document.getElementById("groupMembersTemplate").innerHTML;
 
     $.ajax({
-        url: 'php/getAdminGroups.php',
+        url: 'php/getGroup.php',
         beforeSend: function(request){
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
         type: 'POST',
+        data: "adminGroups=1",
         success: function(data) {
             let groupList = JSON.parse(data);
             printGroupList(groupList);
@@ -30,22 +31,16 @@ function controlpanel() {
         }
     });
 
-    $(document).on("click", 'button', function (ev) {
+    $(document).on("click", '.groupItem', function (ev) {
         ev.preventDefault();
-        let type = ev.currentTarget.name;
-        switch (type) {
-            case "group":
-                groupControls(ev.currentTarget.attributes.groupid.value);
-                break;
-            default:
-                break;
-        }
+        groupControls(ev.currentTarget.attributes.groupid.value);
     });
 
 }
 
 function groupControls(groupId) {
     document.getElementById("groupModal").style.display = "block";
+    localStorage.controlPanelGroupId = groupId;
 
     let addMemberInput = document.getElementById("addMemberInput"),
         memberSearchResults = document.getElementById("memberSearchResults"),
@@ -60,7 +55,8 @@ function groupControls(groupId) {
         data: "groupId=" + groupId + "&members=1&details=1",
         success: function(data) {
             let details = JSON.parse(data);
-            groupMemberList.innerHTML = Pattern.render(groupMembersTemplate, details.members);
+            // groupMemberList.innerHTML = Pattern.render(groupMembersTemplate, details.members);
+            printMemberList(details.members, groupMemberList);
         },
         error: function(xhr, textStatus, errorThrown) {
             if (xhr.status == 401) {
@@ -124,55 +120,95 @@ function groupControls(groupId) {
         });
     });
 
-    $(document).on("click", '.removeMember', function (ev) {
-        ev.preventDefault();
-        let user_id = ev.currentTarget.attributes.userid.value;
 
-        $.ajax({
-            url: 'php/removeGroupMember.php',
-            beforeSend: function(request){
-                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-            },
-            type: 'POST',
-            data: "groupId=" + groupId + "&removeId=" + user_id,
-            success: function(data) {
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                if (xhr.status == 401) {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                } else {
-                    console.log("error: " + xhr.status);
-                }
-            }
-        });
-    });
+}
 
-    $(document).on("click", '.messageMember', function (ev) {
-        ev.preventDefault();
-        let user_id = ev.currentTarget.attributes.userid.value;
+$(document).on("click", '.messageMember', function (ev) {
+    ev.preventDefault();
+    let user_id = ev.currentTarget.attributes.userid.value;
 
-        $.ajax({
-            url: 'php/startConversation.php',
-            beforeSend: function(request){
-                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-            },
-            type: 'POST',
-            data: "userId=" + user_id,
-            success: function(data) {
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                if (xhr.status == 401) {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                } else {
-                    console.log("error: " + xhr.status);
-                }
-            }
-        });
-    });
+    messageMember(user_id);
+});
+
+function dropdownShow(el) {
+    el.nextElementSibling.classList.add("w3-show");
+}
+
+function dropdownHide(el) {
+    el.nextElementSibling.classList.remove("w3-show");
 }
 
 function dropdownToggle(el) {
     el.nextElementSibling.classList.toggle("w3-show");
+}
+
+function removeMember(el) {
+    let user_id = el.attributes.userid.value;
+    console.log(user_id);
+
+    $.ajax({
+        url: 'php/removeGroupMember.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: "groupId=" + localStorage.controlPanelGroupId + "&removeId=" + user_id,
+        success: function(data) {
+            // $(el).parentsUntil(".w3-dropdown-content").parent().parent().parent().remove()
+            $.ajax({
+                url: 'php/getGroup.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "groupId=" + localStorage.controlPanelGroupId + "&members=1",
+                success: function(data) {
+                    let details = JSON.parse(data);
+                    // groupMemberList.innerHTML = Pattern.render(groupMembersTemplate, details.members);
+                    printMemberList(details.members, groupMemberList);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                }
+            });
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
+}
+
+function messageMember(user_id) {
+    $.ajax({
+        url: 'php/startConversation.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: "userId=" + user_id,
+        success: function(data) {
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
+}
+
+function printMemberList(memberList, container) {
+    container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
 }

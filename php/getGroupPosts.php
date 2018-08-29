@@ -5,19 +5,45 @@ require_once 'class/Auth.php';
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $groupId = $_POST["groupId"];
-    // $conversationName = Group::getGroupName($convId, $user_id);
-    $count = $_POST["count"];
-    $offset = $_POST["offset"];
 
-    $OPs = Group::getPosts($groupId);
+    if (isset($_POST["prevPostId"]) && isset($_POST["prevCommId"])) {
+        $prevPostId = $_POST["prevPostId"];
+        $prevCommId = $_POST["prevCommId"];
+        $postIds    = $_POST["postIds"];
+        $newPosts = Group::getNewPosts($groupId, $prevPostId);
+        $newComments = array();
 
-    $posts = array();
+        foreach ($postIds as $postId) {
+            $temp = Group::getPostComments($postId, $prevCommId);
+            if (sizeof($temp) > 0) {
+                $newComments = array_merge($newComments, $temp);
+            }
+        }
 
-    foreach ($OPs as $OP) {
-        $comments = Group::getPostComments($OP["post_id"]);
-        $posts[] = array('OP' => array($OP), 'comments' => $comments);
+        $posts = array();
+
+        foreach ($newPosts as $OP) {
+            $comments = Group::getPostComments($OP["post_id"]);
+            $posts[] = array('OP' => array($OP), 'comments' => $comments);
+        }
+
+        $result = array('posts' => $posts, 'comments' => $newComments);
+
+        echo json_encode($result);
+        exit();
+    } else {
+        $count = $_POST["count"];
+        $offset = $_POST["offset"];
+        $OPs = Group::getPosts($groupId);
+
+        $posts = array();
+
+        foreach ($OPs as $OP) {
+            $comments = Group::getPostComments($OP["post_id"]);
+            $posts[] = array('OP' => array($OP), 'comments' => $comments);
+        }
+
+        echo json_encode($posts);
     }
-
-    echo json_encode($posts);
 }
 ?>

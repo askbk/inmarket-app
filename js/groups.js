@@ -6,7 +6,7 @@ function groups() {
     document.title = "Grupper | InMarket App";
 
     $.ajax({
-        url: 'php/getGroups.php',
+        url: 'php/getGroup.php',
         beforeSend: function(request){
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },

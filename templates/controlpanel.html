@@ -81,14 +81,14 @@
     <li>
         <a href="#/profil/{{user_id}}"><img src="{{profilePicture}}" alt="" class="w3-img w3-circle w3-margin-right" width="60"><strong>{{name}}</strong></a>
         <div class="w3-right">
-            <button onfocusout="dropdownToggle(this)" onclick="dropdownToggle(this)" class="red-button-small dropdownToggle width-6em w3-card">Click Me!</button>
+            <button onblur="dropdownHide(this)" onclick="dropdownToggle(this)" class="red-button-small dropdownToggle width-6em w3-card">…</button>
             <div class="w3-dropdown-content w3-bar-block w3-card width-6em">
                 <ul class="w3-ul">
                     <li class="remove-padding remove-margin">
                         <button type="button" name="button" class="grey-button-small width-100 adminMember" userid="{{user_id}}">Admin</button>
                     </li>
                     <li class="remove-padding remove-margin">
-                        <button type="button" name="button" class="grey-button-small width-100 removeMember" userid="{{user_id}}">Fjern</button>
+                        <button type="button" name="button" class="grey-button-small width-100 removeMember" userid="{{user_id}}" onclick="removeMember(this)">Fjern</button>
                     </li>
                     <li class="remove-padding remove-margin">
                         <button type="button" name="button" class="grey-button-small width-100 messageMember" userid="{{user_id}}">Melding</button>
