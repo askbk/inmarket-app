@@ -30,12 +30,6 @@ function controlpanel() {
             }
         }
     });
-
-    $(document).on("click", '.groupItem', function (ev) {
-        ev.preventDefault();
-        groupControls(ev.currentTarget.attributes.groupid.value);
-    });
-
 }
 
 function groupControls(groupId) {
@@ -93,41 +87,51 @@ function groupControls(groupId) {
             }
         });
     });
-
-    $(document).on("click", '.addMember', function (ev) {
-        ev.preventDefault();
-        let newMemberId = ev.currentTarget.attributes.userid.value;
-        console.log("click");
-        $.ajax({
-            url: 'php/addGroupMember.php',
-            beforeSend: function(request){
-                request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-            },
-            type: 'POST',
-            data: "groupId=" + groupId + "&memberId=" + newMemberId,
-            success: function(data) {
-                $(this).remove();
-                printMemberList(groupId);
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                if (xhr.status == 401) {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                } else {
-                    console.log("error: " + xhr.status);
-                }
-            }
-        });
-    });
-
-
 }
 
-$(document).on("click", '.messageMember', function (ev) {
+$(document).on("click", '.addMember', function (ev) {
     ev.preventDefault();
-    let user_id = ev.currentTarget.attributes.userid.value;
+    let newMemberId = ev.currentTarget.attributes.userid.value;
+    console.log("click");
+    $.ajax({
+        url: 'php/addGroupMember.php',
+        beforeSend: function(request){
+            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+        },
+        type: 'POST',
+        data: "groupId=" + groupId + "&memberId=" + newMemberId,
+        success: function(data) {
+            $(this).remove();
+            printMemberList(groupId);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            if (xhr.status == 401) {
+                console.log("not logged in");
+                location.hash = "/innlogging";
+            } else {
+                console.log("error: " + xhr.status);
+            }
+        }
+    });
+});
 
-    messageMember(user_id);
+$(document).on("click", ".removeMember", function (ev) {
+    console.log("helo");
+
+    removeMember(ev.currentTarget);
+});
+
+$(document).on("click", ".dropdownToggle", function (ev) {
+    dropdownToggle(ev.currentTarget);
+});
+
+$(document).on("blur", ".dropdownToggle", function (ev) {
+    dropdownHide(ev.currentTarget);
+})
+
+$(document).on("click", '.groupItem', function (ev) {
+    ev.preventDefault();
+    groupControls(ev.currentTarget.attributes.groupid.value);
 });
 
 function dropdownShow(el) {
@@ -154,7 +158,6 @@ function removeMember(el) {
         type: 'POST',
         data: "groupId=" + localStorage.controlPanelGroupId + "&removeId=" + user_id,
         success: function(data) {
-            // $(el).parentsUntil(".w3-dropdown-content").parent().parent().parent().remove()
             $.ajax({
                 url: 'php/getGroup.php',
                 beforeSend: function(request){
@@ -164,7 +167,6 @@ function removeMember(el) {
                 data: "groupId=" + localStorage.controlPanelGroupId + "&members=1",
                 success: function(data) {
                     let details = JSON.parse(data);
-                    // groupMemberList.innerHTML = Pattern.render(groupMembersTemplate, details.members);
                     printMemberList(details.members, groupMemberList);
                 },
                 error: function(xhr, textStatus, errorThrown) {

@@ -6,8 +6,9 @@ require_once 'class/Group.php';
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $result = array();
-    if (isset(["profile"])) {
-        echo json_encode(Group::getGroupList($user_id, true));
+    if (isset($_POST["profile"])) {
+
+        echo json_encode(User::getPublicProfile($_POST["userId"]));
         exit();
     }
     if (isset($_POST["name"])) {
