@@ -32,8 +32,7 @@ if (Auth::isLoggedIn()) {
         echo json_encode($result);
         exit();
     } else {
-        $count = $_POST["count"];
-        $offset = $_POST["offset"];
+        // var_dump($_POST);
         $OPs = Group::getPosts($groupId);
 
         $posts = array();
