@@ -47,8 +47,10 @@ function group() {
                         GroupController.printNewPosts(result.posts);
                         GroupController.printNewComments(result.comments);
                     }
-                )
-        }, 1000);
+                );
+        },
+        1000
+    );
 
     window.addEventListener("hashchange", function () {
         clearInterval(contentRetrieval);

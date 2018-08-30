@@ -1,10 +1,35 @@
-let chatInput;
-let chat;
-let chatbox;
-let msgTemplate;
-let postParams;
+let chatInput, chat, chatbox, msgTemplate, postParams;
 
 function conversation() {
+    chatInput = document.getElementById('chatInput');
+    chat = $("#conversation");
+    chatbox = document.getElementById("conversation");
+    msgTemplate = msgTemplate || document.getElementById("messageTemplate").innerHTML;
+    curConvId = Router.getParameters()[2]
+
+    const sendMessage = function () {
+        let msg = ConversationController.getMessageDraft();
+        if (msg != "") {
+            ConversationModel.sendMessage(msg, curConvId)
+            .then(
+                result => {
+                    return Promise.resolve(
+                        ConversationModel.getNewMessages(
+                            ConversationController.getPrevId(),
+                            curConvId
+                        )
+                    );
+                }
+            )
+            .then(
+                result => {
+                    ConversationController.printNewMessages(result);
+                    ConversationController.clearInput();
+                }
+            );
+        }
+    }
+
     $("#sendBtn").click(sendMessage);
 
     $('#chatInput').on('keypress', function(e) {
@@ -15,128 +40,162 @@ function conversation() {
     });
 
     postParams = {
-        "conversationId"    : Router.getParameters()[2],
+        "conversationId"    : curConvId,
         "count"             : 10,
         "offset"            : 0
     };
 
-    $.ajax({
-        url: 'php/getConversation.php',
-        beforeSend: function(request){
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: postParams,
-        success: function(data) {
-            let conv = JSON.parse(data);
-            printConversation(conv);
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            if (xhr.status == 401) {
-                console.log("not logged in");
-                location.hash = "/innlogging";
-            } else {
-                console.log("error: " + xhr.status);
-            }
-        }
-    });
+    const getConversation = function () {
+        ConversationModel.getConversation(postParams)
+            .then(
+                result => {
+                    ConversationController.printConversation(result);
+                }
+            );
+    }
 
-    let messagesRetrieval = setInterval("getNewMessages()", 1000);
+    getConversation();
+
+    let messagesRetrieval = setInterval(
+        function () {
+            ConversationModel.getNewMessages(
+                ConversationController.getPrevId(),
+                curConvId
+            )
+                .then(
+                    result => {
+                        printNewMessages(result);
+                    }
+                );
+        },
+        1000
+    );
 
     window.addEventListener("hashchange", function () {
         clearInterval(messagesRetrieval);
     })
 
-    chatInput = document.getElementById('chatInput');
-    chat = $("#conversation");
-    chatbox = document.getElementById("conversation");
-    msgTemplate = msgTemplate || document.getElementById("messageTemplate").innerHTML;
 }
 
-function sendMessage() {
-    let msg = chatInput.value;
-    msg = msg.trim();
+let ConversationModel = {
+    getConversation : function (postParams) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: 'php/getConversation.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: postParams,
+                success: function(data) {
+                    let conv = JSON.parse(data);
+                    resolve(conv)
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                    reject("error");
+                }
+            });
+        });
+    },
+    sendMessage     : function (msg, convId) {
+        return new Promise(function(resolve, reject) {
+            let data = {
+                conversationId  : convId,
+                content         : msg
+            };
 
-    if (msg == "") {
-        return false;
+            $.ajax({
+                url: 'php/sendMessage.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: data,
+                success: function(id) {
+                    resolve(id);
+                },
+                error: function() {
+                    console.log("not logged in");
+                    location.hash = "/innlogging";
+                    reject("error");
+                }
+            });
+        });
+    },
+    getNewMessages  : function (prevId, convId) {
+        return new Promise((resolve, reject) => {
+            // let prevId =
+            // if (prevId.indexOf("{") > -1) {
+            //     return;
+            // }
+            let params = {
+                "prevId"            : prevId,
+                "conversationId"    : convId
+            };
+
+            $.ajax({
+                url: 'php/getConversation.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: params,
+                success: function(data) {
+                    let newMsgs = JSON.parse(data);
+                    resolve(newMsgs);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                    reject("error");
+                }
+            });
+        })
     }
-
-    let data = {
-        conversationId  : postParams["conversationId"],
-        content         : msg
-    };
-
-    $.ajax({
-        url: 'php/sendMessage.php',
-        beforeSend: function(request){
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: data,
-        success: function(id) {
-            printMessage(msg, id);
-            chatInput.value = "";
-        },
-        error: function() {
-            console.log("not logged in");
-            location.hash = "/innlogging";
-        }
-    });
 }
 
-function getNewMessages() {
-    let prevId = $("#conversation").children().last().attr("id");
-    if (prevId.indexOf("{") > -1) {
-        return;
+let ConversationController = {
+    printConversation   : function (conv) {
+        $("#currentPageHeader").text(conv["name"]);
+        let messages = conv["messages"];
+        let rendered = Pattern.render(msgTemplate, messages);
+        chatbox.innerHTML = rendered;
+        chatbox.classList.remove("w3-hide");
+        chatbox.scrollTop = chatbox.scrollHeight;
+    },
+    printMessage        : function (msg, id) {
+        let newMsg = msgTemplate.replace("{{content}}", msg);
+        newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
+        newMsg = newMsg.replace("{{message_id}}", id);
+        chatbox.innerHTML += newMsg;
+        chatbox.scrollTop = chatbox.scrollHeight;
+    },
+    printNewMessages    : function (msg) {
+        let rendered = Pattern.render(msgTemplate, msg);
+        chatbox.innerHTML += rendered;
+        chatbox.scrollTop = chatbox.scrollHeight;
+    },
+    getPrevId           : function () {
+        let prevId =$("#conversation").children().last().attr("id");
+        if (prevId.indexOf("{") > -1) {
+            return undefined;
+        }
+        return prevId;
+    },
+    getMessageDraft     : function () {
+        return (chatInput.value).trim()
+    },
+    clearInput          : function () {
+        chatInput.value = "";
     }
-    let params = {
-        "prevId"            : prevId,
-        "conversationId"    : postParams["conversationId"]
-    };
-
-    $.ajax({
-        url: 'php/getConversation.php',
-        beforeSend: function(request){
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: params,
-        success: function(data) {
-            let newMsgs = JSON.parse(data);
-            if (newMsgs.length > 0) {
-                printNewMessages(newMsgs);
-            }
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            if (xhr.status == 401) {
-                console.log("not logged in");
-                location.hash = "/innlogging";
-            } else {
-                console.log("error: " + xhr.status);
-            }
-        }
-    });
-}
-
-function printMessage(msg, id) {
-    let newMsg = msgTemplate.replace("{{content}}", msg);
-    newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
-    newMsg = newMsg.replace("{{message_id}}", id);
-    chatbox.innerHTML += newMsg;
-    chatbox.scrollTop = chatbox.scrollHeight;
-}
-
-function printConversation(conv) {
-    $("#currentPageHeader").text(conv["name"]);
-    let messages = conv["messages"];
-    let rendered = Pattern.render(msgTemplate, messages);
-    chatbox.innerHTML = rendered;
-    chatbox.classList.remove("w3-hide");
-    chatbox.scrollTop = chatbox.scrollHeight;
-}
-
-function printNewMessages(msg) {
-    let rendered = Pattern.render(msgTemplate, msg);
-    chatbox.innerHTML += rendered;
-    chatbox.scrollTop = chatbox.scrollHeight;
 }
