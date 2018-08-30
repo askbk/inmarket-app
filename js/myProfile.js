@@ -7,28 +7,39 @@ function myProfile() {
     myBio = document.getElementById("bio");
     myFileList = document.getElementById("fileList");
     myFileListTemplate = myFileListTemplate || document.getElementById("fileListTemplate").innerHTML;
+    //
+    // $.ajax({
+    //     url: 'php/getUser.php',
+    //     beforeSend: function(request) {
+    //         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+    //     },
+    //     type: 'POST',
+    //     data: "userId=" + localStorage.id + "&profile=1",
+    //     success: function(data) {
+    //         let profileData = JSON.parse(data);
+    //         printMyProfile(profileData);
+    //         document.getElementById("profilePage").classList.remove("w3-hide");
+    //     },
+    //     error: function(xhr, textStatus, errorThrown) {
+    //         if (xhr.status == 401) {
+    //             console.log("not logged in");
+    //             location.hash = "/innlogging";
+    //         } else {
+    //             console.log("error: " + xhr.status);
+    //         }
+    //     }
+    // });
 
-    $.ajax({
-        url: 'php/getUser.php',
-        beforeSend: function(request) {
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: "userId=" + localStorage.id + "&profile=1",
-        success: function(data) {
-            let profileData = JSON.parse(data);
-            printMyProfile(profileData);
-            document.getElementById("profilePage").classList.remove("w3-hide");
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            if (xhr.status == 401) {
-                console.log("not logged in");
-                location.hash = "/innlogging";
-            } else {
-                console.log("error: " + xhr.status);
-            }
-        }
-    });
+    (function () {
+        ProfileModel.getProfile(localStorage.id)
+            .then(
+                result => {
+                    ProfileController.printProfile(result[0]);
+                    ProfileController.printFileList(result[1]);
+                    ProfileController.showProfile();
+                }
+            );
+    })();
 
     $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
 

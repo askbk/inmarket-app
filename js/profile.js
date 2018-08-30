@@ -47,7 +47,7 @@ let ProfileModel = {
                 }
             });
         });
-    },,
+    },
     updateBio   : function (bio) {
         return new Promise(function(resolve, reject) {
             $.ajax({
@@ -71,7 +71,7 @@ let ProfileModel = {
                 }
             });
         });
-    }
+    },
     fileUpload: function (file, isProfilePicture = false) {
         return new Promise(function(resolve, reject) {
             let form_data = new FormData();
@@ -95,7 +95,7 @@ let ProfileModel = {
                 }
             });
         });
-    }
+    },
     deleteFile: function (id) {
         return new Promise(function(resolve, reject) {
             $.ajax({
