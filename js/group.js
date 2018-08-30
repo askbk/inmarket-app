@@ -22,7 +22,7 @@ function group() {
     commentInputTemplate = commentInputTemplate.replace("{{name}}", localStorage.name);
     commentInputTemplate = commentInputTemplate.replace("{{user_id}}", localStorage.id);
 
-    const getContent = function() {
+    (function() {
         GroupModel.getPosts(curGroupId)
             .then(
                 result => {
@@ -30,9 +30,7 @@ function group() {
                     GroupController.printPosts(result);
                 }
             );
-    }
-
-    getContent();
+    })();
 
     let contentRetrieval = setInterval(
         function () {

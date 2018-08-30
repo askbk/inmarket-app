@@ -45,16 +45,14 @@ function conversation() {
         "offset"            : 0
     };
 
-    const getConversation = function () {
+    (function () {
         ConversationModel.getConversation(postParams)
             .then(
                 result => {
                     ConversationController.printConversation(result);
                 }
             );
-    }
-
-    getConversation();
+    })();
 
     let messagesRetrieval = setInterval(
         function () {
@@ -130,10 +128,6 @@ let ConversationModel = {
     },
     getNewMessages  : function (prevId, convId) {
         return new Promise((resolve, reject) => {
-            // let prevId =
-            // if (prevId.indexOf("{") > -1) {
-            //     return;
-            // }
             let params = {
                 "prevId"            : prevId,
                 "conversationId"    : convId
