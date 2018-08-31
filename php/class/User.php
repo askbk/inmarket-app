@@ -265,15 +265,23 @@ class User
                 break;
         }
 
-        $sql = "SELECT userFile_id, path, description, name
-                FROM userFile
-                WHERE user_id = $user_id";
 
-        $user[] = DB::returnArray(DB::select($sql));
+
+        $user[] = self::getUserFiles($user_id);
 
         $user[0]["userType"] = $userType;
 
         return $user;
+    }
+
+    //  Retrieves the list of files that a user has uploaded
+    public static function getUserFiles($user_id)
+    {
+        $sql = "SELECT userFile_id, path, description, name
+                FROM userFile
+                WHERE user_id = $user_id";
+
+        return DB::returnArray(DB::select($sql));
     }
 
     //  Inserts a new file belonging to the given user.

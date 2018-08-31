@@ -19,7 +19,7 @@
     <h3 class="w3-center">Mine filer</h3>
     <p>Her kan du laste opp filer som er relevante for arbeidsgivere</p>
     <form class="w3-panel" action="index.html" method="post">
-        <input type="file" id="fileInput" value="Last opp filer" class="w3-hide" onchange="upload(this.files[0])">
+        <input type="file" id="fileInput" value="Last opp filer" class="w3-hide">
         <label for="fileInput" class="red-button w3-card line-height-inherit w3-right">Velg fil…</label>
     </form>
     <ul class="w3-ul w3-section" id="fileList"></ul>
@@ -33,7 +33,7 @@
                 <a href="{{path}}" target="_blank">{{name}}</a>
             </div>
             <div class="w3-col s6">
-                <button type="button" name="deleteFile" class="red-button w3-card w3-right" onclick="deleteFile(this)">Slett</button>
+                <button type="button" name="deleteFile" class="red-button w3-card w3-right">Slett</button>
             </div>
         </div>
     </li>

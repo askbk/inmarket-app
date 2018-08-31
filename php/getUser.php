@@ -7,8 +7,11 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $result = array();
     if (isset($_POST["profile"])) {
-
         echo json_encode(User::getPublicProfile($_POST["userId"]));
+        exit();
+    }
+    if (isset($_POST["fileList"])) {
+        echo json_encode(User::getUserFiles($_POST["userId"]));
         exit();
     }
     if (isset($_POST["name"])) {

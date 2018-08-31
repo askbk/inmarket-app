@@ -23,7 +23,7 @@ function profile() {
 }
 
 let ProfileModel = {
-    getProfile: function (id) {
+    getProfile  : function (id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -43,7 +43,7 @@ let ProfileModel = {
                     } else {
                         console.log("error: " + xhr.status);
                     }
-                    reject(error);
+                    reject("error");
                 }
             });
         });
@@ -72,7 +72,7 @@ let ProfileModel = {
             });
         });
     },
-    fileUpload: function (file, isProfilePicture = false) {
+    uploadFile  : function (file, isProfilePicture = false) {
         return new Promise(function(resolve, reject) {
             let form_data = new FormData();
             form_data.append('file', file);
@@ -92,11 +92,12 @@ let ProfileModel = {
                 data: form_data,
                 type: 'post',
                 success: function(fileData) {
+                    resolve(fileData);
                 }
             });
         });
     },
-    deleteFile: function (id) {
+    deleteFile  : function (id) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/deleteFile.php',
@@ -106,6 +107,7 @@ let ProfileModel = {
                 type: 'POST',
                 data: "userFile_id=" + id,
                 success: function(data) {
+                    resolve(id);
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {
@@ -114,6 +116,31 @@ let ProfileModel = {
                     } else {
                         console.log("error: " + xhr.status);
                     }
+                }
+            });
+        });
+    },
+    getFileList : function (id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/getUser.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "userId=" + id + "&fileList=1",
+                success: function(data) {
+                    let fileList = JSON.parse(data);
+                    resolve(fileList);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                    reject("error");
                 }
             });
         });
@@ -139,12 +166,18 @@ let ProfileController = {
 
         bio.innerHTML = profileData.biography;
     },
-    printFileList   : function (fileList) {
-        let rendered = Pattern.render(fileListTemplate, fileList);
+    printFileList   : function (fileData) {
+        let rendered = Pattern.render(fileListTemplate, fileData);
         fileList.innerHTML += rendered;
     },
     showProfile     : function () {
         document.getElementById("profilePage").classList.remove("w3-hide");
     },
-
+    getBio          : function () {
+        return bio.value;
+    },
+    removeFile      : function (fileId) {
+        $("#li" + fileId).remove();
+        console.log("success");
+    }
 }
