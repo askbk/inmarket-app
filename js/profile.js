@@ -18,8 +18,6 @@ function profile() {
                 }
             );
     })();
-
-    $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
 }
 
 let ProfileModel = {
