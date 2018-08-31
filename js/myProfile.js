@@ -6,8 +6,7 @@ function myProfile() {
     fileList = document.getElementById("fileList");
     fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate").innerHTML;
 
-    (function () {
-        ProfileModel.getProfile(localStorage.id)
+    ProfileModel.getProfile(localStorage.id)
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
@@ -15,7 +14,6 @@ function myProfile() {
                     ProfileController.showProfile();
                 }
             );
-    })();
 
     $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
     $("#bioForm").submit(function(e) {

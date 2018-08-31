@@ -214,3 +214,7 @@ function messageMember(user_id) {
 function printMemberList(memberList, container) {
     container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
 }
+
+let ControlpanelModel = {
+
+}

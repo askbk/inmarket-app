@@ -8,8 +8,7 @@ function profile() {
     fileList = document.getElementById("fileList");
     fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate").innerHTML;
 
-    (function () {
-        ProfileModel.getProfile(Router.getParameters()[2])
+    ProfileModel.getProfile(Router.getParameters()[2])
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
@@ -17,7 +16,6 @@ function profile() {
                     ProfileController.showProfile();
                 }
             );
-    })();
 }
 
 let ProfileModel = {
