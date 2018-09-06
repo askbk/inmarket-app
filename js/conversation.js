@@ -25,6 +25,8 @@ function conversation() {
                 result => {
                     ConversationController.printNewMessages(result);
                     ConversationController.clearInput();
+                    ConversationController.scrollBottom();
+
                 }
             );
         }
@@ -50,6 +52,8 @@ function conversation() {
             .then(
                 result => {
                     ConversationController.printConversation(result);
+                    ConversationController.scrollBottom();
+
                 }
             );
     })();
@@ -62,7 +66,9 @@ function conversation() {
             )
                 .then(
                     result => {
-                        ConversationController.printNewMessages(result);
+                        if (result.length > 0) {
+                            ConversationController.printNewMessages(result);
+                        }
                     }
                 );
         },
@@ -165,19 +171,23 @@ let ConversationController = {
         let rendered = Pattern.render(msgTemplate, messages);
         chatbox.innerHTML = rendered;
         chatbox.classList.remove("w3-hide");
-        chatbox.scrollTop = chatbox.scrollHeight;
     },
     printMessage        : function (msg, id) {
         let newMsg = msgTemplate.replace("{{content}}", msg);
         newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
         newMsg = newMsg.replace("{{message_id}}", id);
         chatbox.innerHTML += newMsg;
-        chatbox.scrollTop = chatbox.scrollHeight;
     },
     printNewMessages    : function (msg) {
         let rendered = Pattern.render(msgTemplate, msg);
+        let isScrolled = false;
+        if (window.scrollY == window.scrollMaxY) {
+            isScrolled = true;
+        }
         chatbox.innerHTML += rendered;
-        chatbox.scrollTop = chatbox.scrollHeight;
+        if (isScrolled) {
+            ConversationController.scrollBottom();
+        }
     },
     getPrevId           : function () {
         let prevId =$("#conversation").children().last().attr("id");
@@ -193,6 +203,6 @@ let ConversationController = {
         chatInput.value = "";
     },
     scrollBottom        : function () {
-
+        window.scrollTo(0, window.innerHeight);
     }
 }
