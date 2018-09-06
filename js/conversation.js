@@ -62,7 +62,7 @@ function conversation() {
             )
                 .then(
                     result => {
-                        printNewMessages(result);
+                        ConversationController.printNewMessages(result);
                     }
                 );
         },
@@ -191,5 +191,8 @@ let ConversationController = {
     },
     clearInput          : function () {
         chatInput.value = "";
+    },
+    scrollBottom        : function () {
+
     }
 }
