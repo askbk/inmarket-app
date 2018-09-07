@@ -6,6 +6,16 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $convId = $_POST["conversationId"];
 
+    if (isset($_POST["details"]) && isset($_POST["participants"])) {
+        $result = array(
+            'details' => Message::getDetails($convId, $user_id),
+            'participants' => Message::getParticipants($convId)
+        );
+
+        echo json_encode($result);
+        exit();
+    }
+
     if (isset($_POST["prevId"])) {
         $newMessages = Message::getNewConversationMessages($convId, $_POST["prevId"]);
 

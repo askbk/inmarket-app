@@ -9,7 +9,7 @@ function messages() {
     MessagesModel.getMessageList(localStorage.id)
         .then(
             (result) => {
-                MessagesController.printMessageList(result);
+                MessagesController.printMessageList(result, document.getElementById("conversationList"));
             }
         );
 }
@@ -42,13 +42,12 @@ let MessagesModel = {
 }
 
 let MessagesController = {
-    printMessageList    : function (messageList) {
-        document.title = "Innboks | InMarket App";
+    printMessageList    : function (messageList, target, template = inboxTemplate) {
         if (messageList.length == 0) {
-            inbox.innerHTML = "No messages";
+            target.innerHTML = "No messages";
         } else {
-            let rendered = Pattern.render(inboxTemplate, messageList);
-            document.getElementById("conversationList").innerHTML = rendered;
+            let rendered = Pattern.render(template, messageList);
+            target.innerHTML = rendered;
         }
     }
 }

@@ -1,6 +1,7 @@
 let eventControlSection, groupControlSection, conversationControlSection,
     groupControlListTemplate, groupMemberList, groupMembersTemplate,
-    memberSearchResultsTemplate, memberSearchResults;
+    memberSearchResultsTemplate, memberSearchResults, conversationParticipantList,
+    conversationListTemplate;
 
 function controlpanel() {
     if (localStorage.adminLevel == 0) {
@@ -9,7 +10,9 @@ function controlpanel() {
 
     groupsCont = document.getElementById("groupList");
     groupMemberList = document.getElementById("groupMemberList");
+    conversationParticipantList = document.getElementById("conversationParticipantList");
     groupMembersTemplate = document.getElementById("groupMembersTemplate").innerHTML;
+
     memberSearchResults = document.getElementById("memberSearchResults");
     memberSearchResultsTemplate = memberSearchResultsTemplate || document.getElementById("memberSearchResultsTemplate").innerHTML;
 
@@ -17,6 +20,14 @@ function controlpanel() {
         .then(
             result => {
                 GroupsController.printGroupList(result);
+            }
+        );
+
+    MessagesModel.getMessageList(localStorage.id)
+        .then(
+            (result) => {
+                MessagesController.printMessageList(result, document.getElementById("conversationList"),
+                                                    document.getElementById("conversationListTemplate").innerHTML);
             }
         );
 
@@ -91,6 +102,24 @@ $(document).on("click", '.groupItem', function (ev) {
         );
 });
 
+$(document).on("click", '.conversationItem', function (ev) {
+    let conversationId = ev.currentTarget.attributes.conversationid.value;
+
+    localStorage.controlPanelConversationId = conversationId;
+
+    ControlpanelModel.getConversation(conversationId)
+        .then(
+            result => {
+                ControlpanelController.printParticipantList(result.participants, conversationParticipantList);
+            }
+        )
+        .then(
+            () => {
+                ControlpanelController.showConversationControls();
+            }
+        );
+});
+
 $(document).on("click", "#createNewGroupButton", function () {
     ControlpanelController.showGroupCreation();
 });
@@ -113,28 +142,18 @@ $(document).on("click", "#createGroupButton", function () {
         });
 });
 
-function removeMember(el) {
-    let user_id = el.attributes.userid.value;
-    console.log(user_id);
-
-    $.ajax({
-        url: 'php/removeGroupMember.php',
-        beforeSend: function(request){
-            request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-        },
-        type: 'POST',
-        data: "groupId=" + localStorage.controlPanelGroupId + "&removeId=" + user_id,
-        success: function(data) {
+let ControlpanelModel = {
+    getGroup            : function (groupId) {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
                 beforeSend: function(request){
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
-                data: "groupId=" + localStorage.controlPanelGroupId + "&members=1",
+                data: "groupId=" + groupId + "&members=1&details=1",
                 success: function(data) {
-                    let details = JSON.parse(data);
-                    printMemberList(details.members, groupMemberList);
+                    resolve(JSON.parse(data));
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {
@@ -143,34 +162,20 @@ function removeMember(el) {
                     } else {
                         console.log("error: " + xhr.status);
                     }
+                    reject("error");
                 }
             });
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            if (xhr.status == 401) {
-                console.log("not logged in");
-                location.hash = "/innlogging";
-            } else {
-                console.log("error: " + xhr.status);
-            }
-        }
-    });
-}
-
-function messageMember(user_id) {
-
-}
-
-let ControlpanelModel = {
-    getGroup            : function (groupId) {
+        });
+    },
+    getConversation     : function (conversationId) {
         return new Promise(function(resolve, reject) {
             $.ajax({
-                url: 'php/getGroup.php',
+                url: 'php/getConversation.php',
                 beforeSend: function(request){
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
-                data: "groupId=" + groupId + "&members=1&details=1",
+                data: "conversationId=" + conversationId + "&participants=1&details=1",
                 success: function(data) {
                     resolve(JSON.parse(data));
                 },
@@ -331,39 +336,45 @@ let ControlpanelModel = {
 }
 
 let ControlpanelController = {
-    dropdownHide        : function (el) {
+    dropdownHide                : function (el) {
         el.nextElementSibling.classList.remove("w3-show");
     },
-    dropdownShow        : function (el) {
+    dropdownShow                : function (el) {
         el.nextElementSibling.classList.add("w3-show");
     },
-    dropdownToggle      : function (el) {
+    dropdownToggle              : function (el) {
         el.nextElementSibling.classList.toggle("w3-show");
     },
-    printMemberList     : function (memberList, container) {
+    printMemberList             : function (memberList, container) {
         console.log(memberList);
         container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
     },
-    addGroupMember      : function (el) {
+    addGroupMember              : function (el) {
         $(el).parent().remove();
     },
-    printSearchResults  : function (results, target) {
+    printSearchResults          : function (results, target) {
         if (results.length > 0) {
             target.innerHTML = Pattern.render(memberSearchResultsTemplate, results);
         } else {
             target.innerHTML = "";
         }
     },
-    showGroupControls   : function () {
+    printParticipantList        : function (participants, target) {
+            target.innerHTML = Pattern.render(groupMembersTemplate, participants);
+    },
+    showGroupControls           : function () {
         document.getElementById("groupModal").style.display = "block";
     },
-    showGroupCreation   : function () {
+    showConversationControls    : function () {
+        document.getElementById("conversationModal").style.display = "block";
+    },
+    showGroupCreation           : function () {
         document.getElementById("createGroupModal").style.display = "block";
     },
-    hideGroupCreation   : function () {
+    hideGroupCreation           : function () {
         document.getElementById("createGroupModal").style.display = "none";
     },
-    messageMember       : function (convId) {
+    messageMember               : function (convId) {
         location.hash = "/conversation/" + convId;
     }
 }

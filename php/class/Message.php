@@ -187,7 +187,7 @@ class Message
         }
     }
 
-    // Updates the name of the conversation.
+    //  Updates the name of the conversation.
     public static function setConversationName($conversationId, $name)
     {
         $sql = "INSERT INTO conversation (name)
@@ -195,6 +195,25 @@ class Message
                 WHERE conversation_id = $conversationId";
 
         return DB::write($sql);
+    }
+
+    //  Returns all participants of a conversation.
+    public static function getParticipants($convId)
+    {
+        $sql = "SELECT user.user_id, user.name, user.profilePicture
+                FROM user
+                INNER JOIN conversationParticipants ON user.user_id = conversationParticipants.user_id
+                WHERE conversationParticipants.conversation_id = $convId";
+
+        return DB::returnArray(DB::select($sql));
+    }
+
+    //  Returns details of a conversation
+    public static function getDetails($convId, $user_id)
+    {
+        return array(
+            'name' => self::getConversationName($convId, $user_id)
+        );
     }
 }
 
