@@ -1,5 +1,6 @@
 let eventControlSection, groupControlSection, conversationControlSection,
-    groupControlListTemplate, groupMemberList, groupMembersTemplate;
+    groupControlListTemplate, groupMemberList, groupMembersTemplate,
+    memberSearchResultsTemplate, memberSearchResults;
 
 function controlpanel() {
     if (localStorage.adminLevel == 0) {
@@ -9,6 +10,8 @@ function controlpanel() {
     groupsCont = document.getElementById("groupList");
     groupMemberList = document.getElementById("groupMemberList");
     groupMembersTemplate = document.getElementById("groupMembersTemplate").innerHTML;
+    memberSearchResults = document.getElementById("memberSearchResults");
+    memberSearchResultsTemplate = memberSearchResultsTemplate || document.getElementById("memberSearchResultsTemplate").innerHTML;
 
     ControlpanelModel.getAdminGroups(localStorage.id)
         .then(
@@ -29,21 +32,15 @@ function controlpanel() {
 
 $(document).on("click", '.addMember', function (ev) {
     let newMemberId = ev.currentTarget.attributes.userid.value;
-
-    ControlpanelModel.addGroupMember(groupId, newMemberId)
-        .then(
-            () => {
-                ControlpanelController.addGroupMember(this);
-            }
-        )
-        .then(
-            () => {
-                ControlpanelModel.getGroup(localStorage.controlPanelGroupId);
-            }
-        )
+    ControlpanelModel.addGroupMember(localStorage.controlPanelGroupId, newMemberId)
+        .then(() => {
+            ControlpanelController.addGroupMember(ev.currentTarget);
+            return ControlpanelModel.getGroup(localStorage.controlPanelGroupId);
+        })
         .then(
             result => {
-                ControlpanelController.printMemberList(result.details, groupMemberList);
+                console.log(result);
+                ControlpanelController.printMemberList(result.members, groupMemberList);
             }
         );
 });
@@ -92,8 +89,28 @@ $(document).on("click", '.groupItem', function (ev) {
                 ControlpanelController.showGroupControls();
             }
         );
+});
 
+$(document).on("click", "#createNewGroupButton", function () {
+    ControlpanelController.showGroupCreation();
+});
 
+$(document).on("click", "#createGroupButton", function () {
+    let name = document.getElementById("newGroupName").value,
+        description = document.getElementById("newGroupDescription").value;
+
+    ControlpanelModel.createGroup(name, description)
+        .then(() => {
+            ControlpanelController.hideGroupCreation()
+        })
+        .then(() => {
+            ControlpanelModel.getAdminGroups(localStorage.id)
+        })
+        .then(
+            result => {
+                console.log(result);
+                GroupsController.printGroupList(result);
+        });
 });
 
 function removeMember(el) {
@@ -216,7 +233,7 @@ let ControlpanelModel = {
             });
         });
     },
-    addGroupMember      : function (groupId, userId) {
+    addGroupMember      : function (groupId, newMemberId) {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: 'php/addGroupMember.php',
@@ -284,6 +301,32 @@ let ControlpanelModel = {
                 }
             });
         });
+    },
+    createGroup         : function (name, description) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/createGroup.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "name=" + name + "&description=" + description,
+                success: function(data) {
+                    resolve(true)
+                },
+                complete : function (data) {
+
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                }
+            });
+        });
     }
 }
 
@@ -298,20 +341,27 @@ let ControlpanelController = {
         el.nextElementSibling.classList.toggle("w3-show");
     },
     printMemberList     : function (memberList, container) {
+        console.log(memberList);
         container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
     },
     addGroupMember      : function (el) {
-        $(el).remove();
+        $(el).parent().remove();
     },
     printSearchResults  : function (results, target) {
         if (results.length > 0) {
-            target.innerHTML = Pattern.render(memberSearchResultsTemplate, data);
+            target.innerHTML = Pattern.render(memberSearchResultsTemplate, results);
         } else {
             target.innerHTML = "";
         }
     },
     showGroupControls   : function () {
         document.getElementById("groupModal").style.display = "block";
+    },
+    showGroupCreation   : function () {
+        document.getElementById("createGroupModal").style.display = "block";
+    },
+    hideGroupCreation   : function () {
+        document.getElementById("createGroupModal").style.display = "none";
     },
     messageMember       : function (convId) {
         location.hash = "/conversation/" + convId;

@@ -6,6 +6,15 @@ require_once 'DB.php';
  */
 class Group
 {
+    //  Creates a new group with the given name and description
+    public static function createGroup($name, $description = "")
+    {
+        $sql = "INSERT INTO `group` (name, description)
+                VALUES ('$name', '$description')";
+
+        return DB::write($sql);
+    }
+
     //  Returns members of the group with the given ID.
     public static function getMembers($groupId)
     {
@@ -211,6 +220,7 @@ class Group
                         SELECT user_id
                         FROM groupMember AS m
                         WHERE u.user_id=m.user_id
+                        AND m.group_id=$groupId
                     )
                     AND (
                         name LIKE '%$string%'

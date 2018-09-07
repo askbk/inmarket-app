@@ -12,7 +12,7 @@
 
             </ul>
         </div>
-        <button type="button" name="button" class="red-button w3-card">Opprett gruppe</button>
+        <button type="button" name="button" class="red-button w3-card" id="createNewGroupButton">Opprett gruppe</button>
     </article>
 </div>
 <div class="w3-section" id="conversationControlSection">
@@ -45,6 +45,29 @@
         <ul class="w3-ul" id="memberSearchResults">
 
         </ul>
+      </div>
+    </div>
+</div>
+
+<div class="w3-modal" id="createGroupModal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('createGroupModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h4>Opprett ny gruppe</h4>
+        <input type="text" name="" value="" id="newGroupName" class="">
+        <textarea name="name" class="width-100" id="newGroupDescription"></textarea>
+        <button type="button" name="button" id="createGroupButton" class="red-button w3-card">Opprett</button>
+      </div>
+    </div>
+</div>
+
+<div class="w3-modal" id="createConversationModal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('createConversationModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h4>Opprett ny samtale</h4>
+        <input type="text" name="" value="" id="newConversationName" class="">
+        <button type="button" name="button" id="createConversationButton" class="red-button w3-card">Opprett</button>
       </div>
     </div>
 </div>
