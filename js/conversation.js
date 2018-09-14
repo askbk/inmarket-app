@@ -203,6 +203,6 @@ let ConversationController = {
         chatInput.value = "";
     },
     scrollBottom        : function () {
-        window.scrollTo(0, window.innerHeight);
+        window.scrollTo(0, $(document).height());
     }
 }
