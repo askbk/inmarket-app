@@ -201,7 +201,13 @@ let ControlpanelModel = {
                 type: 'POST',
                 data: "adminGroups=1",
                 success: function(data) {
-                    resolve(JSON.parse(data));
+                    let adminG = JSON.parse(data);
+                    let result = [];
+                    for (g of adminG) {
+                        result.push(g.group_id);
+                    }
+                    localStorage.adminGroups = JSON.stringify(result);
+                    resolve(adminG);
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {

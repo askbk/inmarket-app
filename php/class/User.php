@@ -259,7 +259,7 @@ class User
                 $sql = "SELECT user.name, user.profilePicture, user.createTime,
                                 user.biography
                         FROM user
-                        WHERE u.user_id = $user_id";
+                        WHERE user_id = $user_id";
 
                 $user[] = DB::returnValue(DB::select($sql));
                 break;

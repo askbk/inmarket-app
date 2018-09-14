@@ -1,5 +1,5 @@
 let postTemplate, commentTemplate, commentInputTemplate, newPostInput,
-    newPostContainer, curGroupId = Router.getParameters()[2];
+    newPostContainer, curGroupId;
 
 function group() {
     postTemplate = postTemplate || $("#postTemplate").html();
@@ -8,7 +8,6 @@ function group() {
     commentInputTemplate = commentInputTemplate || document.getElementById("commentInputTemplate").innerHTML;
     newPostInput = newPostInput || document.getElementById("newPostInput")
     curGroupId = Router.getParameters()[2];
-    // curGroupId = 1;
 
     $("#currentPageHeader").text("Gruppe");
 
@@ -52,16 +51,23 @@ function group() {
 
     window.addEventListener("hashchange", function () {
         clearInterval(contentRetrieval);
-    })
-
-    $(document).on("submit", '.commentInputForm', function (ev) {
-        ev.preventDefault();
-        let postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
-        let comment = $(this).children().first().val();
-        GroupModel.createNewComment(comment, postId);
-        ev.currentTarget.firstElementChild.value = "";
     });
 }
+
+$(document).on("submit", '.commentInputForm', function (ev) {
+    ev.preventDefault();
+    let postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
+    let comment = $(this).children().first().val();
+    GroupModel.createNewComment(comment, postId);
+    ev.currentTarget.firstElementChild.value = "";
+});
+
+$(document).on("click", "#createNewPost", function () {
+    GroupModel.createNewPost(document.getElementById("newPostInput").value)
+        .then(() => {
+            GroupController.emptyPostInput();
+        });
+});
 
 let GroupModel = {
     getPosts        : function (groupId) {
@@ -237,6 +243,10 @@ let GroupController = {
         return ids;
     },
     getLastPostId   : function () {
-        return ($("#groupPosts").children().first().children().first().attr("id")).replace( /^\D+/g, '');
+        let el = $("#groupPosts").children().first().children().first().attr("id");
+        return el == undefined ? null : el.replace( /^\D+/g, '');
+    },
+    emptyPostInput  : function () {
+        document.getElementById("newPostInput").value = "";
     }
 }
