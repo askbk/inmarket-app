@@ -23,7 +23,7 @@ function controlpanel() {
             }
         );
 
-    MessagesModel.getMessageList(localStorage.id)
+    MessagesModel.getMessageList(localStorage.id, 0)
         .then(
             (result) => {
                 MessagesController.printMessageList(result, document.getElementById("conversationList"),
@@ -133,11 +133,10 @@ $(document).on("click", "#createGroupButton", function () {
             ControlpanelController.hideGroupCreation()
         })
         .then(() => {
-            ControlpanelModel.getAdminGroups(localStorage.id)
+            return ControlpanelModel.getAdminGroups(localStorage.id)
         })
         .then(
             result => {
-                console.log(result);
                 GroupsController.printGroupList(result);
         });
 });
@@ -151,15 +150,15 @@ $(document).on("click", "#createConversationButton", function () {
 
     ControlpanelModel.createConversation(name)
         .then(() => {
-            ControlpanelController.hideConversationCreation()
+            ControlpanelController.hideConversationCreation();
+            document.getElementById("newConversationName").value = "";
         })
         .then(() => {
-            MessagesModel.getMessageList(localStorage.id)
-
+            return MessagesModel.getMessageList(localStorage.id, 0)
         })
         .then((result) => {
-                MessagesController.printMessageList(result, document.getElementById("conversationList"),
-                                                    document.getElementById("conversationListTemplate").innerHTML);
+            MessagesController.printMessageList(result, document.getElementById("conversationList"),
+                                                document.getElementById("conversationListTemplate").innerHTML);
         });
 })
 

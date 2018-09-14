@@ -15,7 +15,7 @@ function messages() {
 }
 
 let MessagesModel = {
-    getMessageList  : function (userId) {
+    getMessageList  : function (userId, includeDetails = 1) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getMessages.php',
@@ -23,6 +23,7 @@ let MessagesModel = {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
+                data: "includeDetails=" + includeDetails,
                 success: function(data) {
                     let messageList = JSON.parse(data);
                     resolve(messageList);

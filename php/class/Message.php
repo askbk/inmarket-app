@@ -100,6 +100,19 @@ class Message
         return $conversationId;
     }
 
+    //  Create a conversation. Used in the control panel.
+    public static function createConversation($user_id, $name = "", $isGroupConvo = 0)
+    {
+        $sql = "INSERT INTO conversation (name, isGroupConversation)
+                VALUES ('$name', $isGroupConvo)";
+
+        $conversationId = DB::write($sql);
+
+        self::addParticipant($conversationId, $user_id);
+
+        return $conversationId;
+    }
+
     //  Checks if there already exists a private conversation between to users
     public static function conversationExists($user_id1, $user_id2)
     {
