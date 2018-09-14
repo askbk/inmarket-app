@@ -142,6 +142,27 @@ $(document).on("click", "#createGroupButton", function () {
         });
 });
 
+$(document).on("click", "#startNewConversationButton", function () {
+    ControlpanelController.showConversationCreation();
+});
+
+$(document).on("click", "#createConversationButton", function () {
+    let name = document.getElementById("newConversationName").value;
+
+    ControlpanelModel.createConversation(name)
+        .then(() => {
+            ControlpanelController.hideConversationCreation()
+        })
+        .then(() => {
+            MessagesModel.getMessageList(localStorage.id)
+
+        })
+        .then((result) => {
+                MessagesController.printMessageList(result, document.getElementById("conversationList"),
+                                                    document.getElementById("conversationListTemplate").innerHTML);
+        });
+})
+
 let ControlpanelModel = {
     getGroup            : function (groupId) {
         return new Promise((resolve, reject) => {
@@ -338,6 +359,32 @@ let ControlpanelModel = {
                 }
             });
         });
+    },
+    createConversation  : function (name) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/createConversation.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "name=" + name,
+                success: function(data) {
+                    resolve(true)
+                },
+                complete : function (data) {
+
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                }
+            });
+        });
     }
 }
 
@@ -379,6 +426,12 @@ let ControlpanelController = {
     },
     hideGroupCreation           : function () {
         document.getElementById("createGroupModal").style.display = "none";
+    },
+    showConversationCreation    : function () {
+        document.getElementById("createConversationModal").style.display = "block";
+    },
+    hideConversationCreation    : function () {
+        document.getElementById("createConversationModal").style.display = "none";
     },
     messageMember               : function (convId) {
         location.hash = "/conversation/" + convId;
