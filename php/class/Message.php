@@ -228,6 +228,26 @@ class Message
             'name' => self::getConversationName($convId, $user_id)
         );
     }
+
+    //  Search all users who are not participants of a given conversation.
+    public static function exclusiveSearch($query, $conversationId)
+    {
+        $sql = "SELECT user_id, name, profilePicture, email
+                FROM user AS u
+                WHERE
+                    NOT EXISTS (
+                        SELECT user_id
+                        FROM conversationParticipants AS p
+                        WHERE u.user_id = p.user_id
+                        AND p.conversation_id = $conversationId
+                    )
+                    AND (
+                        name LIKE '%$query%'
+                        OR email LIKE '%$query%'
+                    )";
+
+        return DB::returnArray(DB::select($sql));
+    }
 }
 
 function sortByTime($a, $b)

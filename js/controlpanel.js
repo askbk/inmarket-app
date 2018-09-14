@@ -16,6 +16,9 @@ function controlpanel() {
     memberSearchResults = document.getElementById("memberSearchResults");
     memberSearchResultsTemplate = memberSearchResultsTemplate || document.getElementById("memberSearchResultsTemplate").innerHTML;
 
+    participantSearchResults = document.getElementById("participantSearchResults");
+    participantSearchResultsTemplate = participantSearchResultsTemplate || document.getElementById("participantSearchResultsTemplate").innerHTML;
+
     ControlpanelModel.getAdminGroups(localStorage.id)
         .then(
             result => {
@@ -35,7 +38,16 @@ function controlpanel() {
         ControlpanelModel.searchNonMembers(addMemberInput.value, localStorage.controlPanelGroupId)
             .then(
                 result => {
-                    ControlpanelController.printSearchResults(result, memberSearchResults);
+                    ControlpanelController.printSearchResults(memberSearchResultsTemplate, result, memberSearchResults);
+                }
+            );
+    });
+
+    addParticipantInput.addEventListener("keyup", function () {
+        ControlpanelModel.searchNonParticipants(addParticipantInput.value, localStorage.controlPanelConversationId)
+            .then(
+                result => {
+                    ControlpanelController.printSearchResults(participantSearchResultsTemplate, result, participantSearchResults);
                 }
             );
     });
@@ -50,8 +62,22 @@ $(document).on("click", '.addMember', function (ev) {
         })
         .then(
             result => {
-                console.log(result);
                 ControlpanelController.printMemberList(result.members, groupMemberList);
+            }
+        );
+});
+
+$(document).on("click", ".addParticipant", function (ev) {
+    let newParticipantId = ev.currentTarget.attributes.userid.value;
+    ControlpanelModel.addConversationParticipant(localStorage.controlPanelConversationId,
+        newParticipantId)
+        .then(() => {
+            ControlpanelController.addConversationParticipant(ev.currentTarget);
+            return ControlpanelModel.getConversation(localStorage.controlPanelConversationId);
+        })
+        .then(
+            result => {
+                ControlpanelController.printParticipantList(result.participant, conversationParticipantList);
             }
         );
 });
@@ -82,8 +108,6 @@ $(document).on("blur", ".dropdownToggle", function (ev) {
 
 $(document).on("click", '.groupItem', function (ev) {
     let addMemberInput = document.getElementById("addMemberInput"),
-        memberSearchResults = document.getElementById("memberSearchResults"),
-        memberSearchResultsTemplate = document.getElementById("memberSearchResultsTemplate").innerHTML,
         groupId = ev.currentTarget.attributes.groupid.value;
 
     localStorage.controlPanelGroupId = groupId;
@@ -103,7 +127,8 @@ $(document).on("click", '.groupItem', function (ev) {
 });
 
 $(document).on("click", '.conversationItem', function (ev) {
-    let conversationId = ev.currentTarget.attributes.conversationid.value;
+    let addParticipantInput = document.getElementById("addParticipantInput"),
+        conversationId = ev.currentTarget.attributes.conversationid.value;
 
     localStorage.controlPanelConversationId = conversationId;
 
@@ -163,7 +188,7 @@ $(document).on("click", "#createConversationButton", function () {
 })
 
 let ControlpanelModel = {
-    getGroup            : function (groupId) {
+    getGroup                : function (groupId) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
@@ -187,7 +212,7 @@ let ControlpanelModel = {
             });
         });
     },
-    getConversation     : function (conversationId) {
+    getConversation         : function (conversationId) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/getConversation.php',
@@ -211,7 +236,7 @@ let ControlpanelModel = {
             });
         });
     },
-    getAdminGroups      : function (userId) {
+    getAdminGroups          : function (userId) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/getGroup.php',
@@ -240,7 +265,7 @@ let ControlpanelModel = {
             });
         });
     },
-    removeGroupMember   : function (groupId, userId) {
+    removeGroupMember       : function (groupId, userId) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/removeGroupMember.php',
@@ -264,30 +289,30 @@ let ControlpanelModel = {
             });
         });
     },
-    addGroupMember      : function (groupId, newMemberId) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: 'php/addGroupMember.php',
-                    beforeSend: function(request){
-                        request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-                    },
-                    type: 'POST',
-                    data: "groupId=" + groupId + "&memberId=" + newMemberId,
-                    success: function(data) {
-                        resolve(true);
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        if (xhr.status == 401) {
-                            console.log("not logged in");
-                            location.hash = "/innlogging";
-                        } else {
-                            console.log("error: " + xhr.status);
-                        }
+    addGroupMember          : function (groupId, newMemberId) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/addGroupMember.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "groupId=" + groupId + "&memberId=" + newMemberId,
+                success: function(data) {
+                    resolve(true);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
                     }
-                });
+                }
             });
+        });
     },
-    searchNonMembers    : function (query, groupId) {
+    searchNonMembers        : function (query, groupId) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/search.php',
@@ -310,7 +335,53 @@ let ControlpanelModel = {
             });
         });
     },
-    messageMember       : function (userId) {
+    searchNonParticipants   : function (query, conversationId) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/search.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "q=" + query + "&exclusiveConversationSearch=1&conversationId=" + conversationId,
+                success: function(data) {
+                    resolve(JSON.parse(data));
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                }
+            });
+        });
+    },
+    addParticipant          : function (userId, conversationId) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/addConversationParticipant.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "groupId=" + groupId + "&memberId=" + newMemberId,
+                success: function(data) {
+                    resolve(true);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                }
+            });
+        });
+    },
+    messageMember           : function (userId) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/startConversation.php',
@@ -333,7 +404,7 @@ let ControlpanelModel = {
             });
         });
     },
-    createGroup         : function (name, description) {
+    createGroup             : function (name, description) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createGroup.php',
@@ -359,7 +430,7 @@ let ControlpanelModel = {
             });
         });
     },
-    createConversation  : function (name) {
+    createConversation      : function (name) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createConversation.php',
@@ -404,9 +475,13 @@ let ControlpanelController = {
     addGroupMember              : function (el) {
         $(el).parent().remove();
     },
-    printSearchResults          : function (results, target) {
+    addConversationParticipant  : function (el) {
+        $(el).parent().remove();
+    },
+    printSearchResults          : function (template, results, target) {
         if (results.length > 0) {
-            target.innerHTML = Pattern.render(memberSearchResultsTemplate, results);
+            target.innerHTML = Pattern.render(template, results);
+            target.innerHTML = "hellofdesaf";
         } else {
             target.innerHTML = "";
         }

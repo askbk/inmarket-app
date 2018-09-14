@@ -219,8 +219,8 @@ class Group
                     NOT EXISTS (
                         SELECT user_id
                         FROM groupMember AS m
-                        WHERE u.user_id=m.user_id
-                        AND m.group_id=$groupId
+                        WHERE u.user_id = m.user_id
+                        AND m.group_id = $groupId
                     )
                     AND (
                         name LIKE '%$string%'
