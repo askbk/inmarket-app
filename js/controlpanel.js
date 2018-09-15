@@ -17,7 +17,7 @@ function controlpanel() {
     memberSearchResultsTemplate = memberSearchResultsTemplate || document.getElementById("memberSearchResultsTemplate").innerHTML;
 
     participantSearchResults = document.getElementById("participantSearchResults");
-    participantSearchResultsTemplate = participantSearchResultsTemplate || document.getElementById("participantSearchResultsTemplate").innerHTML;
+    participantSearchResultsTemplate = document.getElementById("participantSearchResultsTemplate").innerHTML;
 
     ControlpanelModel.getAdminGroups(localStorage.id)
         .then(
@@ -69,15 +69,16 @@ $(document).on("click", '.addMember', function (ev) {
 
 $(document).on("click", ".addParticipant", function (ev) {
     let newParticipantId = ev.currentTarget.attributes.userid.value;
-    ControlpanelModel.addConversationParticipant(localStorage.controlPanelConversationId,
-        newParticipantId)
+    ControlpanelModel.addParticipant(newParticipantId,
+        localStorage.controlPanelConversationId)
         .then(() => {
-            ControlpanelController.addConversationParticipant(ev.currentTarget);
+            ControlpanelController.addParticipant(ev.currentTarget);
             return ControlpanelModel.getConversation(localStorage.controlPanelConversationId);
         })
         .then(
             result => {
-                ControlpanelController.printParticipantList(result.participant, conversationParticipantList);
+                console.log(result);
+                ControlpanelController.printParticipantList(result.participants, conversationParticipantList);
             }
         );
 });
@@ -359,6 +360,7 @@ let ControlpanelModel = {
         });
     },
     addParticipant          : function (userId, conversationId) {
+        console.log(userId + " " + conversationId);
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/addConversationParticipant.php',
@@ -366,7 +368,7 @@ let ControlpanelModel = {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
-                data: "groupId=" + groupId + "&memberId=" + newMemberId,
+                data: "conversationId=" + conversationId + "&participantId=" + userId,
                 success: function(data) {
                     resolve(true);
                 },
@@ -475,13 +477,12 @@ let ControlpanelController = {
     addGroupMember              : function (el) {
         $(el).parent().remove();
     },
-    addConversationParticipant  : function (el) {
+    addParticipant              : function (el) {
         $(el).parent().remove();
     },
     printSearchResults          : function (template, results, target) {
         if (results.length > 0) {
             target.innerHTML = Pattern.render(template, results);
-            target.innerHTML = "hellofdesaf";
         } else {
             target.innerHTML = "";
         }

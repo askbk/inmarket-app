@@ -6,7 +6,7 @@ require_once 'class/User.php';
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $conversationId = $_POST["conversationId"];
-    $memberId = $_POST["participantId"];
+    $participantId = $_POST["participantId"];
 
     if (User::getAdminLevel($user_id) > 0 && User::exists($participantId)) {
         echo Message::addParticipant($conversationId, $participantId);
