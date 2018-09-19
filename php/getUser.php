@@ -24,7 +24,7 @@ if (Auth::isLoggedIn()) {
         $result["type"] = User::getUserType($user_id);
     }
     if (isset($_POST["picture"])) {
-        $result["picture"] = User::getProfilePicture($user_id);
+        $result[] = User::getProfilePicture($user_id);
     }
     if (isset($_POST["thumb"])) {
         $result["thumb"] = User::getProfileThumb($user_id);

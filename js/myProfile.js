@@ -44,11 +44,15 @@ $(document).on("change", "#fileInput", (ev) => {
 });
 
 $(document).on("change", "#pictureSelect", (ev) => {
-    console.log("hello");
     ProfileModel.uploadFile(ev.currentTarget.files[0], true)
         .then(
+            () => {
+                return ProfileModel.getProfilePic(localStorage.id);
+            }
+        )
+        .then(
             (result) => {
-                profilePic.src = result;
+                ProfileController.updateProfilePic(result);
             }
         )
 });

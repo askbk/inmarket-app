@@ -19,7 +19,7 @@ function profile() {
 }
 
 let ProfileModel = {
-    getProfile  : function (id) {
+    getProfile      : function (id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -29,8 +29,7 @@ let ProfileModel = {
                 type: 'POST',
                 data: "userId=" + id + "&profile=1",
                 success: function(data) {
-                    let profileData = JSON.parse(data);
-                    resolve(profileData);
+                    resolve(JSON.parse(data));
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {
@@ -44,7 +43,7 @@ let ProfileModel = {
             });
         });
     },
-    updateBio   : function (bio) {
+    updateBio       : function (bio) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/updateBio.php',
@@ -68,7 +67,7 @@ let ProfileModel = {
             });
         });
     },
-    uploadFile  : function (file, isProfilePicture = false) {
+    uploadFile      : function (file, isProfilePicture = false) {
         return new Promise(function(resolve, reject) {
             let form_data = new FormData();
             form_data.append('file', file);
@@ -93,7 +92,7 @@ let ProfileModel = {
             });
         });
     },
-    deleteFile  : function (id) {
+    deleteFile      : function (id) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/deleteFile.php',
@@ -116,7 +115,7 @@ let ProfileModel = {
             });
         });
     },
-    getFileList : function (id) {
+    getFileList     : function (id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -126,8 +125,31 @@ let ProfileModel = {
                 type: 'POST',
                 data: "userId=" + id + "&fileList=1",
                 success: function(data) {
-                    let fileList = JSON.parse(data);
-                    resolve(fileList);
+                    resolve(JSON.parse(data));
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        console.log("not logged in");
+                        location.hash = "/innlogging";
+                    } else {
+                        console.log("error: " + xhr.status);
+                    }
+                    reject("error");
+                }
+            });
+        });
+    },
+    getProfilePic   : function (id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/getUser.php',
+                beforeSend: function(request){
+                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
+                },
+                type: 'POST',
+                data: "userId=" + id + "&picture=1",
+                success: function(data) {
+                    resolve(JSON.parse(data)[0].profilePicture);
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {
@@ -175,5 +197,8 @@ let ProfileController = {
     removeFile      : function (fileId) {
         $("#li" + fileId).remove();
         console.log("success");
+    },
+    updateProfilePic: function (src) {
+        profilePic.src = src;
     }
 }
