@@ -185,8 +185,10 @@ let ProfileController = {
         bio.innerHTML = profileData.biography;
     },
     printFileList   : function (fileData) {
+        console.log(fileData);
         let rendered = Pattern.render(fileListTemplate, fileData);
-        fileList.innerHTML += rendered;
+        console.log(fileListTemplate);
+        fileList.innerHTML = rendered;
     },
     showProfile     : function () {
         document.getElementById("profilePage").classList.remove("w3-hide");

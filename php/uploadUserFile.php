@@ -31,12 +31,14 @@ if (Auth::isLoggedIn()) {
 
             $path = "data/" . $user_id . "/" . $_FILES['file']['name'];
 
-            $id = User::insertFile($user_id, $path);
-            $name = preg_replace('/.*\//', '', $path);
+            User::insertFile($user_id, $path);
 
-            $data = array('id' => $id, 'name' => $name, 'path' => $path);
-
-            echo json_encode($data);
+            // $id = User::insertFile($user_id, $path);
+            // $name = preg_replace('/.*\//', '', $path);
+            //
+            // $data = array('id' => $id, 'name' => $name, 'path' => $path);
+            //
+            // echo json_encode($data);
         }
     }
 }

@@ -24,7 +24,7 @@ $(document).on("submit", "#bioForm", (e) => {
 });
 
 $(document).on("click", "button[name='deleteFile']", (ev) => {
-    let fileId = ($(this).closest("li").attr("id")).replace(/^\D+/g, '');
+    let fileId = ($(ev.currentTarget).closest("li").attr("id")).replace(/^\D+/g, '');
     ProfileModel.deleteFile(fileId)
         .then(
             (id) => {
@@ -36,9 +36,13 @@ $(document).on("click", "button[name='deleteFile']", (ev) => {
 $(document).on("change", "#fileInput", (ev) => {
     ProfileModel.uploadFile(ev.currentTarget.files[0])
         .then(
-            (result) => {
-                console.log(result);
-                ProfileController.printFileList([result]);
+            () => {
+                return ProfileModel.getFileList(localStorage.id);
+            }
+        )
+        .then(
+            (fileList) => {
+                ProfileController.printFileList(fileList);
             }
         );
 });
