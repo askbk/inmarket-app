@@ -192,6 +192,8 @@ class User
                 SET profilePicture = '$path'
                 WHERE user_id = $user_id";
 
+        DB::write($sql);
+
         return $path;
     }
 
