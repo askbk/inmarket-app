@@ -192,7 +192,7 @@ class User
                 SET profilePicture = '$path'
                 WHERE user_id = $user_id";
 
-        return DB::write($sql);
+        return $path;
     }
 
     // Updates the biography of the user.

@@ -18,7 +18,7 @@ if (Auth::isLoggedIn()) {
 
             $path = "img/profile/" . $user_id . "/" . $_FILES['file']['name'];
 
-            User::setProfilePicture($user_id, $path);
+            echo User::setProfilePicture($user_id, $path);
         } else {
             $path = "../data/";
 

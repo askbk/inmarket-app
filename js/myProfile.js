@@ -16,26 +16,39 @@ function myProfile() {
             );
 
     $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
-    $("#bioForm").submit(function(e) {
-        e.preventDefault();
-        ProfileModel.updateBio(ProfileController.getBio());
-    });
-    $("#fileList").on("click", "button[name='deleteFile']", function (ev) {
-        let fileId = ($(this).closest("li").attr("id")).replace(/^\D+/g, '');
-        ProfileModel.deleteFile(fileId)
-            .then(
-                (id) => {
-                    ProfileController.removeFile(id);
-                }
-            );
-    });
-    $("#fileInput").change(function (ev) {
-        ProfileModel.uploadFile(ev.currentTarget.files[0])
-            .then(
-                (result) => {
-                    console.log(result);
-                    ProfileController.printFileList([result]);
-                }
-            );
-    });
 }
+
+$(document).on("submit", "#bioForm", (e) => {
+    e.preventDefault();
+    ProfileModel.updateBio(ProfileController.getBio());
+});
+
+$(document).on("click", "button[name='deleteFile']", (ev) => {
+    let fileId = ($(this).closest("li").attr("id")).replace(/^\D+/g, '');
+    ProfileModel.deleteFile(fileId)
+        .then(
+            (id) => {
+                ProfileController.removeFile(id);
+            }
+        );
+});
+
+$(document).on("change", "#fileInput", (ev) => {
+    ProfileModel.uploadFile(ev.currentTarget.files[0])
+        .then(
+            (result) => {
+                console.log(result);
+                ProfileController.printFileList([result]);
+            }
+        );
+});
+
+$(document).on("change", "#pictureSelect", (ev) => {
+    console.log("hello");
+    ProfileModel.uploadFile(ev.currentTarget.files[0], true)
+        .then(
+            (result) => {
+                profilePic.src = result;
+            }
+        )
+});
