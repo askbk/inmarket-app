@@ -7,12 +7,32 @@ require_once 'DB.php';
 class Group
 {
     //  Creates a new group with the given name and description
-    public static function createGroup($name, $description = "")
+    public static function create($name, $description = "")
     {
         $sql = "INSERT INTO `group` (name, description)
                 VALUES ('$name', '$description')";
 
         return DB::write($sql);
+    }
+
+    //  Sets the group's conversation to the given group ID
+    public static function setConversation($group_id, $conversation_id)
+    {
+        $sql = "UPDATE `group`
+                SET conversation_id = $conversation_id
+                WHERE group_id = $group_id";
+
+        return DB::write($sql);
+    }
+
+    //  Returns the ID of the group's conversation
+    public static function getConversation($group_id)
+    {
+        $sql = "SELECT conversation_id
+                FROM conversation
+                WHERE group_id = $group_id";
+
+        return DB::returnValue(DB::select($sql));
     }
 
     //  Returns members of the group with the given ID.
@@ -30,7 +50,7 @@ class Group
     //  Returns a list of all groups the given user is a member of.
     //  adminGroups:    returns only groups that the user is an admin of if true
     //  details:        returns the list of groups including group details
-    public static function getGroupList($user_id, $adminGroups = false,
+    public static function getList($user_id, $adminGroups = false,
                                             $details = true)
     {
         $sql = "SELECT group_id

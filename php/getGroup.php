@@ -7,7 +7,7 @@ if (Auth::isLoggedIn()) {
         $user_id = Auth::getUserId();
         $adminGroups = isset($_POST["adminGroups"]);
 
-        $groupList = Group::getGroupList($user_id, $adminGroups);
+        $groupList = Group::getList($user_id, $adminGroups);
 
         echo json_encode($groupList);
         exit();

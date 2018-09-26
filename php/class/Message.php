@@ -27,7 +27,7 @@ class Message
         $latestMessages = array();
 
         for ($i=0; $i < count($conversationIds); $i++) {
-            $latestMessages[] = self::getLatestMessage($conversationIds[$i]["conversation_id"]);
+            $latestMessages[] = self::getLatest($conversationIds[$i]["conversation_id"]);
         }
         // var_dump($latestMessages);
         usort($latestMessages, "sortByTime");
@@ -36,7 +36,7 @@ class Message
     }
 
     //  Returns a list of all messages in a conversation.
-    public static function getConversationMessages($conversationId, $count,
+    public static function getMessages($conversationId, $count,
                                                     $offset)
     {
         $sql = "SELECT *
@@ -49,7 +49,7 @@ class Message
 
     //  Returns a list of messages in the group that are more recent than the
     //  given.
-    public static function getNewConversationMessages($conversationId, $prevId)
+    public static function getNewMessages($conversationId, $prevId)
     {
         $sql = "SELECT *
                 FROM message
@@ -61,7 +61,7 @@ class Message
     }
 
     //  Returns the most recent message in a conversation.
-    private static function getLatestMessage($conversationId)
+    private static function getLatest($conversationId)
     {
         $sql = "SELECT *
                 FROM message
@@ -73,7 +73,7 @@ class Message
     }
 
     //  Sends a message to the given conversation.
-    public static function sendMessage($conversationId, $sender_id, $content)
+    public static function send($conversationId, $sender_id, $content)
     {
         $date = new DateTime();
         $timestamp = $date->getTimestamp();
@@ -101,10 +101,10 @@ class Message
     }
 
     //  Create a conversation. Used in the control panel.
-    public static function createConversation($user_id, $name = "", $isGroupConvo = 0)
+    public static function createConversation($user_id, $name = "", $isGroupConvo = 0, $group_id = NULL)
     {
-        $sql = "INSERT INTO conversation (name, isGroupConversation)
-                VALUES ('$name', $isGroupConvo)";
+        $sql = "INSERT INTO conversation (name, isGroupConversation, group_id)
+                VALUES ('$name', $isGroupConvo, $group_id)";
 
         $conversationId = DB::write($sql);
 
@@ -154,6 +154,26 @@ class Message
         }
 
         return false;
+    }
+
+    //  Sets the conversation's corresponding group ID
+    public static function setGroup($conversation_id, $group_id)
+    {
+        $sql = "UPDATE conversation
+                SET group_id = $group_id
+                WHERE conversation_id = $conversation_id";
+
+        return DB::write($sql);
+    }
+
+    //  Returns the ID of the group corresponding to the given ID
+    public static function getGroup($conversation_id)
+    {
+        $sql = "SELECT group_id
+                FROM conversation
+                WHERE conversation_id = $conversation_id";
+
+        return DB::returnValue(DB::select($sql));
     }
 
     //  Checks if a conversation is a group conversation.

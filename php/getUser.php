@@ -33,7 +33,7 @@ if (Auth::isLoggedIn()) {
         $result["adminLevel"] = User::getAdminLevel($user_id)["adminLevel"];
     }
     if (isset($_POST["adminGroups"])) {
-        $queryResult = Group::getGroupList($user_id, true, false);
+        $queryResult = Group::getList($user_id, true, false);
 
         $groupIds = array();
 

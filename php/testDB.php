@@ -17,8 +17,8 @@ et panel bestående av de arrangerende bedriftene.
 ", 1, "2t 30min", "Gratis", "Konsert");
 
 Message::startConversation(1, 2, 0);
-Message::sendMessage(1,1,"helo");
-Message::sendMessage(1,2,"helo agaun");
+Message::send(1,1,"helo");
+Message::send(1,2,"helo agaun");
 
 Group::insert("gruppe1", "testgruppe");
 Group::addMember(1, 1, 1);

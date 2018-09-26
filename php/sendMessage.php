@@ -6,6 +6,6 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $conversationId = $_POST["conversationId"];
     $content = $_POST["content"];
-    echo Message::sendMessage($conversationId, $user_id, $content);
+    echo Message::send($conversationId, $user_id, $content);
 }
 ?>
