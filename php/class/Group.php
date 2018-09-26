@@ -85,16 +85,6 @@ class Group
         return DB::returnValue(DB::select($sql));
     }
 
-    //  Inserts a new group into the database with the given name and
-    //  description.
-    public static function insert($groupName, $groupDescription)
-    {
-        $sql = "INSERT INTO `group` (name, description)
-                VALUES ('$groupName', '$groupDescription')";
-
-        return DB::write($sql);
-    }
-
     //  Adds a new member to the specified group.
     public static function addMember($groupId, $userId, $isAdmin = 0)
     {

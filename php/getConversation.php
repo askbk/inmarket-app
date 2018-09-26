@@ -9,7 +9,8 @@ if (Auth::isLoggedIn()) {
     if (isset($_POST["details"]) && isset($_POST["participants"])) {
         $result = array(
             'details' => Message::getDetails($convId, $user_id),
-            'participants' => Message::getParticipants($convId)
+            'participants' => Message::getParticipants($convId),
+            'group_id' => Message::getGroup($convId)
         );
 
         echo json_encode($result);

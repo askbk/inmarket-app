@@ -11,7 +11,7 @@ if (Auth::isLoggedIn()) {
         $description = $_POST["description"];
         $groupId = Group::create($name, $description);
         Group::addMember($groupId, $userId, 1);
-        Message::createConversation($userId, $name, 1);
+        Message::createConversation($userId, $name, 1, $groupId);
     }
 }
 ?>

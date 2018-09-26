@@ -241,6 +241,16 @@ class Message
         return DB::returnArray(DB::select($sql));
     }
 
+    //  Removes a user from the conversation
+    public static function removeParticipant($conversation_id, $user_id)
+    {
+        $sql = "DELETE FROM conversationParticipants
+                WHERE conversation_id = $conversation_id
+                AND user_id = $user_id";
+
+        return DB::write($sql);
+    }
+
     //  Returns details of a conversation
     public static function getDetails($convId, $user_id)
     {
