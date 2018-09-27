@@ -33,7 +33,7 @@ if (Auth::isLoggedIn()) {
         $conversationName = Message::getConversationName($convId, $user_id);
         $count = $_POST["count"];
         $offset = $_POST["offset"];
-        $messages = Message::getMessages($convId, $count, $offset);
+        $messages = Message::getMessages($convId);
 
         for ($i=0; $i < count($messages); $i++) {
             if ($messages[$i]["sender"] != $user_id) {

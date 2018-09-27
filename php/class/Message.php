@@ -36,8 +36,8 @@ class Message
     }
 
     //  Returns a list of all messages in a conversation.
-    public static function getMessages($conversationId, $count,
-                                                    $offset)
+    public static function getMessages($conversationId, $count = 0,
+                                                    $offset = 0)
     {
         $sql = "SELECT *
                 FROM message
