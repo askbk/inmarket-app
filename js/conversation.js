@@ -5,7 +5,7 @@ function conversation() {
     chat = $("#conversation");
     chatbox = document.getElementById("conversation");
     msgTemplate = msgTemplate || document.getElementById("messageTemplate").innerHTML;
-    curConvId = Router.getParameters()[2]
+    curConvId = Router.getParameters()[2];
 
     const sendMessage = function () {
         let msg = ConversationController.getMessageDraft();
@@ -47,21 +47,18 @@ function conversation() {
         "offset"            : 0
     };
 
-    (function () {
-        ConversationModel.getConversation(postParams)
-            .then(
-                result => {
-                    ConversationController.printConversation(result);
-                    ConversationController.scrollBottom();
-
-                }
-            );
-    })();
+    ConversationModel.getConversation(postParams)
+        .then(
+            result => {
+                ConversationController.printConversation(result);
+                ConversationController.scrollBottom();
+            }
+        );
 
     let messagesRetrieval = setInterval(
         function () {
             ConversationModel.getNewMessages(
-                ConversationController.getPrevId(),
+                ConversationController.getPrevId() || 0,
                 curConvId
             )
                 .then(
@@ -190,11 +187,16 @@ let ConversationController = {
         }
     },
     getPrevId           : function () {
-        let prevId =$("#conversation").children().last().attr("id");
-        if (prevId.indexOf("{") > -1) {
-            return undefined;
+        let prevId;
+        try {
+            prevId = $("#conversation").children().last().attr("id");
+            if (prevId.indexOf("{") > -1) {
+                return undefined;
+            }
+            return prevId;
+        } catch (e) {
+            return undefined
         }
-        return prevId;
     },
     getMessageDraft     : function () {
         return (chatInput.value).trim()
