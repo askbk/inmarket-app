@@ -164,6 +164,13 @@ $(document).on("click", "#createGroupButton", function () {
         .then(
             result => {
                 GroupsController.printGroupList(result);
+        })
+        .then(() => {
+            return MessagesModel.getMessageList(localStorage.id, 0)
+        })
+        .then((result) => {
+            MessagesController.printMessageList(result, document.getElementById("conversationList"),
+                                                document.getElementById("conversationListTemplate").innerHTML);
         });
 });
 
