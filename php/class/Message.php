@@ -70,13 +70,15 @@ class Message
                 LIMIT 1";
         //echo "<br>query: $sql<br>";
         $result = DB::returnValue(DB::select($sql));
-        if (sizeof($result) == 0) {
+        if (!$result) {
             return array('message_id'       => "",
                         "conversation_id"   => $conversationId,
                         "sender"            => "",
                         "content"           => "",
                         "timestamp"         => "");
         }
+
+        return $result;
     }
 
     //  Sends a message to the given conversation.

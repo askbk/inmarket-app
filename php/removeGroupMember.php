@@ -9,7 +9,7 @@ if (Auth::isLoggedIn()) {
     if (Group::isAdmin($user_id, $groupId)) {
         $remove_id = $_POST["removeId"];
         Group::removeMember($remove_id, $groupId);
-        Message::removeParticipant(Group::getConversation($groupId), $user_id);
+        Message::removeParticipant(Group::getConversation($groupId)["conversation_id"], $user_id);
     }
 }
 ?>

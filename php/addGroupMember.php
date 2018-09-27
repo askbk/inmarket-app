@@ -11,8 +11,8 @@ if (Auth::isLoggedIn()) {
 
     if (Group::isAdmin($user_id, $groupId) && User::exists($memberId)) {
         Group::addMember($groupId, $memberId);
-        $conversation_id = Group::getConversation($groupId);
-        Message::addParticipant($conversation_id, $memberId);
+        $conv = Group::getConversation($groupId);
+        Message::addParticipant($conv["conversation_id"], $memberId);
     } else {
         echo Group::isAdmin($user_id, $groupId);
         echo User::exists($memberId);
