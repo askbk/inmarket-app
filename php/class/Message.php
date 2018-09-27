@@ -69,7 +69,14 @@ class Message
                 ORDER BY timestamp DESC
                 LIMIT 1";
         //echo "<br>query: $sql<br>";
-        return DB::returnValue(DB::select($sql));
+        $result = DB::returnValue(DB::select($sql));
+        if (sizeof($result) == 0) {
+            return array('message_id'       => "",
+                        "conversation_id"   => $conversationId,
+                        "sender"            => "",
+                        "content"           => "",
+                        "timestamp"         => "");
+        }
     }
 
     //  Sends a message to the given conversation.

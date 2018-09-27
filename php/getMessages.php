@@ -9,7 +9,6 @@ if (Auth::isLoggedIn()) {
         $includeDetails = $_POST["includeDetails"];
     }
     $conversationList = Message::getConversationList($user_id, $includeDetails);
-    // var_dump($conversationList);
     for ($i=0; $i < count($conversationList); $i++) {
         $conversationList[$i]["name"] = Message::getConversationName($conversationList[$i]["conversation_id"], $user_id);
     }
