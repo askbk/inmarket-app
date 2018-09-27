@@ -35,9 +35,9 @@ function group() {
         function () {
             GroupModel.getNewContent(
                 curGroupId,
-                GroupController.getLastPostId(),
-                GroupController.getPostIds(),
-                GroupController.latestCommentId()
+                GroupController.getLastPostId() || 0,
+                GroupController.getPostIds() || [],
+                GroupController.latestCommentId() || 0
             )
                 .then(
                     result => {
