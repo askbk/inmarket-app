@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <form id="registration" action="php/register.php" method="post" class="w3-panel">
-    <div class="firstPage">
+    <div class="registrationPage">
         <button class="red-button w3-card w3-mobile clientType w3-input hover-bg-grey" value="pupil">Elev</button>
         <button class="red-button w3-card w3-mobile w3-section clientType w3-input hover-bg-grey" value="student">Student</button>
         <button class="red-button w3-card w3-mobile clientType w3-input hover-bg-grey" value="employee">Bedriftsansatt</button>
@@ -8,16 +8,16 @@
         <p>Allerede registrert? <a href="#/innlogging" class="link-underline">Logg inn her.</a> </p>
     </div>
 
-    <div class="secondPage w3-hide">
+    <div class="registrationPage w3-hide">
         <input class="w3-input" type="text" name="name" value="" placeholder="navn" required pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
         <input class="w3-input" type="email" name="email" value="" placeholder="epost" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
         <input class="w3-input" type="text" name="phone" value="" placeholder="telefon" required pattern="[0-9]{8}">
-        <input class="w3-input" type="password" name="password" value="" placeholder="passord" required>
+        <input class="w3-input" type="password" name="password" value="" placeholder="passord" required pattern=".{8,}">
 
         <button class="red-button w3-card w3-mobile w3-input hover-bg-grey" type="button" name="button" id="page2btn">Neste</button>
     </div>
 
-    <div class="thirdPage w3-hide">
+    <div class="registrationPage w3-hide">
         <label class="">
             Hjemkommune:
             <select class=" w3-input" name="" placeholder="hjemkommune"  id="kommuneList">
@@ -25,19 +25,19 @@
             </select>
         </label>
 
-        <div class="pupilPage w3-hide">
+        <div class="w3-hide" id="pupilPage">
             <input class="w3-input" type="text" name="schoolPupil" value="" placeholder="skole" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="programPupil" value="" placeholder="retning" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="schoolYearPupil" value="" placeholder="årstrinn" pattern="^([ \u00c0-\u01ffa-zA-Z0-9'\-])+$">
         </div>
 
-        <div class="studentPage w3-hide">
+        <div class="w3-hide" id="studentPage">
             <input class="w3-input" type="text" name="schoolStudent" value="" placeholder="Universitet/høyskole" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="programStudent" value="" placeholder="linje" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="schoolYearStudent" value="" placeholder="årstrinn" pattern="^([ \u00c0-\u01ffa-zA-Z0-9'\-])+$">
         </div>
 
-        <div class="employeePage w3-hide">
+        <div class="w3-hide" id="neetPage">
             <input class="w3-input" type="text" name="companyName" value="" placeholder="Bedriftsnavn" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="position" value="" placeholder="Stilling" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
             <input class="w3-input" type="text" name="education" value="" placeholder="utdanning" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
