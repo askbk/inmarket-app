@@ -35,8 +35,8 @@ function register() {
 }
 
 //  Prevents submission if the user hits enter
-$('#registration').on('keyup keypress', function(e) {
-    let keyCode = e.keyCode || e.which;
+$('#registration').on('keyup keypress', e => {
+    const keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         e.preventDefault();
         return false;
@@ -44,7 +44,7 @@ $('#registration').on('keyup keypress', function(e) {
 });
 
 //  when the user has selected what they are
-$(document).on("click", ".clientType", (e) => {
+$(document).on("click", ".clientType", e => {
     switch (e.currentTarget.value) {
         case "pupil":
             user.isPupil = 1;
@@ -74,7 +74,7 @@ $(document).on("click", "#page2btn", () => {
 });
 
 // User submits form
-$(document).on("click", "#registerButton", (e) => {
+$(document).on("click", "#registerButton", e => {
     e.preventDefault();
 
     user = RegisterModel.generateUserObject(user);
@@ -93,7 +93,7 @@ $(document).on("click", "#registerButton", (e) => {
 });
 
 const RegisterController = {
-    showPage            : (n) => {
+    showPage            : n => {
         for (page of registrationPages) {
             page.classList.add("w3-hide");
         }
@@ -109,7 +109,7 @@ const RegisterController = {
     showNeetPage        : () => {
         $("#neetPage").removeClass("w3-hide");
     },
-    printKommuneList    : (kommuner) => {
+    printKommuneList    : kommuner => {
         kommuneList.innerHTML = Pattern.render(kommuneTemplate, kommuner);
     }
 }
@@ -122,7 +122,7 @@ const RegisterModel = {
             });
         });
     },
-    generateUserObject  : (user) => {
+    generateUserObject  : user => {
         user.kommuneNr = $("select").val();
 
         if (user.isPupil === 1) {
@@ -141,13 +141,13 @@ const RegisterModel = {
 
         return user;
     },
-    register            : (user) => {
+    register            : user => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/register.php',
                 type: 'POST',
                 data: user,
-                success: (data) => {
+                success: data => {
                     resolve(data);
                 },
                 error: (xhr, textStatus, errorThrown) => {

@@ -18,20 +18,20 @@ function profile() {
             );
 }
 
-let ProfileModel = {
-    getProfile      : function (id) {
+const ProfileModel = {
+    getProfile      : id => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "userId=" + id + "&profile=1",
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -43,19 +43,19 @@ let ProfileModel = {
             });
         });
     },
-    updateBio       : function (bio) {
+    updateBio       : bio => {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/updateBio.php',
-                beforeSend: function(request) {
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "bio=" + bio,
-                success: function(data) {
+                success: data => {
                     resolve(true);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -67,8 +67,8 @@ let ProfileModel = {
             });
         });
     },
-    uploadFile      : function (file, isProfilePicture = false) {
-        return new Promise(function(resolve, reject) {
+    uploadFile      : (file, isProfilePicture = false) => {
+        return new Promise((resolve, reject) => {
             let form_data = new FormData();
             form_data.append('file', file);
             if (isProfilePicture) {
@@ -77,7 +77,7 @@ let ProfileModel = {
 
             $.ajax({
                 url: 'php/uploadUserFile.php',
-                beforeSend: function(request) {
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 dataType: 'text',
@@ -86,25 +86,25 @@ let ProfileModel = {
                 processData: false,
                 data: form_data,
                 type: 'post',
-                success: function(fileData) {
+                success: fileData => {
                     resolve(fileData);
                 }
             });
         });
     },
-    deleteFile      : function (id) {
-        return new Promise(function(resolve, reject) {
+    deleteFile      : id => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/deleteFile.php',
-                beforeSend: function(request) {
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "userFile_id=" + id,
-                success: function(data) {
+                success: data => {
                     resolve(id);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -115,19 +115,19 @@ let ProfileModel = {
             });
         });
     },
-    getFileList     : function (id) {
+    getFileList     : id => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "userId=" + id + "&fileList=1",
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -139,19 +139,19 @@ let ProfileModel = {
             });
         });
     },
-    getProfilePic   : function (id) {
+    getProfilePic   : id => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "userId=" + id + "&picture=1",
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data)[0].profilePicture);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -165,8 +165,8 @@ let ProfileModel = {
     }
 }
 
-let ProfileController = {
-    printProfile    : function (profileData) {
+const ProfileController = {
+    printProfile    : profileData => {
         profilePic.src = profileData.profilePicture;
         nameHeader.innerHTML = profileData.name;
         document.title = profileData.name;
@@ -184,23 +184,20 @@ let ProfileController = {
 
         bio.innerHTML = profileData.biography;
     },
-    printFileList   : function (fileData) {
-        console.log(fileData);
-        let rendered = Pattern.render(fileListTemplate, fileData);
-        console.log(fileListTemplate);
-        fileList.innerHTML = rendered;
+    printFileList   : fileData => {
+        fileList.innerHTML = Pattern.render(fileListTemplate, fileData);
     },
-    showProfile     : function () {
+    showProfile     : () => {
         document.getElementById("profilePage").classList.remove("w3-hide");
     },
-    getBio          : function () {
+    getBio          : () => {
         return bio.value;
     },
-    removeFile      : function (fileId) {
+    removeFile      : fileId => {
         $("#li" + fileId).remove();
         console.log("success");
     },
-    updateProfilePic: function (src) {
+    updateProfilePic: src => {
         profilePic.src = src;
     }
 }

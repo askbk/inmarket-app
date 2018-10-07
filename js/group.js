@@ -21,18 +21,16 @@ function group() {
     commentInputTemplate = commentInputTemplate.replace("{{name}}", localStorage.name);
     commentInputTemplate = commentInputTemplate.replace("{{user_id}}", localStorage.id);
 
-    (function() {
-        GroupModel.getPosts(curGroupId)
-            .then(
-                result => {
-                    console.log(result);
-                    GroupController.printPosts(result);
-                }
-            );
-    })();
+    GroupModel.getPosts(curGroupId)
+        .then(
+            result => {
+                console.log(result);
+                GroupController.printPosts(result);
+            }
+        );
 
     let contentRetrieval = setInterval(
-        function () {
+        () => {
             GroupModel.getNewContent(
                 curGroupId,
                 GroupController.getLastPostId() || 0,
@@ -49,44 +47,42 @@ function group() {
         1000
     );
 
-    window.addEventListener("hashchange", function () {
+    window.addEventListener("hashchange", () => {
         clearInterval(contentRetrieval);
     });
 }
 
-$(document).on("submit", '.commentInputForm', function (ev) {
+$(document).on("submit", '.commentInputForm', ev => {
     ev.preventDefault();
-    let postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
-    let comment = $(this).children().first().val();
+    const postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
+    const comment = $(this).children().first().val();
     GroupModel.createNewComment(comment, postId);
     ev.currentTarget.firstElementChild.value = "";
 });
 
-$(document).on("click", "#createNewPost", function () {
+$(document).on("click", "#createNewPost", () => {
     GroupModel.createNewPost(document.getElementById("newPostInput").value)
         .then(() => {
             GroupController.emptyPostInput();
         });
 });
 
-let GroupModel = {
-    getPosts        : function (groupId) {
+const GroupModel = {
+    getPosts        : groupId => {
         return new Promise(
             (resolve, reject) => {
                 console.log(curGroupId);
                 $.ajax({
                     url: 'php/getGroupPosts.php',
-                    beforeSend: function(request){
+                    beforeSend: request=> {
                         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                     },
                     type: 'POST',
                     data: "groupId=" + groupId,
-                    success: function(data) {
-                        console.log(curGroupId);
-                        let posts = JSON.parse(data);
-                        resolve(posts);
+                    success: data => {
+                        resolve(JSON.parse(data));
                     },
-                    error: function(xhr, textStatus, errorThrown) {
+                    error: (xhr, textStatus, errorThrown) => {
                         if (xhr.status == 401) {
                             location.hash = "/innlogging";
                             console.log("not logged in");
@@ -99,8 +95,8 @@ let GroupModel = {
             }
         )
     },
-    getNewContent   : function (groupId, prevPostId, postIds, prevCommId) {
-        let postParams = {
+    getNewContent   : (groupId, prevPostId, postIds, prevCommId) => {
+        const postParams = {
             "groupId"       : groupId,
             "prevPostId"    : prevPostId,
             "postIds"       : postIds,
@@ -110,16 +106,15 @@ let GroupModel = {
             (resolve, reject) => {
                 $.ajax({
                     url: 'php/getGroupPosts.php',
-                    beforeSend: function(request){
+                    beforeSend: request=> {
                         request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                     },
                     type: 'POST',
                     data: postParams,
-                    success: function(data) {
-                        let content = JSON.parse(data);
-                        resolve(content);
+                    success: data => {
+                        resolve(JSON.parse(data));
                     },
-                    error: function(xhr, textStatus, errorThrown) {
+                    error: (xhr, textStatus, errorThrown) => {
                         if (xhr.status == 401) {
                             console.log("not logged in");
                             location.hash = "/innlogging";
@@ -133,29 +128,29 @@ let GroupModel = {
         );
 
     },
-    createNewPost   : function (post) {
+    createNewPost   : post => {
         post = post.trim();
 
         if (post == "") {
             return false;
         }
 
-        let data = {
+        const data = {
             groupId : Router.getParameters()[2],
             content : post
         };
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createGroupPost.php',
-                beforeSend: function(request){
+                beforeSend: request=> {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: data,
-                success: function() {
+                success: () => {
                     resolve("success");
                 },
-                error: function() {
+                error: () => {
                     console.log("not logged in");
                     location.hash = "/innlogging";
                     resolve("error");
@@ -163,29 +158,29 @@ let GroupModel = {
             });
         });
     },
-    createNewComment: function (comment, postId) {
+    createNewComment: (comment, postId) => {
         comment = comment.trim();
 
         if (comment == "") {
             return false;
         }
 
-        let data = {
+        const data = {
             postId : postId,
             content : comment
         };
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createGroupComment.php',
-                beforeSend: function(request){
+                beforeSend: request=> {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: data,
-                success: function() {
+                success: () => {
                     resolve("success");
                 },
-                error: function() {
+                error: () => {
                     console.log("not logged in");
                     location.hash = "/innlogging";
                     reject("error");
@@ -195,27 +190,27 @@ let GroupModel = {
     }
 }
 
-let GroupController = {
-    printPosts      : function (posts) {
+const GroupController = {
+    printPosts      : posts => {
         for (post of posts) {
-            let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
-            let opSection = Pattern.render(postTemplate, post.OP)
+            const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
+            const opSection = Pattern.render(postTemplate, post.OP)
             $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
         }
     },
-    printNewPosts   : function (posts) {
+    printNewPosts   : posts => {
         for (post of posts) {
-            let commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
-            let opSection = Pattern.render(postTemplate, post.OP)
+            const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
+            const opSection = Pattern.render(postTemplate, post.OP)
             $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
         }
     },
-    printNewComments: function (comments) {
+    printNewComments: comments => {
         for (comment of comments) {
             $("#post" + comment.post_id).next().children().last().before(Pattern.render(commentTemplate, [comment]));
         }
     },
-    latestCommentId : function () {
+    latestCommentId : () => {
         let max = -1;
         $("#groupPosts").children().children(".commentSection").children().each(function () {
             let currId = $(this).children().first().attr("id");
@@ -230,9 +225,9 @@ let GroupController = {
 
         return max;
     },
-    getPostIds      : function () {
+    getPostIds      : () => {
         let ids = [];
-        $("#groupPosts").children().children(".w3-panel").each(function () {
+        $("#groupPosts").children().children(".w3-panel").each(() => {
             let currId = $(this).attr("id");
 
             if (typeof currId !== 'undefined') {
@@ -242,11 +237,11 @@ let GroupController = {
         });
         return ids;
     },
-    getLastPostId   : function () {
+    getLastPostId   : () => {
         let el = $("#groupPosts").children().first().children().first().attr("id");
         return el == undefined ? null : el.replace( /^\D+/g, '');
     },
-    emptyPostInput  : function () {
+    emptyPostInput  : () => {
         document.getElementById("newPostInput").value = "";
     }
 }

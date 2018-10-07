@@ -8,27 +8,26 @@ function messages() {
 
     MessagesModel.getMessageList(localStorage.id)
         .then(
-            (result) => {
+            result => {
                 MessagesController.printMessageList(result, document.getElementById("conversationList"));
             }
         );
 }
 
-let MessagesModel = {
-    getMessageList  : function (userId, includeDetails = 1) {
+const MessagesModel = {
+    getMessageList  : (userId, includeDetails = 1) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getMessages.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "includeDetails=" + includeDetails,
-                success: function(data) {
-                    let messageList = JSON.parse(data);
-                    resolve(messageList);
+                success: data => {
+                    resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -42,13 +41,12 @@ let MessagesModel = {
     }
 }
 
-let MessagesController = {
-    printMessageList    : function (messageList, target, template = inboxTemplate) {
+const MessagesController = {
+    printMessageList    : (messageList, target, template = inboxTemplate) => {
         if (messageList.length == 0) {
             target.innerHTML = "No messages";
         } else {
-            let rendered = Pattern.render(template, messageList);
-            target.innerHTML = rendered;
+            target.innerHTML = Pattern.render(template, messageList);
         }
     }
 }

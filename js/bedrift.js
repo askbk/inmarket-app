@@ -1,5 +1,5 @@
 function company() {
-    let companyId = Router.getParameters()[2];
+    const companyId = Router.getParameters()[2];
 
     CompanyModel.getCompany(companyId)
         .then(
@@ -9,20 +9,19 @@ function company() {
         );
 }
 
-let CompanyModel = {
-    getCompany  : function (id) {
+const CompanyModel = {
+    getCompany  : id => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getBedrifter.php?bedrift=' + id,
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'GET',
-                success: function(data) {
-                    let bedrift = JSON.parse(data);
-                    resolve(bedrift);
+                success: data => {
+                    resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -36,8 +35,8 @@ let CompanyModel = {
     }
 }
 
-let CompanyController = {
-    printCompany    : function (info) {
+const CompanyController = {
+    printCompany    : info => {
         $("#currentPageHeader").text(info["companyName"]);
         $("#description").text(info["description"]);
         document.title = info["companyName"] + " | InMarket App";

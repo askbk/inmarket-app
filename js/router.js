@@ -1,10 +1,10 @@
-let Router = {
+const Router = {
     routes  : {
         "undefined"     : {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : function () {
+            load        : () => {
                 home();
             }
         },
@@ -12,7 +12,7 @@ let Router = {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : function () {
+            load        : () => {
                 home();
             }
         },
@@ -20,7 +20,7 @@ let Router = {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : function () {
+            load        : () => {
                 home();
             }
         },
@@ -28,7 +28,7 @@ let Router = {
             url         : "templates/events.html",
             html        : "",
             controller  : "js/events.js",
-            load        : function () {
+            load        : () => {
                 events();
             }
         },
@@ -36,7 +36,7 @@ let Router = {
             url         : "templates/videoList.html",
             html        : "",
             controller  : "js/videos.js",
-            load        : function () {
+            load        : () => {
                 //home();
             }
         },
@@ -44,7 +44,7 @@ let Router = {
             url         : "templates/register.html",
             html        : "",
             controller  : "js/register.js",
-            load        : function () {
+            load        : () => {
                 register();
             }
         },
@@ -52,7 +52,7 @@ let Router = {
             url         : "templates/login.html",
             html        : "",
             controller  : "js/login.js",
-            load        : function () {
+            load        : () => {
                 login();
             }
         },
@@ -60,7 +60,7 @@ let Router = {
             url         : "templates/bedrift.html",
             html        : "",
             controller  : "js/bedrift.js",
-            load        : function () {
+            load        : () => {
                 company();
             }
         },
@@ -68,7 +68,7 @@ let Router = {
             url         : "templates/messages.html",
             html        : "",
             controller  : "js/messages.js",
-            load        : function () {
+            load        : () => {
                 messages();
             }
         },
@@ -76,7 +76,7 @@ let Router = {
             url         : "templates/conversation.html",
             html        : "",
             controller  : "js/conversation.js",
-            load        : function () {
+            load        : () => {
                 conversation();
             }
         },
@@ -84,7 +84,7 @@ let Router = {
             url         : "templates/kontakt.html",
             html        : "",
             controller  : "js/contact.js",
-            load        : function () {
+            load        : () => {
                 contact();
             }
         },
@@ -92,7 +92,7 @@ let Router = {
             url         : "templates/error.html",
             html        : "",
             controller  : "js/error.js",
-            load        : function () {
+            load        : () => {
                 //error();
             }
         },
@@ -100,7 +100,7 @@ let Router = {
             url         : "templates/settings.html",
             html        : "",
             controller  : "js/settings.js",
-            load        : function () {
+            load        : () => {
                 settings();
             }
         },
@@ -108,7 +108,7 @@ let Router = {
             url         : "templates/group.html",
             html        : "",
             controller  : "js/group.js",
-            load        : function () {
+            load        : () => {
                 group();
             }
         },
@@ -116,7 +116,7 @@ let Router = {
             url         : "templates/groups.html",
             html        : "",
             controller  : "js/groups.js",
-            load        : function () {
+            load        : () => {
                 groups();
             }
         },
@@ -124,7 +124,7 @@ let Router = {
             url         : "templates/profile.html",
             html        : "",
             controller  : "js/profile.js",
-            load        : function () {
+            load        : () => {
                 profile();
             }
         },
@@ -132,7 +132,7 @@ let Router = {
             url         : "templates/myProfile.html",
             html        : "",
             controller  : "js/myProfile.js",
-            load        : function () {
+            load        : () => {
                 myProfile();
             }
         },
@@ -140,14 +140,14 @@ let Router = {
             url         : "templates/controlpanel.html",
             html        : "",
             controller  : "js/controlpanel.js",
-            load        : function () {
+            load        : () => {
                 controlpanel();
             }
         }
     },
-    route           : function() {
+    route           : () => {
         Router.parameters = window.location.hash.split('/');
-        let page = Router.parameters[1];
+        const page = Router.parameters[1];
         if (Router.routes[page]) {
             document.getElementById("content").innerHTML = Router.routes[page].html;
             Router.routes[page].load();
@@ -157,7 +157,7 @@ let Router = {
         }
     },
     parameters      : [],
-    getParameters   : function() {
+    getParameters   : () => {
         return Router.parameters;
     }
 };

@@ -1,5 +1,4 @@
-let groupsCont;
-let groupListTemplate;
+let groupsCont, groupListTemplate;
 
 function groups() {
     $("#currentPageHeader").text("Grupper");
@@ -7,25 +6,25 @@ function groups() {
 
     GroupsModel.getGroupList(localStorage.id)
         .then(
-            (result) => {
+            result => {
                 GroupsController.printGroupList(result);
             }
         );
 }
 
-let GroupsModel = {
-    getGroupList    : function (userId) {
-        return new Promise(function(resolve, reject) {
+const GroupsModel = {
+    getGroupList    : userId => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -38,15 +37,14 @@ let GroupsModel = {
     }
 }
 
-let GroupsController = {
-    printGroupList  : function (groupList) {
+const GroupsController = {
+    printGroupList  : groupList => {
         groupsCont = document.getElementById("groupList");
         groupListTemplate = document.getElementById("groupListTemplate").innerHTML;
         if (groupList.length == 0) {
             groupsCont.innerHTML = "Du er ikke med i noen grupper.";
         } else {
-            let rendered = Pattern.render(groupListTemplate, groupList);
-            groupsCont.innerHTML = rendered;
+            groupsCont.innerHTML = Pattern.render(groupListTemplate, groupList);
         }
         document.getElementById("groups").classList.remove("w3-hide");
     }

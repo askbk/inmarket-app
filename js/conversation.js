@@ -7,8 +7,8 @@ function conversation() {
     msgTemplate = msgTemplate || document.getElementById("messageTemplate").innerHTML;
     curConvId = Router.getParameters()[2];
 
-    const sendMessage = function () {
-        let msg = ConversationController.getMessageDraft();
+    const sendMessage = () => {
+        const msg = ConversationController.getMessageDraft();
         if (msg != "") {
             ConversationModel.sendMessage(msg, curConvId)
             .then(
@@ -34,8 +34,8 @@ function conversation() {
 
     $("#sendBtn").click(sendMessage);
 
-    $('#chatInput').on('keypress', function(e) {
-        let keyCode = e.keyCode || e.which;
+    $('#chatInput').on('keypress', e => {
+        const keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
             sendMessage();
         }
@@ -56,7 +56,7 @@ function conversation() {
         );
 
     let messagesRetrieval = setInterval(
-        function () {
+        () => {
             ConversationModel.getNewMessages(
                 ConversationController.getPrevId() || 0,
                 curConvId
@@ -72,27 +72,26 @@ function conversation() {
         1000
     );
 
-    window.addEventListener("hashchange", function () {
+    window.addEventListener("hashchange", () => {
         clearInterval(messagesRetrieval);
     })
 
 }
 
-let ConversationModel = {
-    getConversation : function (postParams) {
-        return new Promise(function(resolve, reject) {
+const ConversationModel = {
+    getConversation : postParams => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getConversation.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: postParams,
-                success: function(data) {
-                    let conv = JSON.parse(data);
-                    resolve(conv)
+                success: data => {
+                    resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -104,24 +103,24 @@ let ConversationModel = {
             });
         });
     },
-    sendMessage     : function (msg, convId) {
-        return new Promise(function(resolve, reject) {
-            let data = {
+    sendMessage     : (msg, convId) => {
+        return new Promise((resolve, reject) => {
+            const data = {
                 conversationId  : convId,
                 content         : msg
             };
 
             $.ajax({
                 url: 'php/sendMessage.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: data,
-                success: function(id) {
+                success: id => {
                     resolve(id);
                 },
-                error: function() {
+                error: () => {
                     console.log("not logged in");
                     location.hash = "/innlogging";
                     reject("error");
@@ -129,25 +128,24 @@ let ConversationModel = {
             });
         });
     },
-    getNewMessages  : function (prevId, convId) {
+    getNewMessages  : (prevId, convId) => {
         return new Promise((resolve, reject) => {
-            let params = {
+            const params = {
                 "prevId"            : prevId,
                 "conversationId"    : convId
             };
 
             $.ajax({
                 url: 'php/getConversation.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: params,
-                success: function(data) {
-                    let newMsgs = JSON.parse(data);
-                    resolve(newMsgs);
+                success: data => {
+                    resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -161,22 +159,22 @@ let ConversationModel = {
     }
 }
 
-let ConversationController = {
-    printConversation   : function (conv) {
+const ConversationController = {
+    printConversation   : conv => {
         $("#currentPageHeader").text(conv["name"]);
-        let messages = conv["messages"];
-        let rendered = Pattern.render(msgTemplate, messages);
+        const messages = conv["messages"];
+        const rendered = Pattern.render(msgTemplate, messages);
         chatbox.innerHTML = rendered;
         chatbox.classList.remove("w3-hide");
     },
-    printMessage        : function (msg, id) {
+    printMessage        : (msg, id) => {
         let newMsg = msgTemplate.replace("{{content}}", msg);
         newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
         newMsg = newMsg.replace("{{message_id}}", id);
         chatbox.innerHTML += newMsg;
     },
-    printNewMessages    : function (msg) {
-        let rendered = Pattern.render(msgTemplate, msg);
+    printNewMessages    : msg => {
+        const rendered = Pattern.render(msgTemplate, msg);
         let isScrolled = false;
         if (window.scrollY == window.scrollMaxY) {
             isScrolled = true;
@@ -186,7 +184,7 @@ let ConversationController = {
             ConversationController.scrollBottom();
         }
     },
-    getPrevId           : function () {
+    getPrevId           : () => {
         let prevId;
         try {
             prevId = $("#conversation").children().last().attr("id");
@@ -198,13 +196,13 @@ let ConversationController = {
             return undefined
         }
     },
-    getMessageDraft     : function () {
+    getMessageDraft     : () => {
         return (chatInput.value).trim()
     },
-    clearInput          : function () {
+    clearInput          : () => {
         chatInput.value = "";
     },
-    scrollBottom        : function () {
+    scrollBottom        : () => {
         window.scrollTo(0, $(document).height());
     }
 }

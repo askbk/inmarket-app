@@ -1,7 +1,4 @@
-let eventTable;
-let eventInfo;
-let infoTemplate;
-let listTemplate;
+let eventTable, eventInfo, infoTemplate, listTemplate;
 
 function events() {
     eventTable = document.getElementById("eventTable");
@@ -15,11 +12,11 @@ function events() {
 
     $.ajax({
         url: 'php/getEvents.php?event=' + parameter,
-        beforeSend: function(request){
+        beforeSend: request => {
             request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
         },
         type: 'GET',
-        success: function(data) {
+        success: data => {
             let events = JSON.parse(data);
             if (parameter == -1) {
                 printTable(events);
@@ -28,7 +25,7 @@ function events() {
                 bottomNav.classList.add("w3-hide");
             }
         },
-        error: function(xhr, textStatus, errorThrown) {
+        error: (xhr, textStatus, errorThrown) => {
             if (xhr.status == 401) {
                 console.log("not logged in");
                 location.hash = "/innlogging";
@@ -44,7 +41,7 @@ function printTable(events) {
     if (events.length == 0) {
         eventTable.innerHTML = "<p>Ingen eventer</p>";
     } else {
-        let rendered = Pattern.render(listTemplate, events);
+        const rendered = Pattern.render(listTemplate, events);
         eventTable.innerHTML += rendered;
         eventTable.classList.remove("w3-hide");
     }
@@ -53,8 +50,8 @@ function printTable(events) {
 function printInfo(info) {
     //console.log(info);
     $("#currentPageHeader").text(info[0]["type"]);
-    let template = infoTemplate.innerHTML;
-    let rendered = Pattern.render(template, info);
+    const template = infoTemplate.innerHTML;
+    const rendered = Pattern.render(template, info);
     infoTemplate.innerHTML = rendered;
     eventInfo.classList.remove("w3-hide");
 }

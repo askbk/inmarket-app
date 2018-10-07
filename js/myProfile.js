@@ -18,22 +18,22 @@ function myProfile() {
     $("#publicProfileLink").attr("href", "#/profil/" + localStorage.id);
 }
 
-$(document).on("submit", "#bioForm", (e) => {
+$(document).on("submit", "#bioForm", e => {
     e.preventDefault();
     ProfileModel.updateBio(ProfileController.getBio());
 });
 
-$(document).on("click", "button[name='deleteFile']", (ev) => {
-    let fileId = ($(ev.currentTarget).closest("li").attr("id")).replace(/^\D+/g, '');
+$(document).on("click", "button[name='deleteFile']", ev => {
+    const fileId = ($(ev.currentTarget).closest("li").attr("id")).replace(/^\D+/g, '');
     ProfileModel.deleteFile(fileId)
         .then(
-            (id) => {
+            id => {
                 ProfileController.removeFile(id);
             }
         );
 });
 
-$(document).on("change", "#fileInput", (ev) => {
+$(document).on("change", "#fileInput", ev => {
     ProfileModel.uploadFile(ev.currentTarget.files[0])
         .then(
             () => {
@@ -47,7 +47,7 @@ $(document).on("change", "#fileInput", (ev) => {
         );
 });
 
-$(document).on("change", "#pictureSelect", (ev) => {
+$(document).on("change", "#pictureSelect", ev => {
     ProfileModel.uploadFile(ev.currentTarget.files[0], true)
         .then(
             () => {

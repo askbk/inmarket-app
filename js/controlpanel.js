@@ -28,13 +28,13 @@ function controlpanel() {
 
     MessagesModel.getMessageList(localStorage.id, 0)
         .then(
-            (result) => {
+            result => {
                 MessagesController.printMessageList(result, document.getElementById("conversationList"),
                                                     document.getElementById("conversationListTemplate").innerHTML);
             }
         );
 
-    addMemberInput.addEventListener("keyup", function () {
+    addMemberInput.addEventListener("keyup", () => {
         ControlpanelModel.searchNonMembers(addMemberInput.value, localStorage.controlPanelGroupId)
             .then(
                 result => {
@@ -43,7 +43,7 @@ function controlpanel() {
             );
     });
 
-    addParticipantInput.addEventListener("keyup", function () {
+    addParticipantInput.addEventListener("keyup", () => {
         ControlpanelModel.searchNonParticipants(addParticipantInput.value, localStorage.controlPanelConversationId)
             .then(
                 result => {
@@ -53,8 +53,8 @@ function controlpanel() {
     });
 }
 
-$(document).on("click", '.addMember', function (ev) {
-    let newMemberId = ev.currentTarget.attributes.userid.value;
+$(document).on("click", '.addMember', ev => {
+    constnewMemberId = ev.currentTarget.attributes.userid.value;
     ControlpanelModel.addGroupMember(localStorage.controlPanelGroupId, newMemberId)
         .then(() => {
             ControlpanelController.addGroupMember(ev.currentTarget);
@@ -67,8 +67,8 @@ $(document).on("click", '.addMember', function (ev) {
         );
 });
 
-$(document).on("click", ".addParticipant", function (ev) {
-    let newParticipantId = ev.currentTarget.attributes.userid.value;
+$(document).on("click", ".addParticipant", (ev) => {
+    const newParticipantId = ev.currentTarget.attributes.userid.value;
     ControlpanelModel.addParticipant(newParticipantId,
         localStorage.controlPanelConversationId)
         .then(() => {
@@ -83,7 +83,7 @@ $(document).on("click", ".addParticipant", function (ev) {
         );
 });
 
-$(document).on("click", ".removeMember", function (ev) {
+$(document).on("click", ".removeMember", (ev) => {
     console.log("helo");
 
     ControlpanelModel.removeGroupMember(ev.currentTarget)
@@ -99,16 +99,16 @@ $(document).on("click", ".removeMember", function (ev) {
         );
 });
 
-$(document).on("click", ".dropdownToggle", function (ev) {
+$(document).on("click", ".dropdownToggle", (ev) => {
     ControlpanelController.dropdownToggle(ev.currentTarget);
 });
 
-$(document).on("blur", ".dropdownToggle", function (ev) {
+$(document).on("blur", ".dropdownToggle", (ev) => {
     ControlpanelController.dropdownHide(ev.currentTarget);
-})
+});
 
-$(document).on("click", '.groupItem', function (ev) {
-    let addMemberInput = document.getElementById("addMemberInput"),
+$(document).on("click", '.groupItem', (ev) => {
+    const addMemberInput = document.getElementById("addMemberInput"),
         groupId = ev.currentTarget.attributes.groupid.value;
 
     localStorage.controlPanelGroupId = groupId;
@@ -127,8 +127,8 @@ $(document).on("click", '.groupItem', function (ev) {
         );
 });
 
-$(document).on("click", '.conversationItem', function (ev) {
-    let addParticipantInput = document.getElementById("addParticipantInput"),
+$(document).on("click", '.conversationItem', (ev) => {
+    const addParticipantInput = document.getElementById("addParticipantInput"),
         conversationId = ev.currentTarget.attributes.conversationid.value;
 
     localStorage.controlPanelConversationId = conversationId;
@@ -146,12 +146,12 @@ $(document).on("click", '.conversationItem', function (ev) {
         );
 });
 
-$(document).on("click", "#createNewGroupButton", function () {
+$(document).on("click", "#createNewGroupButton", () => {
     ControlpanelController.showGroupCreation();
 });
 
-$(document).on("click", "#createGroupButton", function () {
-    let name = document.getElementById("newGroupName").value,
+$(document).on("click", "#createGroupButton", () => {
+    const name = document.getElementById("newGroupName").value,
         description = document.getElementById("newGroupDescription").value;
 
     ControlpanelModel.createGroup(name, description)
@@ -168,18 +168,18 @@ $(document).on("click", "#createGroupButton", function () {
         .then(() => {
             return MessagesModel.getMessageList(localStorage.id, 0)
         })
-        .then((result) => {
+        .then(result => {
             MessagesController.printMessageList(result, document.getElementById("conversationList"),
                                                 document.getElementById("conversationListTemplate").innerHTML);
         });
 });
 
-$(document).on("click", "#startNewConversationButton", function () {
+$(document).on("click", "#startNewConversationButton", () => {
     ControlpanelController.showConversationCreation();
 });
 
-$(document).on("click", "#createConversationButton", function () {
-    let name = document.getElementById("newConversationName").value;
+$(document).on("click", "#createConversationButton", () => {
+    const name = document.getElementById("newConversationName").value;
 
     ControlpanelModel.createConversation(name)
         .then(() => {
@@ -189,26 +189,26 @@ $(document).on("click", "#createConversationButton", function () {
         .then(() => {
             return MessagesModel.getMessageList(localStorage.id, 0)
         })
-        .then((result) => {
+        .then(result => {
             MessagesController.printMessageList(result, document.getElementById("conversationList"),
                                                 document.getElementById("conversationListTemplate").innerHTML);
         });
 })
 
-let ControlpanelModel = {
-    getGroup                : function (groupId) {
+const ControlpanelModel = {
+    getGroup                : groupId => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "groupId=" + groupId + "&members=1&details=1",
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -220,19 +220,19 @@ let ControlpanelModel = {
             });
         });
     },
-    getConversation         : function (conversationId) {
-        return new Promise(function(resolve, reject) {
+    getConversation         : conversationId =>{
+        return new Promise((resolve, reject) =>{
             $.ajax({
                 url: 'php/getConversation.php',
-                beforeSend: function(request){
+                beforeSend: request =>{
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "conversationId=" + conversationId + "&participants=1&details=1",
-                success: function(data) {
+                success: data =>{
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) =>{
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -244,17 +244,17 @@ let ControlpanelModel = {
             });
         });
     },
-    getAdminGroups          : function (userId) {
-        return new Promise(function(resolve, reject) {
+    getAdminGroups          : userId => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "adminGroups=1",
-                success: function(data) {
-                    let adminG = JSON.parse(data);
+                success: data => {
+                    const adminG = JSON.parse(data);
                     let result = [];
                     for (g of adminG) {
                         result.push(g.group_id);
@@ -262,7 +262,7 @@ let ControlpanelModel = {
                     localStorage.adminGroups = JSON.stringify(result);
                     resolve(adminG);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -273,19 +273,19 @@ let ControlpanelModel = {
             });
         });
     },
-    removeGroupMember       : function (groupId, userId) {
+    removeGroupMember       : (groupId, userId) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/removeGroupMember.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "groupId=" + groupId + "&removeId=" + userId,
-                success: function(data) {
+                success: data => {
                     resolve(true);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -297,19 +297,19 @@ let ControlpanelModel = {
             });
         });
     },
-    addGroupMember          : function (groupId, newMemberId) {
+    addGroupMember          : (groupId, newMemberId) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/addGroupMember.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "groupId=" + groupId + "&memberId=" + newMemberId,
-                success: function(data) {
+                success: data => {
                     resolve(true);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -320,19 +320,19 @@ let ControlpanelModel = {
             });
         });
     },
-    searchNonMembers        : function (query, groupId) {
-        return new Promise(function(resolve, reject) {
+    searchNonMembers        : (query, groupId) => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/search.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "q=" + query + "&exclusiveGroupSearch=" + groupId,
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -343,19 +343,19 @@ let ControlpanelModel = {
             });
         });
     },
-    searchNonParticipants   : function (query, conversationId) {
+    searchNonParticipants   : (query, conversationId) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/search.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "q=" + query + "&exclusiveConversationSearch=1&conversationId=" + conversationId,
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -366,20 +366,20 @@ let ControlpanelModel = {
             });
         });
     },
-    addParticipant          : function (userId, conversationId) {
+    addParticipant          : (userId, conversationId) => {
         console.log(userId + " " + conversationId);
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/addConversationParticipant.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "conversationId=" + conversationId + "&participantId=" + userId,
-                success: function(data) {
+                success: data => {
                     resolve(true);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -390,19 +390,19 @@ let ControlpanelModel = {
             });
         });
     },
-    messageMember           : function (userId) {
+    messageMember           : userId => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/startConversation.php',
-                beforeSend: function(request){
+                beforeSend: request => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "userId=" + userId,
-                success: function(data) {
+                success: data => {
                     resolve(JSON.parse(data));
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -413,22 +413,22 @@ let ControlpanelModel = {
             });
         });
     },
-    createGroup             : function (name, description) {
+    createGroup             : (name, description) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createGroup.php',
-                beforeSend: function(request){
+                beforeSend: (request) => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "name=" + name + "&description=" + description,
-                success: function(data) {
+                success: data => {
                     resolve(true)
                 },
-                complete : function (data) {
+                complete : data => {
 
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -439,22 +439,22 @@ let ControlpanelModel = {
             });
         });
     },
-    createConversation      : function (name) {
+    createConversation      : name => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/createConversation.php',
-                beforeSend: function(request){
+                beforeSend: (request) => {
                     request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
                 },
                 type: 'POST',
                 data: "name=" + name,
-                success: function(data) {
+                success: data => {
                     resolve(true)
                 },
-                complete : function (data) {
+                complete : data => {
 
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
                         console.log("not logged in");
                         location.hash = "/innlogging";
@@ -467,55 +467,55 @@ let ControlpanelModel = {
     }
 }
 
-let ControlpanelController = {
-    dropdownHide                : function (el) {
+const ControlpanelController = {
+    dropdownHide                : el => {
         el.nextElementSibling.classList.remove("w3-show");
     },
-    dropdownShow                : function (el) {
+    dropdownShow                : el => {
         el.nextElementSibling.classList.add("w3-show");
     },
-    dropdownToggle              : function (el) {
+    dropdownToggle              : el => {
         el.nextElementSibling.classList.toggle("w3-show");
     },
-    printMemberList             : function (memberList, container) {
+    printMemberList             : (memberList, container) => {
         console.log(memberList);
         container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
     },
-    addGroupMember              : function (el) {
+    addGroupMember              : el => {
         $(el).parent().remove();
     },
-    addParticipant              : function (el) {
+    addParticipant              : el => {
         $(el).parent().remove();
     },
-    printSearchResults          : function (template, results, target) {
+    printSearchResults          : (template, results, target) => {
         if (results.length > 0) {
             target.innerHTML = Pattern.render(template, results);
         } else {
             target.innerHTML = "";
         }
     },
-    printParticipantList        : function (participants, target) {
+    printParticipantList        : (participants, target) => {
             target.innerHTML = Pattern.render(groupMembersTemplate, participants);
     },
-    showGroupControls           : function () {
+    showGroupControls           : () => {
         document.getElementById("groupModal").style.display = "block";
     },
-    showConversationControls    : function () {
+    showConversationControls    : () => {
         document.getElementById("conversationModal").style.display = "block";
     },
-    showGroupCreation           : function () {
+    showGroupCreation           : () => {
         document.getElementById("createGroupModal").style.display = "block";
     },
-    hideGroupCreation           : function () {
+    hideGroupCreation           : () => {
         document.getElementById("createGroupModal").style.display = "none";
     },
-    showConversationCreation    : function () {
+    showConversationCreation    : () => {
         document.getElementById("createConversationModal").style.display = "block";
     },
-    hideConversationCreation    : function () {
+    hideConversationCreation    : () => {
         document.getElementById("createConversationModal").style.display = "none";
     },
-    messageMember               : function (convId) {
+    messageMember               : convId => {
         location.hash = "/conversation/" + convId;
     }
 }

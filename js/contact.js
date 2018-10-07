@@ -11,9 +11,9 @@ function contact() {
             break;
     }
 
-    $("form").submit(function (ev) {
+    $("form").submit(ev => {
         ev.preventDefault();
 
-        
+
     })
 }
