@@ -3,7 +3,6 @@ header("Content-Type: application/json; charset=UTF-8");
 require_once 'class/Reg.php';
 $user_id = -1;
 
-var_dump($_POST);
 if (isValidEmail($_POST["email"])) {
     if (isValidPassword($_POST["password"])) {
         $user_id = Reg::registerUser($_POST);

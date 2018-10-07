@@ -44,8 +44,8 @@ $('#registration').on('keyup keypress', function(e) {
 });
 
 //  when the user has selected what they are
-$(document).on("click", ".clientType", function () {
-    switch (this.value) {
+$(document).on("click", ".clientType", (e) => {
+    switch (e.currentTarget.value) {
         case "pupil":
             user.isPupil = 1;
             RegisterController.showPupilPage();
@@ -64,7 +64,7 @@ $(document).on("click", ".clientType", function () {
 });
 
 //  Input name, email, phone, password
-$(document).on("click", "#page2btn", function () {
+$(document).on("click", "#page2btn", () => {
     user.name = $("input[name='name']").val();
     user.email = $("input[name='email']").val();
     user.phone = $("input[name='phone']").val();
@@ -74,11 +74,10 @@ $(document).on("click", "#page2btn", function () {
 });
 
 // User submits form
-$("#registration").submit(function(e) {
+$(document).on("click", "#registerButton", (e) => {
     e.preventDefault();
 
     user = RegisterModel.generateUserObject(user);
-    console.log(user);
     RegisterModel.register(user)
         .then(
             response => {
@@ -93,49 +92,48 @@ $("#registration").submit(function(e) {
         );
 });
 
-let RegisterController = {
-    showPage            : function (n) {
+const RegisterController = {
+    showPage            : (n) => {
         for (page of registrationPages) {
             page.classList.add("w3-hide");
         }
 
         registrationPages[n].classList.remove("w3-hide");
     },
-    showPupilPage       : function () {
+    showPupilPage       : () => {
         $("#pupilPage").removeClass("w3-hide");
     },
-    showStudentPage     : function () {
+    showStudentPage     : () => {
         $("#studentPage").removeClass("w3-hide");
     },
-    showNeetPage        : function () {
+    showNeetPage        : () => {
         $("#neetPage").removeClass("w3-hide");
     },
-    printKommuneList    : function (kommuner) {
+    printKommuneList    : (kommuner) => {
         kommuneList.innerHTML = Pattern.render(kommuneTemplate, kommuner);
     }
 }
 
-let RegisterModel = {
-    getKommuner         : function () {
+const RegisterModel = {
+    getKommuner         : () => {
         return new Promise((resolve, reject) => {
             $.get("php/getKommuner.php", function(data, status) {
                 resolve(JSON.parse(data));
             });
         });
     },
-    generateUserObject  : function (user) {
-        console.log(user);
+    generateUserObject  : (user) => {
         user.kommuneNr = $("select").val();
 
-        if (user.isPupil) {
+        if (user.isPupil === 1) {
             user.school = $("input[name='schoolPupil']").val();
             user.schoolYear = $("input[name='schoolYearPupil']").val();
             user.program = $("input[name='programPupil']").val();
-        } else if (user.isStudent) {
+        } else if (user.isStudent === 1) {
             user.school = $("input[name='schoolStudent']").val();
             user.schoolYear = $("input[name='schoolYearStudent']").val();
             user.program = $("input[name='programStudent']").val();
-        } else if (user.isEmployee) {
+        } else if (user.isEmployee === 1) {
             user.companyName = $("input[name='companyName']").val();
             user.position = $("input[name='position']").val();
             user.education = $("input[name='education']").val();
@@ -143,16 +141,16 @@ let RegisterModel = {
 
         return user;
     },
-    register            : function (user) {
+    register            : (user) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/register.php',
                 type: 'POST',
                 data: user,
-                success: function(data) {
+                success: (data) => {
                     resolve(data);
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: (xhr, textStatus, errorThrown) => {
                     reject("Feil");
                 }
             });
