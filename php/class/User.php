@@ -86,7 +86,7 @@ class User
     }
 
     //  Returns user_id of the user with this email address if it exists.
-    //  Otherwise returns -1.
+    //  Otherwise it returns -1.
     public static function getUserId($email)
     {
         $sql = "SELECT user_id
@@ -97,7 +97,25 @@ class User
         $result = DB::select($sql);
 
         if($result->num_rows > 0) {
-            return DB::returnArray($result)[0]['user_id'];
+            return DB::returnValue($result)['user_id'];
+        }
+
+        return -1;
+    }
+
+    //  Returns the user_id of the user with this phone number if it exists.
+    //  Otherwise it returns -1.
+    public static function getUserByPhone($phone)
+    {
+        $sql = "SELECT user_id
+                FROM user
+                WHERE phone = '$phone'
+                LIMIT 1";
+
+        $result = DB::select($sql);
+
+        if($result->num_rows > 0) {
+            return DB::returnValue($result)['user_id'];
         }
 
         return -1;
