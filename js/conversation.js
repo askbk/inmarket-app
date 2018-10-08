@@ -79,7 +79,7 @@ function conversation() {
 }
 
 const ConversationModel = {
-    getConversation : postParams => {
+    getConversation(postParams) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getConversation.php',
@@ -103,7 +103,7 @@ const ConversationModel = {
             });
         });
     },
-    sendMessage     : (msg, convId) => {
+    sendMessage(msg, convId) {
         return new Promise((resolve, reject) => {
             const data = {
                 conversationId  : convId,
@@ -128,7 +128,7 @@ const ConversationModel = {
             });
         });
     },
-    getNewMessages  : (prevId, convId) => {
+    getNewMessages(prevId, convId) {
         return new Promise((resolve, reject) => {
             const params = {
                 "prevId"            : prevId,
@@ -160,20 +160,20 @@ const ConversationModel = {
 }
 
 const ConversationController = {
-    printConversation   : conv => {
+    printConversation(conv) {
         $("#currentPageHeader").text(conv["name"]);
         const messages = conv["messages"];
         const rendered = Pattern.render(msgTemplate, messages);
         chatbox.innerHTML = rendered;
         chatbox.classList.remove("w3-hide");
     },
-    printMessage        : (msg, id) => {
+    printMessage(msg, id) {
         let newMsg = msgTemplate.replace("{{content}}", msg);
         newMsg = newMsg.replace("{{styleClass}}", "sentMessage");
         newMsg = newMsg.replace("{{message_id}}", id);
         chatbox.innerHTML += newMsg;
     },
-    printNewMessages    : msg => {
+    printNewMessages(msg) {
         const rendered = Pattern.render(msgTemplate, msg);
         let isScrolled = false;
         if (window.scrollY == window.scrollMaxY) {
@@ -184,7 +184,7 @@ const ConversationController = {
             ConversationController.scrollBottom();
         }
     },
-    getPrevId           : () => {
+    getPrevId() {
         let prevId;
         try {
             prevId = $("#conversation").children().last().attr("id");
@@ -196,13 +196,13 @@ const ConversationController = {
             return undefined
         }
     },
-    getMessageDraft     : () => {
+    getMessageDraft() {
         return (chatInput.value).trim()
     },
-    clearInput          : () => {
+    clearInput() {
         chatInput.value = "";
     },
-    scrollBottom        : () => {
+    scrollBottom() {
         window.scrollTo(0, $(document).height());
     }
 }

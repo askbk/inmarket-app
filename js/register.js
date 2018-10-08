@@ -93,36 +93,36 @@ $(document).on("click", "#registerButton", e => {
 });
 
 const RegisterController = {
-    showPage            : n => {
+    showPage(n) {
         for (page of registrationPages) {
             page.classList.add("w3-hide");
         }
 
         registrationPages[n].classList.remove("w3-hide");
     },
-    showPupilPage       : () => {
+    showPupilPage() {
         $("#pupilPage").removeClass("w3-hide");
     },
-    showStudentPage     : () => {
+    showStudentPage() {
         $("#studentPage").removeClass("w3-hide");
     },
-    showNeetPage        : () => {
+    showNeetPage() {
         $("#neetPage").removeClass("w3-hide");
     },
-    printKommuneList    : kommuner => {
+    printKommuneList(kommuner) {
         kommuneList.innerHTML = Pattern.render(kommuneTemplate, kommuner);
     }
 }
 
 const RegisterModel = {
-    getKommuner         : () => {
+    getKommuner() {
         return new Promise((resolve, reject) => {
             $.get("php/getKommuner.php", function(data, status) {
                 resolve(JSON.parse(data));
             });
         });
     },
-    generateUserObject  : user => {
+    generateUserObject(user) {
         user.kommuneNr = $("select").val();
 
         if (user.isPupil === 1) {
@@ -141,7 +141,7 @@ const RegisterModel = {
 
         return user;
     },
-    register            : user => {
+    register(user) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/register.php',

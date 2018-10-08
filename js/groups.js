@@ -13,7 +13,7 @@ function groups() {
 }
 
 const GroupsModel = {
-    getGroupList    : userId => {
+    getGroupList(userId) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getGroup.php',
@@ -38,7 +38,7 @@ const GroupsModel = {
 }
 
 const GroupsController = {
-    printGroupList  : groupList => {
+    printGroupList(groupList) {
         groupsCont = document.getElementById("groupList");
         groupListTemplate = document.getElementById("groupListTemplate").innerHTML;
         if (groupList.length == 0) {

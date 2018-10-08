@@ -3,7 +3,7 @@ function home() {
 }
 
 let HomeModel = {
-    getHomePage : () => {
+    getHomePage() {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getVideos.php',

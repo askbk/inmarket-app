@@ -23,7 +23,7 @@ $(document).on("click", "#loginForm", e => {
 
 
 const LoginModel = {
-    getUser : () => {
+    getUser() {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -41,7 +41,7 @@ const LoginModel = {
             });
         });
     },
-    login   : credentials => {
+    login(credentials) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/login.php',

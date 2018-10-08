@@ -68,7 +68,7 @@ $(document).on("click", "#createNewPost", () => {
 });
 
 const GroupModel = {
-    getPosts        : groupId => {
+    getPosts(groupId) {
         return new Promise(
             (resolve, reject) => {
                 console.log(curGroupId);
@@ -95,7 +95,7 @@ const GroupModel = {
             }
         )
     },
-    getNewContent   : (groupId, prevPostId, postIds, prevCommId) => {
+    getNewContent(groupId, prevPostId, postIds, prevCommId) {
         const postParams = {
             "groupId"       : groupId,
             "prevPostId"    : prevPostId,
@@ -128,7 +128,7 @@ const GroupModel = {
         );
 
     },
-    createNewPost   : post => {
+    createNewPost(post) {
         post = post.trim();
 
         if (post == "") {
@@ -158,7 +158,7 @@ const GroupModel = {
             });
         });
     },
-    createNewComment: (comment, postId) => {
+    createNewComment(comment, postId) => {
         comment = comment.trim();
 
         if (comment == "") {
@@ -191,26 +191,26 @@ const GroupModel = {
 }
 
 const GroupController = {
-    printPosts      : posts => {
+    printPosts(posts) {
         for (post of posts) {
             const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
             const opSection = Pattern.render(postTemplate, post.OP)
             $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
         }
     },
-    printNewPosts   : posts => {
+    printNewPosts(posts) {
         for (post of posts) {
             const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
             const opSection = Pattern.render(postTemplate, post.OP)
             $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
         }
     },
-    printNewComments: comments => {
+    printNewComments(comments) {
         for (comment of comments) {
             $("#post" + comment.post_id).next().children().last().before(Pattern.render(commentTemplate, [comment]));
         }
     },
-    latestCommentId : () => {
+    latestCommentId() {
         let max = -1;
         $("#groupPosts").children().children(".commentSection").children().each(function () {
             let currId = $(this).children().first().attr("id");
@@ -225,7 +225,7 @@ const GroupController = {
 
         return max;
     },
-    getPostIds      : () => {
+    getPostIds() {
         let ids = [];
         $("#groupPosts").children().children(".w3-panel").each(() => {
             let currId = $(this).attr("id");
@@ -237,11 +237,11 @@ const GroupController = {
         });
         return ids;
     },
-    getLastPostId   : () => {
+    getLastPostId() {
         let el = $("#groupPosts").children().first().children().first().attr("id");
         return el == undefined ? null : el.replace( /^\D+/g, '');
     },
-    emptyPostInput  : () => {
+    emptyPostInput() {
         document.getElementById("newPostInput").value = "";
     }
 }

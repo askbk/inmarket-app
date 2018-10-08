@@ -4,7 +4,7 @@ const Router = {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : () => {
+            load() {
                 home();
             }
         },
@@ -12,7 +12,7 @@ const Router = {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : () => {
+            load() {
                 home();
             }
         },
@@ -20,7 +20,7 @@ const Router = {
             url         : "templates/hjem.html",
             html        : "",
             controller  : "js/home.js",
-            load        : () => {
+            load() {
                 home();
             }
         },
@@ -28,7 +28,7 @@ const Router = {
             url         : "templates/events.html",
             html        : "",
             controller  : "js/events.js",
-            load        : () => {
+            load() {
                 events();
             }
         },
@@ -36,7 +36,7 @@ const Router = {
             url         : "templates/videoList.html",
             html        : "",
             controller  : "js/videos.js",
-            load        : () => {
+            load() {
                 //home();
             }
         },
@@ -44,7 +44,7 @@ const Router = {
             url         : "templates/register.html",
             html        : "",
             controller  : "js/register.js",
-            load        : () => {
+            load() {
                 register();
             }
         },
@@ -52,7 +52,7 @@ const Router = {
             url         : "templates/login.html",
             html        : "",
             controller  : "js/login.js",
-            load        : () => {
+            load() {
                 login();
             }
         },
@@ -60,7 +60,7 @@ const Router = {
             url         : "templates/bedrift.html",
             html        : "",
             controller  : "js/bedrift.js",
-            load        : () => {
+            load() {
                 company();
             }
         },
@@ -68,7 +68,7 @@ const Router = {
             url         : "templates/messages.html",
             html        : "",
             controller  : "js/messages.js",
-            load        : () => {
+            load() {
                 messages();
             }
         },
@@ -76,7 +76,7 @@ const Router = {
             url         : "templates/conversation.html",
             html        : "",
             controller  : "js/conversation.js",
-            load        : () => {
+            load() {
                 conversation();
             }
         },
@@ -84,7 +84,7 @@ const Router = {
             url         : "templates/kontakt.html",
             html        : "",
             controller  : "js/contact.js",
-            load        : () => {
+            load() {
                 contact();
             }
         },
@@ -92,7 +92,7 @@ const Router = {
             url         : "templates/error.html",
             html        : "",
             controller  : "js/error.js",
-            load        : () => {
+            load() {
                 //error();
             }
         },
@@ -100,7 +100,7 @@ const Router = {
             url         : "templates/settings.html",
             html        : "",
             controller  : "js/settings.js",
-            load        : () => {
+            load() {
                 settings();
             }
         },
@@ -108,7 +108,7 @@ const Router = {
             url         : "templates/group.html",
             html        : "",
             controller  : "js/group.js",
-            load        : () => {
+            load() {
                 group();
             }
         },
@@ -116,7 +116,7 @@ const Router = {
             url         : "templates/groups.html",
             html        : "",
             controller  : "js/groups.js",
-            load        : () => {
+            load() {
                 groups();
             }
         },
@@ -124,7 +124,7 @@ const Router = {
             url         : "templates/profile.html",
             html        : "",
             controller  : "js/profile.js",
-            load        : () => {
+            load() {
                 profile();
             }
         },
@@ -132,7 +132,7 @@ const Router = {
             url         : "templates/myProfile.html",
             html        : "",
             controller  : "js/myProfile.js",
-            load        : () => {
+            load() {
                 myProfile();
             }
         },
@@ -140,12 +140,12 @@ const Router = {
             url         : "templates/controlpanel.html",
             html        : "",
             controller  : "js/controlpanel.js",
-            load        : () => {
+            load() {
                 controlpanel();
             }
         }
     },
-    route           : () => {
+    route() {
         Router.parameters = window.location.hash.split('/');
         const page = Router.parameters[1];
         if (Router.routes[page]) {
@@ -157,7 +157,7 @@ const Router = {
         }
     },
     parameters      : [],
-    getParameters   : () => {
+    getParameters() {
         return Router.parameters;
     }
 };

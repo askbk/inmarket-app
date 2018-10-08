@@ -15,7 +15,7 @@ function messages() {
 }
 
 const MessagesModel = {
-    getMessageList  : (userId, includeDetails = 1) => {
+    getMessageList(userId, includeDetails = 1) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getMessages.php',
@@ -42,7 +42,7 @@ const MessagesModel = {
 }
 
 const MessagesController = {
-    printMessageList    : (messageList, target, template = inboxTemplate) => {
+    printMessageList(messageList, target, template = inboxTemplate) {
         if (messageList.length == 0) {
             target.innerHTML = "No messages";
         } else {

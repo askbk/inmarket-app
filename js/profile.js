@@ -19,7 +19,7 @@ function profile() {
 }
 
 const ProfileModel = {
-    getProfile      : id => {
+    getProfile(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -43,7 +43,7 @@ const ProfileModel = {
             });
         });
     },
-    updateBio       : bio => {
+    updateBio(bio) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: 'php/updateBio.php',
@@ -67,7 +67,7 @@ const ProfileModel = {
             });
         });
     },
-    uploadFile      : (file, isProfilePicture = false) => {
+    uploadFile(file, isProfilePicture = false) {
         return new Promise((resolve, reject) => {
             let form_data = new FormData();
             form_data.append('file', file);
@@ -92,7 +92,7 @@ const ProfileModel = {
             });
         });
     },
-    deleteFile      : id => {
+    deleteFile(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/deleteFile.php',
@@ -115,7 +115,7 @@ const ProfileModel = {
             });
         });
     },
-    getFileList     : id => {
+    getFileList(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -139,7 +139,7 @@ const ProfileModel = {
             });
         });
     },
-    getProfilePic   : id => {
+    getProfilePic(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getUser.php',
@@ -166,7 +166,7 @@ const ProfileModel = {
 }
 
 const ProfileController = {
-    printProfile    : profileData => {
+    printProfile(profileData) {
         profilePic.src = profileData.profilePicture;
         nameHeader.innerHTML = profileData.name;
         document.title = profileData.name;
@@ -184,20 +184,20 @@ const ProfileController = {
 
         bio.innerHTML = profileData.biography;
     },
-    printFileList   : fileData => {
+    printFileList(fileData) {
         fileList.innerHTML = Pattern.render(fileListTemplate, fileData);
     },
-    showProfile     : () => {
+    showProfile() => {
         document.getElementById("profilePage").classList.remove("w3-hide");
     },
-    getBio          : () => {
+    getBio() => {
         return bio.value;
     },
-    removeFile      : fileId => {
+    removeFile(fileId) {
         $("#li" + fileId).remove();
         console.log("success");
     },
-    updateProfilePic: src => {
+    updateProfilePic(src) {
         profilePic.src = src;
     }
 }

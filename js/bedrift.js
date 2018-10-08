@@ -10,7 +10,7 @@ function company() {
 }
 
 const CompanyModel = {
-    getCompany  : id => {
+    getCompany(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: 'php/getBedrifter.php?bedrift=' + id,
@@ -36,7 +36,7 @@ const CompanyModel = {
 }
 
 const CompanyController = {
-    printCompany    : info => {
+    printCompany(info) {
         $("#currentPageHeader").text(info["companyName"]);
         $("#description").text(info["description"]);
         document.title = info["companyName"] + " | InMarket App";

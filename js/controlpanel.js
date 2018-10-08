@@ -468,54 +468,54 @@ const ControlpanelModel = {
 }
 
 const ControlpanelController = {
-    dropdownHide                : el => {
+    dropdownHide(el) {
         el.nextElementSibling.classList.remove("w3-show");
     },
-    dropdownShow                : el => {
+    dropdownShow(el) {
         el.nextElementSibling.classList.add("w3-show");
     },
-    dropdownToggle              : el => {
+    dropdownToggle(el) {
         el.nextElementSibling.classList.toggle("w3-show");
     },
-    printMemberList             : (memberList, container) => {
+    printMemberList(memberList, container) {
         console.log(memberList);
         container.innerHTML = Pattern.render(groupMembersTemplate, memberList);
     },
-    addGroupMember              : el => {
+    addGroupMember(el) {
         $(el).parent().remove();
     },
-    addParticipant              : el => {
+    addParticipant(el) {
         $(el).parent().remove();
     },
-    printSearchResults          : (template, results, target) => {
+    printSearchResults(template, results, target) {
         if (results.length > 0) {
             target.innerHTML = Pattern.render(template, results);
         } else {
             target.innerHTML = "";
         }
     },
-    printParticipantList        : (participants, target) => {
+    printParticipantList(participants, target) {
             target.innerHTML = Pattern.render(groupMembersTemplate, participants);
     },
-    showGroupControls           : () => {
+    showGroupControls() {
         document.getElementById("groupModal").style.display = "block";
     },
-    showConversationControls    : () => {
+    showConversationControls() {
         document.getElementById("conversationModal").style.display = "block";
     },
-    showGroupCreation           : () => {
+    showGroupCreation() {
         document.getElementById("createGroupModal").style.display = "block";
     },
-    hideGroupCreation           : () => {
+    hideGroupCreation() {
         document.getElementById("createGroupModal").style.display = "none";
     },
-    showConversationCreation    : () => {
+    showConversationCreation() {
         document.getElementById("createConversationModal").style.display = "block";
     },
-    hideConversationCreation    : () => {
+    hideConversationCreation() {
         document.getElementById("createConversationModal").style.display = "none";
     },
-    messageMember               : convId => {
+    messageMember(convId) {
         location.hash = "/conversation/" + convId;
     }
 }
