@@ -75,7 +75,7 @@ class Message
                         "conversation_id"   => $conversationId,
                         "sender"            => "",
                         "content"           => "",
-                        "timestamp"         => "");
+                        "timestamp"         => "0000000000");
         }
 
         return $result;
@@ -291,13 +291,16 @@ class Message
 
 function sortByTime($a, $b)
 {
-    $ad = new DateTime($a['timestamp']);
-    $bd = new DateTime($b['timestamp']);
+    $ad = new DateTime();
+    $bd = new DateTime();
+
+    $ad->setTimeStamp($a['timestamp']);
+    $bd->setTimeStamp($b['timestamp']);
 
     if ($ad == $bd) {
         return 0;
     }
 
-    return $ad < $bd ? -1 : 1;
+    return $ad < $bd ? 1 : -1;
 }
 ?>
