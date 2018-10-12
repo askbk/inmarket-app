@@ -158,7 +158,7 @@ const GroupModel = {
             });
         });
     },
-    createNewComment(comment, postId) => {
+    createNewComment(comment, postId) {
         comment = comment.trim();
 
         if (comment == "") {

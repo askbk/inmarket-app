@@ -187,10 +187,10 @@ const ProfileController = {
     printFileList(fileData) {
         fileList.innerHTML = Pattern.render(fileListTemplate, fileData);
     },
-    showProfile() => {
+    showProfile() {
         document.getElementById("profilePage").classList.remove("w3-hide");
     },
-    getBio() => {
+    getBio() {
         return bio.value;
     },
     removeFile(fileId) {
