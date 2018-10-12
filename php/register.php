@@ -5,7 +5,7 @@ $user_id = -1;
 
 if (isValidEmail($_POST["email"])) {
     if (isValidPassword($_POST["password"])) {
-        $user_id = Reg::registerUser($_POST);
+        echo Reg::registerUser($_POST);
     } else {
         echo "Invalid characters in password.";
         return false;

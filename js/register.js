@@ -1,4 +1,5 @@
-let firstPage,
+let responseText,
+    firstPage,
     secondPage,
     thirdPage,
     pupilPage,
@@ -25,6 +26,7 @@ function register() {
     employeePage = document.getElementsByClassName("employeePage");
     kommuneTemplate = kommuneTemplate || document.getElementById("kommuneTemplate").innerHTML;
     kommuneList = document.getElementById("kommuneList");
+    responseText = document.getElementById("responseText");
 
     document.title = "Registrering | InMarket App";
 
@@ -70,7 +72,9 @@ $(document).on("click", "#page2btn", () => {
     user.phone = $("input[name='phone']").val();
     user.password = $("input[name='password']").val();
 
-    RegisterController.showPage(2);
+    if (RegisterModel.isValidInputP2(user)) {
+        RegisterController.showPage(2);
+    }
 });
 
 // User submits form
@@ -81,13 +85,51 @@ $(document).on("click", "#registerButton", e => {
     RegisterModel.register(user)
         .then(
             response => {
-                user = null;
+                user = {
+                    name            : "",
+                    email           : "",
+                    phone           : "",
+                    password        : "",
+                    kommuneNr       : 0,
+                    isPupil         : 0,
+                    isStudent       : 0,
+                    isNEET          : 0,
+                    emailVerified   : 0
+                };
                 location.hash = "/innlogging";
             }
         )
         .catch(
             response => {
                 console.log("noe gikk galt");
+            }
+        );
+});
+
+$(document).on("change", "input[name='email']", () => {
+    let inputEmail = $("input[name='email']").val();
+    RegisterModel.isFieldTaken("email=" + inputEmail)
+        .then(
+            taken => {
+                if (taken) {
+                    $("#page2btn").attr("disabled");
+                } else {
+                    $("#page2btn").removeAttr("disabled");
+                }
+            }
+        );
+});
+
+$(document).on("change", "input[name='phone']", () => {
+    let inputPhone =  $("input[name='phone']").val()
+    RegisterModel.isFieldTaken("phone=" + inputPhone)
+        .then(
+            taken => {
+                if (taken) {
+                    $("#page2btn").attr("disabled");
+                } else {
+                    $("#page2btn").removeAttr("disabled");
+                }
             }
         );
 });
@@ -111,6 +153,9 @@ const RegisterController = {
     },
     printKommuneList(kommuner) {
         kommuneList.innerHTML = Pattern.render(kommuneTemplate, kommuner);
+    },
+    clearPasswordField() {
+        $("input[type='password']").val("");
     }
 }
 
@@ -151,9 +196,73 @@ const RegisterModel = {
                     resolve(data);
                 },
                 error: (xhr, textStatus, errorThrown) => {
+                    console.log("feil?");
                     reject("Feil");
                 }
             });
         });
+    },
+    isFieldTaken(d) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'php/registration.php',
+                type: 'POST',
+                data: d,
+                success: data => {
+                    if (data == "false") {
+                        resolve(false)
+                    } else  {
+                        resolve(true);
+                    }
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    reject("feil");
+                }
+            })
+        });
+    },
+    isValidInputP2(u) {
+        let valid = true;
+        responseText.innerHTML = "";
+
+        if (!/^([ \u00c0-\u01ffa-zA-Z'\-])+$/.test(u.name)) {
+            responseText.innerHTML += "Navn inneholder ugyldige tegn<br>";
+            valid = false;
+        }
+        if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/.test(u.email)) {
+            responseText.innerHTML += "Epost inneholder ugyldige tegn<br>";
+            valid = false;
+        }
+        if (!/[0-9]{8}/.test(u.phone)) {
+            responseText.innerHTML += "Telefonnummer inneholder ugyldige tegn<br>";
+            valid = false;
+        }
+        if (!/.{8,}/.test(u.password)) {
+            responseText.innerHTML += "Passord inneholder ugyldige tegn<br>";
+            valid = false;
+            RegisterController.clearPasswordField();
+        }
+
+        return valid;
+    },
+    isValidInputP3(att1, att2, att3) {
+        let valid = true;
+        let pattern = /^([ \u00c0-\u01ffa-zA-Z0-9'\-])+$/;
+        responseText.innerHTML = "";
+
+        if (!/^([ \u00c0-\u01ffa-zA-Z'\-])+$/.test(att1)) {
+            responseText.innerHTML = "Ugyldige tegn<br>";
+            valid = false;
+        }
+        if (!/^([ \u00c0-\u01ffa-zA-Z'\-])+$/.test(att2)) {
+            responseText.innerHTML = "Ugyldige tegn<br>";
+            valid = false;
+        }
+        if (!/^([ \u00c0-\u01ffa-zA-Z'\-])+$/.test(att3)) {
+            responseText.innerHTML = "Ugyldige tegn<br>";
+            valid = false;
+        }
+
+        return valid;
     }
 }
