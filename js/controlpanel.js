@@ -113,6 +113,7 @@ $(document).on("click", '.groupItem', (ev) => {
 
     localStorage.controlPanelGroupId = groupId;
 
+    ControlpanelController.showGroupControls();
 
     ControlpanelModel.getGroup(groupId)
         .then(
@@ -122,7 +123,6 @@ $(document).on("click", '.groupItem', (ev) => {
         )
         .then(
             () => {
-                ControlpanelController.showGroupControls();
             }
         );
 });
@@ -141,9 +141,9 @@ $(document).on("click", '.conversationItem', (ev) => {
         )
         .then(
             () => {
-                ControlpanelController.showConversationControls();
             }
         );
+    ControlpanelController.showConversationControls();
 });
 
 $(document).on("click", "#createNewGroupButton", () => {
