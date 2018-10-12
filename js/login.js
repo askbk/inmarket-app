@@ -1,6 +1,6 @@
 function login() {
 }
-$(document).on("click", "#loginForm", e => {
+$(document).on("click", "input[name='loginBtn']", e => {
     e.preventDefault();
     LoginModel.login($("#loginForm").serialize())
         .then(JWT => {
