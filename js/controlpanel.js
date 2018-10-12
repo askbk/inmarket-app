@@ -54,7 +54,7 @@ function controlpanel() {
 }
 
 $(document).on("click", '.addMember', ev => {
-    constnewMemberId = ev.currentTarget.attributes.userid.value;
+    const newMemberId = ev.currentTarget.attributes.userid.value;
     ControlpanelModel.addGroupMember(localStorage.controlPanelGroupId, newMemberId)
         .then(() => {
             ControlpanelController.addGroupMember(ev.currentTarget);
