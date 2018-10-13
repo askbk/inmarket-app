@@ -4,6 +4,7 @@ $(document).on("click", "input[name='loginBtn']", e => {
     e.preventDefault();
     LoginModel.login($("#loginForm").serialize())
         .then(JWT => {
+            localStorage.clear();
             localStorage.jwt = JWT["jwt"];
             location.hash = "/hjem";})
         .then(() => {return LoginModel.getUser(result)})
