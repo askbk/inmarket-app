@@ -18,7 +18,7 @@
             <div class=" w3-right" id="hidden-items-top">
                 <a href="#/meldinger" class="w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
                 <a href="#" class="w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
-                <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px"> </a>
+                <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px" id="navbar-profile-pic"> </a>
             </div>
         </div>
         <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card" id="sidebar" style="right:0;">
@@ -74,8 +74,9 @@
             });
         };
 
+        // TODO: tilpasse datoformat
         const timestampToDate = ts => {
-            return new Date(ts).toDateString()
+            return new Date(ts).toLocaleString("nb-NO");
         }
 
         let iterations = [];

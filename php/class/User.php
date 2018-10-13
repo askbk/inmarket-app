@@ -13,9 +13,11 @@ class User
                                         $password, $kommuneNr)
     {
         $sql = "INSERT INTO user (name, email, phone, kommuneNr, adminLevel,
-                    password, createTime, isStudent, isNEET, isPupil)
+                    password, createTime, isStudent, isNEET, isPupil,
+                    profilePicture)
                 VALUES ('$name', '$email', '$phone', '$kommuneNr', 0,
-                    '$password', NOW(), $isStudent, '$isNEET', '$isPupil')";
+                    '$password', NOW(), $isStudent, '$isNEET', '$isPupil',
+                'img/stock-profile.jpg')";
 
         return DB::write($sql);
     }

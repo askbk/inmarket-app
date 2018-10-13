@@ -7,18 +7,20 @@ $(document).on("click", "input[name='loginBtn']", e => {
             localStorage.clear();
             localStorage.jwt = JWT["jwt"];
             location.hash = "/hjem";})
-        .then(() => {return LoginModel.getUser(result)})
+        .then(() => {return LoginModel.getUser()})
         .then(user => {
             localStorage.name = user["name"];
             localStorage.id = user["id"];
             localStorage.type = user["type"];
             localStorage.adminLevel = user["adminLevel"];
             localStorage.adminGroups = JSON.stringify(user["adminGroups"]);
+            ProfileController.updateProfilePic(user["profilePicture"]);
 
             if (localStorage.adminLevel > 0) {
-                console.log(localStorage.adminLevel);
                 document.getElementById("controlpanelLink").classList.remove("w3-hide");
             }
+
+            // $("#navbar-profile-pic").attr("src", localStorage.profilePicture);
         });
 });
 

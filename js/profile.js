@@ -149,7 +149,7 @@ const ProfileModel = {
                 type: 'POST',
                 data: "userId=" + id + "&picture=1",
                 success: data => {
-                    resolve(JSON.parse(data)[0].profilePicture);
+                    resolve(JSON.parse(data).profilePicture);
                 },
                 error: (xhr, textStatus, errorThrown) => {
                     if (xhr.status == 401) {
@@ -197,7 +197,10 @@ const ProfileController = {
         $("#li" + fileId).remove();
         console.log("success");
     },
-    updateProfilePic(src) {
-        profilePic.src = src;
+    updateProfilePic(s) {
+        console.log(s);
+        profilePic.src = s;
+        $("#navbar-profile-pic").attr("src", s);
+        localStorage.profilePicture = s;
     }
 }
