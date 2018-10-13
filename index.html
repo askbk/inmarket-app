@@ -27,12 +27,12 @@
             <a href="#/meg" class="w3-bar-item w3-button w3-mobile sidebar-button">Min profil</a>
             <a href="#/kontrollpanel" class="w3-bar-item w3-button w3-mobile sidebar-button w3-hide" id="controlpanelLink">Kontrollpanel</a>
         </div>
-        <nav class="w3-bar w3-bottom w3-center top-accent w3-tiny bg-white" id="bottomNav">
+        <nav class="w3-bar w3-bottom w3-center top-accent bg-white" id="bottomNav">
             <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
-            <a href="#/videoer" class="w3-button" id="videoButton">Bedriftsvideoer</a>
+            <a href="#/videoer" class="w3-button w3-hide" id="videoButton">Bedriftsvideoer</a>
             <a href="#/eventer" class="w3-button" id="eventButton">Eventer</a>
             <a href="#/grupper" class="w3-button" id="groupButton">Grupper</a>
-            <a href="#/kontakt" class="w3-button" id="contactButton">Kontakt</a>
+            <a href="#/kontakt" class="w3-button w3-hide" id="contactButton">Kontakt</a>
         </nav>
 
         <section class="w3-content w3-container w3-padding-64" id="content">
@@ -60,7 +60,7 @@
         let bottomNav = document.getElementById("bottomNav");
         let hiddenItems = document.getElementById("hidden-items-top");
 
-        const getHTML = (url) => {
+        const getHTML = url => {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: url,
@@ -73,6 +73,10 @@
                 });
             });
         };
+
+        const timestampToDate = ts => {
+            return new Date(ts).toDateString()
+        }
 
         let iterations = [];
         Object.keys(Router.routes).forEach((page,index) => {

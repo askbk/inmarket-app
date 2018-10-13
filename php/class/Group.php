@@ -142,7 +142,7 @@ class Group
     //  Returns all posts belonging to the given group.
     public static function getPosts($groupId)
     {
-        $sql = "SELECT user.name, post.post_id, post.poster, post.content,
+        $sql = "SELECT user.name, user.profilePicture, post.post_id, post.poster, post.content,
                     post.timestamp
                 FROM post
                 INNER JOIN user
@@ -157,7 +157,7 @@ class Group
     //  than the given post.
     public static function getNewPosts($groupId, $prevId)
     {
-        $sql = "SELECT user.name, post.post_id, post.poster, post.content,
+        $sql = "SELECT user.name, user.profilePicture, post.post_id, post.poster, post.content,
                     post.timestamp
                 FROM post
                 INNER JOIN user
@@ -172,7 +172,7 @@ class Group
     //  comment.
     public static function getPostComments($postId, $prevId = 0)
     {
-        $sql = "SELECT user.name, postComment.postComment_id,
+        $sql = "SELECT user.name, user.profilePicture, postComment.postComment_id,
                     postComment.user_id, postComment.timestamp,
                     postComment.content, postComment.post_id
                 FROM postComment

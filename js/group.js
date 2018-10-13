@@ -24,7 +24,6 @@ function group() {
     GroupModel.getPosts(curGroupId)
         .then(
             result => {
-                console.log(result);
                 GroupController.printPosts(result);
             }
         );
@@ -194,8 +193,9 @@ const GroupController = {
     printPosts(posts) {
         for (post of posts) {
             const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + Pattern.render(commentTemplate, post.comments) + commentInputTemplate + "</ul>";
-            const opSection = Pattern.render(postTemplate, post.OP)
-            $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
+            post.OP[0].timestamp = timestampToDate(post.OP[0].timestamp * 1000);
+            const opSection = Pattern.render(postTemplate, post.OP);
+            $("#groupPosts").append("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>");
         }
     },
     printNewPosts(posts) {

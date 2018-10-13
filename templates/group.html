@@ -1,4 +1,4 @@
-<div class="w3-container w3-hide" id="newPostContainer">
+<div class="w3-container w3-hide margin-top-15" id="newPostContainer">
     <textarea name="name" rows="4" cols="80" id="newPostInput" style="width:100%;" placeholder="Skriv et nytt innlegg..."></textarea>
     <button type="button" name="button" class="red-button w3-card w3-right" id="createNewPost">Post</button>
 </div>
@@ -10,25 +10,33 @@
     <div id="post{{post_id}}" class="w3-panel">
         <div class="postContent">
             <div class="">
-                <a href="#/profil/{{poster}}"><img src="" alt="" class="postAuthorPicture"></a>
+                <div class="w3-left">
+                    <a href="#/profil/{{poster}}"><img src="{{profilePicture}}" alt="" class="postAuthorPicture w3-circle" width="60"></a>
+                </div>
+                <div class="w3-left w3-padding">
+                    <strong> <a href="#/profil/{{poster}}">{{name}}</a></strong><br>
+                    <span>{{timestamp}}</span>
+                </div>
             </div>
-            <div class="">
-                <strong> <a href="#/profil/{{poster}}">{{name}}</a> </strong>
+            <div class="w3-container">
                 <p>{{content}}</p>
             </div>
+            <hr>
         </div>
     </div>
 </div>
 
 <div id="commentTemplate" class="w3-hide">
     <li class="postComment">
-        <div id="comment{{postComment_id}}">
-            <div class="">
-                <a href="#/profil/{{user_id}}"><img src="" alt="" class="commentAuthorPicture"></a>
-                <a href="#/profil/{{user_id}}"> <strong>{{name}}</strong> </a>
+        <div id="comment{{postComment_id}}" class="w3-row">
+            <div class="w3-left w3-margin-right">
+                <a href="#/profil/{{user_id}}"><img src="{{profilePicture}}" alt="" class="commentAuthorPicture w3-circle" width="50"></a>
             </div>
-            <div class="commentContent">
-                <p>{{content}}</p>
+            <div class="">
+                <a href="#/profil/{{user_id}}" class=""><strong>{{name}}</strong></a>
+                <div class="commentContent w3-show-inline-block">
+                    <p class="">{{content}}</p>
+                </div>
             </div>
         </div>
     </li>
