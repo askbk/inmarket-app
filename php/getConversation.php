@@ -31,8 +31,8 @@ if (Auth::isLoggedIn()) {
         echo json_encode($newMessages);
     } else {
         $conversationName = Message::getConversationName($convId, $user_id);
-        $count = $_POST["count"];
-        $offset = $_POST["offset"];
+        // $count = $_POST["count"];
+        // $offset = $_POST["offset"];
         $messages = Message::getMessages($convId);
 
         for ($i=0; $i < count($messages); $i++) {

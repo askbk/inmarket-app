@@ -52,7 +52,7 @@ function group() {
     });
 }
 
-$(document).on("submit", '.commentInputForm', ev => {
+$(document).on("submit", '.commentInputForm', function(ev) {
     ev.preventDefault();
     const postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')
     const comment = $(this).children().first().val();
@@ -227,7 +227,7 @@ const GroupController = {
     },
     getPostIds() {
         let ids = [];
-        $("#groupPosts").children().children(".w3-panel").each(() => {
+        $("#groupPosts").children().children(".w3-panel").each(function() {
             let currId = $(this).attr("id");
 
             if (typeof currId !== 'undefined') {
