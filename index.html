@@ -74,23 +74,22 @@
             });
         };
 
-        (function () {
-            let iterations = [];
-            Object.keys(Router.routes).forEach((page,index) => {
-                let html = getHTML(Router.routes[page].url)
-                    .then((result) => {
-                        Router.routes[page].html = result;
-                    }
-                );
+        let iterations = [];
+        Object.keys(Router.routes).forEach((page,index) => {
+            let html = getHTML(Router.routes[page].url)
+                .then((result) => {
+                    Router.routes[page].html = result;
+                }
+            );
 
-                iterations.push(html);
-            });
+            iterations.push(html);
+        });
 
-            return Promise.all(iterations).then(() => {
+        Promise.all(iterations)
+            .then(() => {
                 Router.route()
                 interfaceController();
             });
-        })();
 
 
         window.onhashchange = function () {
