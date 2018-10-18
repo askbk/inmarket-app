@@ -120,6 +120,10 @@ textarea {
     padding-top: 1em !important;
 }
 
+.padding-bottom-1em {
+    padding-bottom: 1em;
+}
+
 .padding-bottom-3em {
     padding-bottom: 3em;
 }
