@@ -18,7 +18,7 @@ footer {
 
 html, body {
     font-family: Calibri;
-    height: 100%;
+    /* height: 100%; */
 }
 
 h1, h2, h3, h4, h5 {
@@ -178,7 +178,6 @@ textarea {
 
 #navbar-img {
     margin: -5px;
-    margin-left: 2em;
 }
 
 .golden-text {
