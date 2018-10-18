@@ -30,7 +30,7 @@
 <div class="w3-modal margin-top-70" id="groupModal">
     <div class="w3-modal-content">
       <div class="w3-container">
-        <span onclick="document.getElementById('groupModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <span onclick="document.getElementById('groupModal').style.display='none'" class="white-button w3-display-topright w3-xlarge">&times;</span>
         <h4>Gruppeinstillinger</h4>
         <input type="text" name="" value="" id="groupNameChange" class="">
         <textarea name="name" class="width-100" id="groupDescriptionChange"></textarea>
@@ -52,7 +52,7 @@
 <div class="w3-modal margin-top-70" id="createGroupModal">
     <div class="w3-modal-content">
       <div class="w3-container">
-        <span onclick="document.getElementById('createGroupModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <span onclick="document.getElementById('createGroupModal').style.display='none'" class="black-button w3-display-topright w3-xlarge">&times;</span>
         <h4>Opprett ny gruppe</h4>
         <label for="newGroupName">Gruppenavn</label>
         <input type="text" name="" value="" id="newGroupName" class="">
@@ -66,7 +66,7 @@
 <div class="w3-modal margin-top-70" id="conversationModal">
     <div class="w3-modal-content">
       <div class="w3-container">
-        <span onclick="document.getElementById('conversationModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <span onclick="document.getElementById('conversationModal').style.display='none'" class="black-button w3-display-topright  w3-xlarge">&times;</span>
         <h4>Samtaleinstillinger</h4>
         <input type="text" name="" value="" id="conversationNameChange" class="">
         <h5>Samtaledeltakere</h5>
@@ -87,7 +87,7 @@
 <div class="w3-modal margin-top-70" id="createConversationModal">
     <div class="w3-modal-content">
       <div class="w3-container">
-        <span onclick="document.getElementById('createConversationModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <span onclick="document.getElementById('createConversationModal').style.display='none'" class="black-button w3-display-topright  w3-xlarge">&times;</span>
         <h4>Opprett ny samtale</h4>
         <label for="newConversationName">
             Samtalenavn
@@ -99,7 +99,7 @@
 </div>
 
 <div id="groupListTemplate" class="w3-hide">
-    <li class="w3-grey hover-bg-grey w3-row">
+    <li class="w3-grey hover-bg-grey w3-row w3-hover-opacity">
         <button type="button" name="group" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{group_id}}" class="groupItem">
             <h5>{{name}}</h5>
             <p class="text-grey">{{description}}</p>

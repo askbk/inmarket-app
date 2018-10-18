@@ -213,10 +213,11 @@ textarea {
     background-color: #FFF !important;
 }
 
-.white-button, .golden-button, .black-button, .black-transparent-button {
+.white-button, .golden-button, .black-button, .black-transparent-button, .black-button-small {
     border:none;
     display:inline-block;
-    outline:0;padding:8px 16px;
+    outline:0;
+    padding:8px 16px;
     vertical-align:middle;
     overflow:hidden;
     text-decoration:none;
@@ -248,14 +249,18 @@ textarea {
     background-color: white;
 }
 
-.black-button {
+.black-button, .black-button-small {
     color: #fff;
     background-color: #000;
 }
 
-.black-button:hover {
+.black-button:hover, .black-button-small:hover{
     color: #000;
     background-color: #fff;
+}
+
+.black-button-small {
+    padding: 2px 4px;
 }
 
 .black-transparent-button {
