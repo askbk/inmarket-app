@@ -19,6 +19,11 @@ if (Auth::isLoggedIn()) {
     $result = array();
     if (isset($_POST["members"])) {
         $result["members"] = Group::getMembers($groupId);
+        foreach ($result["members"] as $key => $member) {
+            if ($member["profilePicture"] == NULL) {
+                $result["members"][$key]["profilePicture"] = "img/stock-profile.jpg";
+            }
+        }
     }
     if (isset($_POST["details"])) {
         $result["details"] = Group::getDetails($groupId);
