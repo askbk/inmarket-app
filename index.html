@@ -12,7 +12,49 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body>
-        <div class="w3-bar w3-top bottom-accent bar bg-white">
+        <!-- Fixed navbar-->
+        <div class="w3-top white-bg white-bg w3-card z-index-4">
+            <div class="w3-bar w3-xxlarge w3-center" id="navbar">
+                <a href="#/hjem" class="w3-bar-item line-height-1">
+                    <img src="img/logos/logo.png" height="64" alt="InMarket logo" id="navbar-img" class="w3-img">
+                </a>
+                <div class="w3-bar-item w3-right" id="hidden-items-top">
+                    <a href="#/meldinger" class="w3-xlarge margin-right-04em"> <i class="far fa-envelope"></i> </a>
+                    <a href="#" class="w3-xlarge"><i class="fas fa-search"></i></a>
+                    <a href="javascript:void(0);" class=""> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px" id="navbar-profile-pic"> </a>
+                    <!-- <button class="white-button w3-xlarge w3-right" id="navbar-button">
+                                <span id="menu-closed">
+                                <span class="hide-scroll">
+                                Meny
+                            </span>
+                        </span>
+                        <span id="menu-opened" style="display:none;">Lukk</span>
+                        <div class="menu-container" onclick="menuAnimation(this)">
+                            <div class="menu-bar1"></div>
+                            <div class="menu-bar2"></div>
+                            <div class="menu-bar3"></div>
+                        </div>
+                    </button> -->
+                </div>
+            </div>
+            <div id="navbar-dropdown-content" class="w3-content w3-bar white-bg padding-bottom-16 w3-large" style="display:none;">
+                <hr>
+                <div class="w3-bar-item w3-mobile w3-center">
+                    <a href="#/instillinger" class="golden-accent-bottom">Instillinger</a>
+                </div>
+                <div class="w3-bar-item w3-mobile w3-center">
+                    <a href="#/meg" class="golden-accent-bottom">Min profil</a>
+                </div>
+                <div class="w3-bar-item w3-mobile w3-center">
+                    <a href="#/kontrollpanel" class="golden-accent-bottom">Kontrollpanel</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-overlay">
+        </div>
+
+        <!-- <div class="w3-bar w3-top bottom-accent bar bg-white">
             <a href="#" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
             <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket</span>
             <div class=" w3-right" id="hidden-items-top">
@@ -20,22 +62,23 @@
                 <a href="#" class="w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
                 <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px" id="navbar-profile-pic"> </a>
             </div>
+        </div> -->
+        <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card w3-large z-index-3" id="sidebar" style="right:0;">
+            <button type="button" name="closeSidebar" class="w3-bar-item white-button w3-mobile sidebar-button">Lukk<span class="w3-right">&times</span></button>
+            <a href="#/instillinger" class="w3-bar-item white-button w3-mobile sidebar-button">Instillinger</a>
+            <a href="#/meg" class="w3-bar-item white-button w3-mobile sidebar-button">Min profil</a>
+            <a href="#/kontrollpanel" class="w3-bar-item white-button w3-mobile sidebar-button w3-hide" id="controlpanelLink">Kontrollpanel</a>
         </div>
-        <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card" id="sidebar" style="right:0;">
-            <button type="button" name="closeSidebar" class="w3-bar-item w3-button w3-mobile sidebar-button">Lukk<span class="w3-right">&times</span></button>
-            <a href="#/instillinger" class="w3-bar-item w3-button w3-mobile sidebar-button">Instillinger</a>
-            <a href="#/meg" class="w3-bar-item w3-button w3-mobile sidebar-button">Min profil</a>
-            <a href="#/kontrollpanel" class="w3-bar-item w3-button w3-mobile sidebar-button w3-hide" id="controlpanelLink">Kontrollpanel</a>
-        </div>
-        <nav class="w3-bar w3-bottom w3-center top-accent bg-white" id="bottomNav">
-            <a href="#/hjem" class="w3-button" id="startButton">Startside</a>
-            <a href="#/videoer" class="w3-button w3-hide" id="videoButton">Bedriftsvideoer</a>
-            <a href="#/eventer" class="w3-button" id="eventButton">Eventer</a>
-            <a href="#/grupper" class="w3-button" id="groupButton">Grupper</a>
-            <a href="#/kontakt" class="w3-button w3-hide" id="contactButton">Kontakt</a>
+
+        <nav class="w3-bar w3-bottom w3-center golden-accent-top bg-white w3-card" id="bottomNav">
+            <a href="#/hjem" class="white-button" id="startButton">Startside</a>
+            <a href="#/videoer" class="white-button w3-hide" id="videoButton">Bedriftsvideoer</a>
+            <a href="#/eventer" class="white-button" id="eventButton">Eventer</a>
+            <a href="#/grupper" class="white-button" id="groupButton">Grupper</a>
+            <a href="#/kontakt" class="white-button w3-hide" id="contactButton">Kontakt</a>
         </nav>
 
-        <section class="w3-content w3-container w3-padding-64" id="content">
+        <section class="w3-content w3-container margin-top-70 padding-bottom-3em" id="content">
         </section>
     </body>
     <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
@@ -138,13 +181,70 @@
             }
         }
 
-        function sidebarToggle() {
-            sidebar.classList.toggle("w3-hide")
-        }
+
+
+        let menuCounter = 0,
+            menuContainer = $(".menu-container"),
+            overlay = $(".w3-overlay"),
+            dropdown = $("#navbar-dropdown-content"),
+            sidebarCounter = 0;
+
+        $("#navbar-profile-pic").click(function () {
+            if (sidebarCounter%2===0) {
+                showSidebar();
+            } else {
+                hideSidebar();
+            }
+        })
 
         $("#sidebar").click(function () {
-            sidebarToggle();
+            hideSidebar();
         });
+
+        overlay.click(function () {
+            // hideMenu();
+            hideSidebar();
+        });
+
+        function hideSidebar() {
+            sidebar.classList.add("w3-hide");
+            ++sidebarCounter;
+            overlay.hide();
+        }
+
+        function showSidebar() {
+            sidebar.classList.remove("w3-hide");
+            ++sidebarCounter;
+            overlay.fadeIn();
+        }
+
+        // $("#navbar-button").click(function () {
+        //     if (menuCounter%2===0) {
+        //         showMenu();
+        //     } else {
+        //         hideMenu();
+        //     }
+        // });
+        // $("#navbar-dropdown-content").click(function () {
+        //     hideMenu();
+        // });
+        //
+        // function hideMenu() {
+        //     ++menuCounter;
+        //     menuContainer.toggleClass("menu-change");
+        //     dropdown.slideToggle("fast");
+        //     overlay.hide();
+        // }
+        //
+        // function showMenu() {
+        //     ++menuCounter;
+        //     menuContainer.toggleClass("menu-change");
+        //     dropdown.slideToggle("fast");
+        //     overlay.fadeIn();
+        // }
+
+
+
     </script>
 
 </html>
