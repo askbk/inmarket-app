@@ -100,7 +100,7 @@
 
 <div id="groupListTemplate" class="w3-hide">
     <li class="w3-grey hover-bg-grey w3-row w3-hover-opacity">
-        <button type="button" name="group" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{group_id}}" class="groupItem">
+        <button type="button" name="group" groupId="{{group_id}}" class="groupItem big-button">
             <h5>{{name}}</h5>
             <p class="text-grey">{{description}}</p>
         </button>
@@ -109,7 +109,7 @@
 
 <div id="eventListTemplate" class="w3-hide">
     <li class="w3-grey hover-bg-grey w3-row">
-        <button type="button" name="event" style="background:inherit;border:none;text-align:left;width:100%;" groupId="{{event_id}}" class="eventItem">
+        <button type="button" name="event" groupId="{{event_id}}" class="eventItem big-button">
             <h5>{{name}}</h5>
             <p class="text-grey">{{description}}</p>
             <p>{{dateTime}}</p>
@@ -118,8 +118,8 @@
 </div>
 
 <div id="conversationListTemplate" class="w3-hide">
-    <li class="w3-grey hover-bg-grey w3-row">
-        <button type="button" name="conversation" style="background:inherit;border:none;text-align:left;width:100%;" conversationid="{{conversation_id}}" class="conversationItem">
+    <li class="w3-hover-opacity w3-row">
+        <button type="button" name="conversation" conversationid="{{conversation_id}}" class="conversationItem big-button">
             <h5>{{name}}</h5>
         </button>
     </li>
@@ -151,12 +151,12 @@
 
 <div class="w3-hide" id="memberSearchResultsTemplate">
     <li>
-        {{user_id}} {{name}} {{email}} <button type="button" name="button" class="black-button-small w3-right w3-card addMember" userid="{{user_id}}">Legg til</button> <br>
+        {{name}} {{email}} <button type="button" name="button" class="black-button-small w3-right w3-card addMember" userid="{{user_id}}">Legg til</button> <br>
     </li>
 </div>
 
 <div class="w3-hide" id="participantSearchResultsTemplate">
     <li>
-        {{user_id}} {{name}} {{email}} <button type="button" name="button" class="black-button-small w3-right w3-card addParticipant" userid="{{user_id}}">Legg til</button> <br>
+        {{name}} {{email}} <button type="button" name="button" class="black-button-small w3-right w3-card addParticipant" userid="{{user_id}}">Legg til</button> <br>
     </li>
 </div>
