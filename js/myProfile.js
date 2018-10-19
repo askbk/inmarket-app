@@ -1,16 +1,18 @@
+let myFileListTemplate;
+
 function myProfile() {
     profilePic = document.getElementById("profilePicture");
     nameHeader = document.getElementById("nameHeader");
     userTypeHeader = document.getElementById("userTypeHeader");
     bio = document.getElementById("bio");
     fileList = document.getElementById("fileList");
-    fileListTemplate = fileListTemplate || document.getElementById("fileListTemplate").innerHTML;
+    myFileListTemplate = myFileListTemplate || document.getElementById("myFileListTemplate").innerHTML;
 
     ProfileModel.getProfile(localStorage.id)
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
-                    ProfileController.printFileList(result[1]);
+                    ProfileController.printFileList(myFileListTemplate, result[1]);
                     ProfileController.showProfile();
                 }
             );

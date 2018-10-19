@@ -12,7 +12,7 @@ function profile() {
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
-                    ProfileController.printFileList(result[1]);
+                    ProfileController.printFileList(fileListTemplate, result[1]);
                     ProfileController.showProfile();
                 }
             );
@@ -184,8 +184,8 @@ const ProfileController = {
 
         bio.innerHTML = profileData.biography;
     },
-    printFileList(fileData) {
-        fileList.innerHTML = Pattern.render(fileListTemplate, fileData);
+    printFileList(template, fileData) {
+        fileList.innerHTML = Pattern.render(template, fileData);
     },
     showProfile() {
         document.getElementById("profilePage").classList.remove("w3-hide");
