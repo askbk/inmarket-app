@@ -199,7 +199,6 @@ const ProfileController = {
     },
     updateProfilePic(s) {
         console.log(s);
-        profilePic.src = s;
         $("#navbar-profile-pic").attr("src", s);
         localStorage.profilePicture = s;
     }
