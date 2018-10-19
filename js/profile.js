@@ -12,7 +12,9 @@ function profile() {
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
-                    ProfileController.printFileList(fileListTemplate, result[1]);
+                    if (result[1].length > 0) {
+                        ProfileController.printFileList(fileListTemplate, result[1]);
+                    }
                     ProfileController.showProfile();
                 }
             );

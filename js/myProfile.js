@@ -12,7 +12,9 @@ function myProfile() {
             .then(
                 result => {
                     ProfileController.printProfile(result[0]);
-                    ProfileController.printFileList(myFileListTemplate, result[1]);
+                    if (result[1].length > 0) {
+                        ProfileController.printFileList(myFileListTemplate, result[1]);
+                    }
                     ProfileController.showProfile();
                 }
             );
@@ -44,7 +46,7 @@ $(document).on("change", "#fileInput", ev => {
         )
         .then(
             (fileList) => {
-                ProfileController.printFileList(fileList);
+                ProfileController.printFileList(myFileListTemplate, fileList);
             }
         );
 });
