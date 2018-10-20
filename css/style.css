@@ -56,7 +56,9 @@ select {
     }
 }
 
-
+#groupList > li, #conversationList > li {
+    padding-left: 0;
+}
 
 .bar {
     line-height: 1;
@@ -67,6 +69,7 @@ select {
     border:none;
     text-align:left;
     width:100%;
+    padding-left: 0px;
 }
 
 .width-300 {
@@ -123,12 +126,20 @@ textarea {
     padding-top: 32px;
 }
 
+.padding-top-05em {
+    padding-top: 0.5em;
+}
+
 .padding-top-1em {
     padding-top: 1em !important;
 }
 
 .padding-bottom-1em {
     padding-bottom: 1em;
+}
+
+.padding-bottom-2em {
+    padding-bottom: 2em;
 }
 
 .padding-bottom-3em {
@@ -193,6 +204,10 @@ textarea {
 
 .golden-text {
     color: #C08D42;
+}
+
+.golden-bg {
+    background-color: #C08D42;
 }
 
 .golden-border {

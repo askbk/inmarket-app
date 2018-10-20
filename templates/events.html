@@ -1,24 +1,26 @@
-<table id="eventTable">
-    <tr>
-        <th>Når</th>
-        <th>Hva</th>
-        <th>Hvor</th>
-    </tr>
-</table>
-<div class="w3-container w3-hide" id="eventInfo">
-    <div class="w3-row-padding" id="infoTemplate">
-        <div class="w3-col m3">
-            <img src="" alt="" class="w3-circle">
-        </div>
-        <div class="w3-col m9">
-            <article id="eventDescription">
-                <p>{{dateTime}}: {{description}}</p>
-                <p>
-                    Starttid: {{dateTime}}<br>
-                    Varighet: {{duration}}<br>
-                    Inngangspris: {{price}}<br>
-                </p>
-            </article>
+<div class="w3-container">
+    <table id="eventTable">
+        <tr>
+            <th>Når</th>
+            <th>Hva</th>
+            <th>Hvor</th>
+        </tr>
+    </table>
+    <div class="w3-hide" id="eventInfo">
+        <div class="w3-row-padding" id="infoTemplate">
+            <div class="w3-col m3">
+                <img src="" alt="" class="w3-circle">
+            </div>
+            <div class="w3-col m9">
+                <article id="eventDescription">
+                    <p>{{dateTime}}: {{description}}</p>
+                    <p>
+                        Starttid: {{dateTime}}<br>
+                        Varighet: {{duration}}<br>
+                        Inngangspris: {{price}}<br>
+                    </p>
+                </article>
+            </div>
         </div>
     </div>
 </div>
