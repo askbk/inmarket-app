@@ -11,7 +11,7 @@
 <ul id="groupPosts" class="w3-ul">
 </ul>
 
-<div id="postTemplate" class="w3-hide">
+<template id="postTemplate">
     <div id="post{{post_id}}" class="w3-panel">
         <div class="postContent">
             <div class="">
@@ -29,9 +29,9 @@
             <hr>
         </div>
     </div>
-</div>
+</template>
 
-<div id="commentTemplate" class="w3-hide">
+<template id="commentTemplate">
     <li class="postComment">
         <div id="comment{{postComment_id}}" class="w3-row">
             <div class="w3-left w3-margin-right">
@@ -45,9 +45,9 @@
             </div>
         </div>
     </li>
-</div>
+</template>
 
-<div class="w3-hide" id="commentInputTemplate">
+<template id="commentInputTemplate">
     <li class="postComment">
         <div>
             <div class="">
@@ -60,4 +60,4 @@
             </div>
         </div>
     </li>
-</div>
+</template>
