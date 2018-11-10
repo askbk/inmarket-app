@@ -96,7 +96,7 @@ const Router = {
                 //error();
             }
         },
-        "instillinger"  : {
+        "innstillinger"  : {
             url         : "templates/settings.html",
             html        : "",
             controller  : "js/settings.js",
