@@ -165,7 +165,6 @@ const ConversationController = {
         const messages = conv["messages"];
         const rendered = Pattern.render(msgTemplate, messages);
         chatbox.innerHTML = rendered;
-        chatbox.classList.remove("w3-hide");
     },
     printMessage(msg, id) {
         let newMsg = msgTemplate.replace("{{content}}", msg);

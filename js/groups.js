@@ -46,6 +46,5 @@ const GroupsController = {
         } else {
             groupsCont.innerHTML = Pattern.render(groupListTemplate, groupList);
         }
-        document.getElementById("groups").classList.remove("w3-hide");
     }
 }
