@@ -3,6 +3,8 @@ require_once 'class/Group.php';
 require_once 'class/Auth.php';
 
 if (Auth::isLoggedIn()) {
+    $rest_json = file_get_contents("php://input");
+    $_POST = json_decode($rest_json, true);
     $user_id = Auth::getUserId();
     $groupId = $_POST["groupId"];
 

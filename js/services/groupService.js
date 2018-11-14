@@ -3,32 +3,34 @@ export class GroupService {
         this.subscribers = [];
         this.content = {};
         this.authService = authService;
-        this.contentRetrieval = setInterval(
-            () => {
-                this.getNewContent(
-                    1,
-                    0,
-                    [],
-                    0
-                )
-                    .then(
-                        result => {
-                            this.push(result);
-                        }
-                    );
-            },
-            1000
-        );
+        // this.contentRetrieval = setInterval(
+        //     () => {
+        //         this.getNewContent(1, 0, [], 0)
+        //             .then(
+        //                 result => {
+        //                     this.push(result);
+        //                 }
+        //             );
+        //     },
+        //     1000
+        // );
     }
 
     getPosts(groupId) {
         return fetch('php/getGroupPosts.php', {
             method: 'post',
             headers: {
-                "Authorization": "Bearer " + localStorage.jwt
+                'Accept': 'application/json, text/plain, */*',
+                "Authorization": "Bearer " + localStorage.jwt,
+                'Content-Type': 'application/json'
             },
-            body: "groupId=" + groupId
-        }).then(result => {return JSON.parse(result)});
+            body: JSON.stringify({"groupId": groupId})
+        }).then(response => {
+            return response.json()
+        }).then(posts => {
+            console.log(posts);
+            return posts;
+        });
     }
 
     getNewContent(groupId, prevPostId, postIds, prevCommId) {
@@ -37,10 +39,7 @@ export class GroupService {
 
     createNewPost(post) {
         post = post.trim();
-
-        if (post == "") {
-            return false;
-        }
+        if (post == "") { return false; }
 
         const data = {
             groupId : Router.getParameters()[2],
@@ -58,10 +57,7 @@ export class GroupService {
 
     createNewComment(comment, postId) {
         comment = comment.trim();
-
-        if (comment == "") {
-            return false;
-        }
+        if (comment == "") { return false; }
 
         const data = {
             postId : postId,

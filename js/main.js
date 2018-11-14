@@ -19,16 +19,19 @@ const appRouter = new AppRouter("content");
 
 const homeComponent = new HomeComponent(),
     loginComponent = new LoginComponent(authService, appRouter),
-    errorComponent = new ErrorComponent();
+    errorComponent = new ErrorComponent(),
+    groupListComponent = new GroupListComponent(groupService, new Pattern()),
+    groupComponent = new GroupComponent(groupService, appRouter, new Pattern());
 
 // Construct list of routes
 const routes = [
     // new Route(/\/grupper\/\d+/, new GroupComponent(groupService)),
-    new Route(/\innlogging\/?/, loginComponent),
-    new Route(/\grupper\/?/, new GroupListComponent(groupService, new Pattern())),
-    // new Route(/\/samtaler\/\d+/, new ConversationComponent(messageService)),
-    // new Route(/\/samtaler\/?/, new ConversationListComponent()),
-    new Route(/\hjem\/?/, homeComponent),
+    new Route(/innlogging\/?/, loginComponent),
+    new Route(/grupper\/\d+/, groupComponent),
+    new Route(/grupper\/?/, groupListComponent),
+    // new Route(/samtaler\/\d+/, new ConversationComponent(messageService)),
+    // new Route(/samtaler\/?/, new ConversationListComponent()),
+    new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent),
     new Route(/.*/, errorComponent)
 ];
