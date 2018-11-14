@@ -32,36 +32,7 @@ export class GroupService {
     }
 
     getNewContent(groupId, prevPostId, postIds, prevCommId) {
-        const postParams = {
-            "groupId"       : groupId,
-            "prevPostId"    : prevPostId,
-            "postIds"       : postIds,
-            "prevCommId"    : prevCommId
-        };
-        return new Promise(
-            (resolve, reject) => {
-                $.ajax({
-                    url: 'php/getGroupPosts.php',
-                    beforeSend: request=> {
-                        request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-                    },
-                    type: 'POST',
-                    data: postParams,
-                    success: data => {
-                        resolve(JSON.parse(data));
-                    },
-                    error: (xhr, textStatus, errorThrown) => {
-                        if (xhr.status == 401) {
-                            console.log("not logged in");
-                            location.hash = "/innlogging";
-                        } else {
-                            console.log("error: " + xhr.status);
-                        }
-                        reject("error");
-                    }
-                });
-            }
-        );
+
     }
 
     createNewPost(post) {
@@ -75,23 +46,13 @@ export class GroupService {
             groupId : Router.getParameters()[2],
             content : post
         };
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: 'php/createGroupPost.php',
-                beforeSend: request=> {
-                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-                },
-                type: 'POST',
-                data: data,
-                success: () => {
-                    resolve("success");
-                },
-                error: () => {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                    resolve("error");
-                }
-            });
+
+        return fetch("php/createGroupPost.php", {
+            method: 'post',
+            headers: {
+                "authorization": "Bearer " + localStorage.jwt
+            },
+            body: data
         });
     }
 
@@ -106,23 +67,29 @@ export class GroupService {
             postId : postId,
             content : comment
         };
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: 'php/createGroupComment.php',
-                beforeSend: request=> {
-                    request.setRequestHeader('Authorization', 'Bearer ' + localStorage.jwt);
-                },
-                type: 'POST',
-                data: data,
-                success: () => {
-                    resolve("success");
-                },
-                error: () => {
-                    console.log("not logged in");
-                    location.hash = "/innlogging";
-                    reject("error");
-                }
-            });
+
+        return fetch("php/createGroupComment.php", {
+            method: "post",
+            headers: {
+                "authorization": "Bearer " + localStorage.jwt
+            },
+            body: data
+        });
+    }
+
+    getGroupList() {
+        return fetch("php/getGroup.php", {
+            method: 'post',
+            headers: {
+                "Authorization": "Bearer " + localStorage.jwt
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(groups => {
+            console.log(groups);
+            return groups;
         });
     }
 

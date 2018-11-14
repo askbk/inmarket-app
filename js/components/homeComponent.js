@@ -1,11 +1,11 @@
-export class ErrorComponent {
+export class HomeComponent {
     constructor() {
-        this.htmlUrl = "../../templates/error.html";
+        this.htmlUrl = "../../templates/hjem.html";
         this.page = "";
     }
 
     init() {
-        return false;
+        return true;
     }
 
     destroy() {

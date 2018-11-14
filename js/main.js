@@ -1,27 +1,37 @@
 import { GroupService } from './services/groupService.js';
 import { AuthService } from './services/authService.js';
-import { GroupComponent } from './components/groupComponent.js';
+
 import { AppRouter, Route} from './appRouter.js';
+import { Pattern } from './patternjs/pattern.js';
+
+import { GroupComponent } from './components/groupComponent.js';
+import { GroupListComponent } from './components/groupListComponent.js';
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
+import { HomeComponent } from './components/homeComponent.js';
 
 //  Construct all services needed
-// const groupService = new GroupService(),
-const    authService = new AuthService();
+const groupService = new GroupService(),
+    authService = new AuthService();
+
+// Construct router
+const appRouter = new AppRouter("content");
+
+const homeComponent = new HomeComponent(),
+    loginComponent = new LoginComponent(authService, appRouter),
+    errorComponent = new ErrorComponent();
 
 // Construct list of routes
 const routes = [
     // new Route(/\/grupper\/\d+/, new GroupComponent(groupService)),
-    new Route(/\/innlogging\/?/, new LoginComponent(authService)),
-    // new Route(/\/grupper\/?/, new GroupListComponent()),
+    new Route(/\innlogging\/?/, loginComponent),
+    new Route(/\grupper\/?/, new GroupListComponent(groupService, new Pattern())),
     // new Route(/\/samtaler\/\d+/, new ConversationComponent(messageService)),
     // new Route(/\/samtaler\/?/, new ConversationListComponent()),
-    // new Route(/\/hjem\/?/, new HomeComponent()),
-    new Route(/.*/, new ErrorComponent())
+    new Route(/\hjem\/?/, homeComponent),
+    new Route(/^(?![\s\S])/, homeComponent),
+    new Route(/.*/, errorComponent)
 ];
-
-// Construct router
-const appRouter = new AppRouter("content");
 
 appRouter.registerRoutes(routes);
 

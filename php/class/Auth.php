@@ -121,7 +121,7 @@ class Auth
             $request[$name] = $value;
         }
 
-        $jwt = explode(" ", $request["Authorization"])[1];
+        $jwt = explode(" ", $request["authorization"])[1];
 
         return $jwt;
     }

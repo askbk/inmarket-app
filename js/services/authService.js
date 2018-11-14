@@ -3,7 +3,7 @@ export class AuthService {
 
     login(credentials) {
         console.log(credentials);
-        fetch('php/login.php', {
+        return fetch('php/login.php', {
             method: 'post',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
