@@ -51,6 +51,8 @@ function group() {
     });
 }
 
+const GroupComponent =
+
 $(document).on("submit", '.commentInputForm', function(ev) {
     ev.preventDefault();
     const postId = ($(this).parentsUntil("li.postWrapper").prev().last().attr("id")).replace( /^\D+/g, '')

@@ -22,19 +22,7 @@
                     <a href="#/meldinger" class="w3-xlarge margin-right-04em"> <i class="far fa-envelope"></i> </a>
                     <a href="#" class="w3-xlarge"><i class="fas fa-search"></i></a>
                     <a href="javascript:void(0);" class=""> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px" id="navbar-profile-pic"> </a>
-                    <!-- <button class="white-button w3-xlarge w3-right" id="navbar-button">
-                                <span id="menu-closed">
-                                <span class="hide-scroll">
-                                Meny
-                            </span>
-                        </span>
-                        <span id="menu-opened" style="display:none;">Lukk</span>
-                        <div class="menu-container" onclick="menuAnimation(this)">
-                            <div class="menu-bar1"></div>
-                            <div class="menu-bar2"></div>
-                            <div class="menu-bar3"></div>
-                        </div>
-                    </button> -->
+
                 </div>
             </div>
             <div id="navbar-dropdown-content" class="w3-content w3-bar white-bg padding-bottom-16 w3-large" style="display:none;">
@@ -54,15 +42,6 @@
         <div class="w3-overlay">
         </div>
 
-        <!-- <div class="w3-bar w3-top bottom-accent bar bg-white">
-            <a href="#" class="w3-bar-item"><img src="img/logos/logo-flat-small.png" height="48px" alt="" id="navbar-img"></a>
-            <span class="header-text w3-large common-line-height-bar" id="currentPageHeader">InMarket</span>
-            <div class=" w3-right" id="hidden-items-top">
-                <a href="#/meldinger" class="w3-large common-line-height-bar"> <i class="far fa-envelope"></i> </a>
-                <a href="#" class="w3-large common-line-height-bar"><i class="fas fa-search"></i></a>
-                <a href="javascript:void(0);" class="" onclick="sidebarToggle()"> <img src="img/stock-profile.jpg" alt="" class="w3-circle" height="48px" id="navbar-profile-pic"> </a>
-            </div>
-        </div> -->
         <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card w3-large z-index-3" id="sidebar" style="right:0;">
             <button type="button" name="closeSidebar" class="w3-bar-item white-button w3-mobile sidebar-button">Lukk<span class="w3-right">&times</span></button>
             <a href="#/innstillinger" class="w3-bar-item white-button w3-mobile sidebar-button">innstillinger</a>
@@ -81,107 +60,10 @@
         <section class="margin-top-70 padding-bottom-3em" id="content">
         </section>
     </body>
-    <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
+    <script src="js/jquery-3.3.1.min.js" charset="utf-8"></script>
     <script src="js/patternjs/pattern.js" charset="utf-8"></script>
-    <script src="js/router.js" charset="utf-8"></script>
-    <script src="js/bedrift.js" charset="utf-8"></script>
-    <script src="js/contact.js" charset="utf-8"></script>
-    <script src="js/conversation.js" charset="utf-8"></script>
-    <script src="js/controlpanel.js" charset="utf-8"></script>
-    <script src="js/events.js" charset="utf-8"></script>
-    <script src="js/group.js" charset="utf-8"></script>
-    <script src="js/groups.js" charset="utf-8"></script>
-    <script src="js/home.js" charset="utf-8"></script>
-    <script src="js/login.js" charset="utf-8"></script>
-    <script src="js/messages.js" charset="utf-8"></script>
-    <script src="js/myProfile.js" charset="utf-8"></script>
-    <script src="js/profile.js" charset="utf-8"></script>
-    <script src="js/register.js" charset="utf-8"></script>
-    <script src="js/settings.js" charset="utf-8"></script>
+    <script type="module" src="js/main.js" charset="utf-8"></script>
     <script type="text/javascript">
-        let sidebar = document.getElementById("sidebar");
-        let bottomNav = document.getElementById("bottomNav");
-        let hiddenItems = document.getElementById("hidden-items-top");
-
-        const getHTML = url => {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: url,
-                    success: function (htmlContent) {
-                        resolve(htmlContent)
-                    },
-                    error: function () {
-                        reject("error")
-                    }
-                });
-            });
-        };
-
-        // TODO: tilpasse datoformat
-        const timestampToDate = ts => {
-            return new Date(ts).toLocaleString("nb-NO");
-        }
-
-        let iterations = [];
-        Object.keys(Router.routes).forEach((page,index) => {
-            let html = getHTML(Router.routes[page].url)
-                .then((result) => {
-                    Router.routes[page].html = result;
-                }
-            );
-
-            iterations.push(html);
-        });
-
-        Promise.all(iterations)
-            .then(() => {
-                Router.route()
-                interfaceController();
-            });
-
-
-        window.onhashchange = function () {
-            Router.route();
-            interfaceController();
-        };
-
-        window.onload = function () {
-            if (localStorage.adminLevel > 0) {
-                document.getElementById("controlpanelLink").classList.remove("w3-hide");
-            }
-        }
-
-        function interfaceController() {
-            let page = Router.getParameters()[1];
-            switch (page) {
-                case "registrering":
-                    bottomNav.classList.add("w3-hide");
-                    hiddenItems.classList.add("w3-hide");
-                    break;
-                case "innlogging":
-                    bottomNav.classList.add("w3-hide");
-                    hiddenItems.classList.add("w3-hide");
-                    break;
-                case "bedrift":
-                    bottomNav.classList.add("w3-hide");
-                    hiddenItems.classList.remove("w3-hide");
-                    break;
-                case "samtale":
-                    bottomNav.classList.add("w3-hide");
-                    hiddenItems.classList.remove("w3-hide");
-                    break;
-                case "innstillinger":
-                    bottomNav.classList.add("w3-hide");
-                    hiddenItems.classList.remove("w3-hide");
-                    break;
-                default:
-                    bottomNav.classList.remove("w3-hide");
-                    hiddenItems.classList.remove("w3-hide");
-                    break;
-            }
-        }
-
-
 
         let menuCounter = 0,
             menuContainer = $(".menu-container"),
@@ -217,34 +99,6 @@
             ++sidebarCounter;
             overlay.fadeIn();
         }
-
-        // $("#navbar-button").click(function () {
-        //     if (menuCounter%2===0) {
-        //         showMenu();
-        //     } else {
-        //         hideMenu();
-        //     }
-        // });
-        // $("#navbar-dropdown-content").click(function () {
-        //     hideMenu();
-        // });
-        //
-        // function hideMenu() {
-        //     ++menuCounter;
-        //     menuContainer.toggleClass("menu-change");
-        //     dropdown.slideToggle("fast");
-        //     overlay.hide();
-        // }
-        //
-        // function showMenu() {
-        //     ++menuCounter;
-        //     menuContainer.toggleClass("menu-change");
-        //     dropdown.slideToggle("fast");
-        //     overlay.fadeIn();
-        // }
-
-
-
     </script>
 
 </html>
