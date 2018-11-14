@@ -36,7 +36,7 @@ export class AppRouter {
     }
 
     navigate(path) {
-        window.location.hash = "#" + path;
+        window.location.hash = "#/" + path;
     }
 };
 

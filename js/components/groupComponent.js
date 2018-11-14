@@ -11,6 +11,7 @@ export class GroupComponent {
     init() {
         this.parameters = this.router.getParameters();
         this.currentGroupId = this.parameters[1];
+        this.groupService.setGroupId(this.currentGroupId);
 
         console.log(this.router.getParameters());
         this.postTemplate = document.getElementById("postTemplate").innerHTML;
@@ -48,8 +49,14 @@ export class GroupComponent {
     }
 
     receiveGroupContent(content) {
-        // GroupController.printNewPosts(content.posts);
-        // GroupController.printNewComments(content.comments);
+        for (let post of content.posts) {
+            const commentSection = "<ul class='w3-ul commentSection w3-card w3-round bg-white'>" + commentInputTemplate + "</ul>";
+            const opSection = this.pattern.render(this.postTemplate, post.OP)
+            $("#groupPosts").prepend("<li class='postWrapper bg-light-grey'>" + opSection + commentSection + "</li>")
+        }
+        for (let comment of content.comments) {
+            $("#post" + comment.post_id).next().children().last().before(this.pattern.render(this.commentTemplate, [comment]));
+        }
     }
 
     destroy() {

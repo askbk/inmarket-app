@@ -11,16 +11,8 @@ if (Auth::isLoggedIn()) {
     if (isset($_POST["prevPostId"]) && isset($_POST["prevCommId"])) {
         $prevPostId = $_POST["prevPostId"];
         $prevCommId = $_POST["prevCommId"];
-        $postIds    = $_POST["postIds"];
         $newPosts = Group::getNewPosts($groupId, $prevPostId);
-        $newComments = array();
-
-        foreach ($postIds as $postId) {
-            $temp = Group::getPostComments($postId, $prevCommId);
-            if (sizeof($temp) > 0) {
-                $newComments = array_merge($newComments, $temp);
-            }
-        }
+        $newComments = Group::getNewPostComments($postId, $prevCommId);
 
         $posts = array();
 
