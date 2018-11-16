@@ -15,6 +15,7 @@ export class RegistrationComponent {
         let kommuneTemplate = document.getElementById("kommuneTemplate").innerHTML;
         let kommuneList = document.getElementById("kommuneList");
         let responseText = document.getElementById("responseText");
+        let userType = -1;
 
         document.title = "Registrering | InMarket App";
 
@@ -29,15 +30,18 @@ export class RegistrationComponent {
         $(document).on("click", ".clientType", e => {
             switch (e.currentTarget.value) {
                 case "pupil":
-                    this.registrationService.setProperties({isPupil: 1});
+                    this.registrationService.setProperties({userType: 0});
+                    userType = 0;
                     $("#pupilPage").removeClass("w3-hide");
                     break;
                 case "student":
-                    this.registrationService.setProperties({isStudent: 1});
+                    this.registrationService.setProperties({userType: 1});
+                    userType = 1;
                     $("#studentPage").removeClass("w3-hide");
                     break;
                 case "employee":
-                    this.registrationService.setProperties({isEmployee: 1});
+                    this.registrationService.setProperties({userType: 2});
+                    userType = 2;
                     $("#neetPage").removeClass("w3-hide");
                     break;
             }
@@ -61,11 +65,21 @@ export class RegistrationComponent {
 
         $(document).on("click", "#registerButton", e => {
             e.preventDefault();
-            this.registrationService.setProperties(
-                {
-                    kommuneNr: $("select").val()
-                }
-            );
+            let props = { kommuneNr: $("select").val() };
+            if (userType === 0) {
+                props.school = $("input[name='schoolPupil']").val();
+                props.schoolYear = $("input[name='schoolYearPupil']").val();
+                props.program = $("input[name='programPupil']").val();
+            } else if (userType === 1) {
+                props.school = $("input[name='schoolStudent']").val();
+                props.schoolYear = $("input[name='schoolYearStudent']").val();
+                props.program = $("input[name='programStudent']").val();
+            } else if (userType === 2) {
+                props.companyName = $("input[name='companyName']").val();
+                props.position = $("input[name='position']").val();
+                props.education = $("input[name='education']").val();
+            }
+            this.registrationService.setProperties(props);
 
             this.registrationService.register()
             .then(() => {

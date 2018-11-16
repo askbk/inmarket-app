@@ -14,6 +14,8 @@ export class AuthService {
         }).then(token => {
             console.log(token);
             localStorage.jwt = token.jwt;
+        }).catch(error => {
+            console.log(error.message);
         });
     }
 
