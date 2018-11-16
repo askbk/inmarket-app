@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <title>Hjem | InMarket App</title>
         <link rel="stylesheet" href="css/w3pro.css">
@@ -28,7 +27,7 @@
             <div id="navbar-dropdown-content" class="w3-content w3-bar white-bg padding-bottom-16 w3-large" style="display:none;">
                 <hr>
                 <div class="w3-bar-item w3-mobile w3-center">
-                    <a href="#/innstillinger" class="golden-accent-bottom">innstillinger</a>
+                    <a href="#/innstillinger" class="golden-accent-bottom">Innstillinger</a>
                 </div>
                 <div class="w3-bar-item w3-mobile w3-center">
                     <a href="#/meg" class="golden-accent-bottom">Min profil</a>
@@ -68,6 +67,7 @@
             menuContainer = $(".menu-container"),
             overlay = $(".w3-overlay"),
             dropdown = $("#navbar-dropdown-content"),
+            sidebar = document.getElementById("sidebar"),
             sidebarCounter = 0;
 
         $("#navbar-profile-pic").click(function () {

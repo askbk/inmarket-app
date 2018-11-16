@@ -1,8 +1,7 @@
 export class GroupService {
-    constructor(authService) {
+    constructor() {
         this.subscribers = [];
         this.content = {};
-        this.authService = authService;
         this.active = false;
         this.groupId = 0;
         this.prevPostId = 0;
@@ -122,17 +121,18 @@ export class GroupService {
         for (let i = 0; i < this.subscribers.length; ++i) {
             if (this.subscribers[i] === sub) {
                 this.subscribers.splice(i, 1);
+                if (this.subscribers.length == 0) {
+                    this.active = false;
+                }
                 return true;
             }
         }
 
-        if (this.subscribers.length == 0) {
-            this.active = false;
-        }
+        return false;
     }
 
     push(content) {
-        for (subscriber of this.subscribers) {
+        for (let subscriber of this.subscribers) {
             subscriber.receiveGroupContent(content);
         }
     }

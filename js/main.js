@@ -1,12 +1,14 @@
 import { GroupService } from './services/groupService.js';
 import { AuthService } from './services/authService.js';
 import { RegistrationService } from './services/registrationService.js';
+import { MessageService } from './services/messageService.js';
 
 import { AppRouter, Route} from './appRouter.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { GroupComponent } from './components/groupComponent.js';
 import { GroupListComponent } from './components/groupListComponent.js';
+import { MessageListComponent } from './components/MessageListComponent.js';
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
 import { HomeComponent } from './components/homeComponent.js';
@@ -15,7 +17,8 @@ import { RegistrationComponent } from './components/registrationComponent.js';
 //  Construct all services needed
 const groupService = new GroupService(),
     authService = new AuthService(),
-    registrationService = new RegistrationService();
+    registrationService = new RegistrationService(),
+    messageService = new MessageService();
 
 // Construct router
 const appRouter = new AppRouter("content");
@@ -25,7 +28,8 @@ const homeComponent = new HomeComponent(),
     registrationComponent = new RegistrationComponent(registrationService, new Pattern(), appRouter),
     errorComponent = new ErrorComponent(),
     groupListComponent = new GroupListComponent(groupService, new Pattern()),
-    groupComponent = new GroupComponent(groupService, appRouter, new Pattern());
+    groupComponent = new GroupComponent(groupService, appRouter, new Pattern()),
+    messageListComponent = new MessageListComponent(messageService, new Pattern());
 
 // Construct list of routes
 const routes = [
@@ -34,8 +38,7 @@ const routes = [
     new Route(/registrering\/?/, registrationComponent),
     new Route(/grupper\/\d+/, groupComponent),
     new Route(/grupper\/?/, groupListComponent),
-    // new Route(/samtaler\/\d+/, new ConversationComponent(messageService)),
-    // new Route(/samtaler\/?/, new ConversationListComponent()),
+    new Route(/meldinger\/?/, messageListComponent),
     new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent),
     new Route(/.*/, errorComponent)
