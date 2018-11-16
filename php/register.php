@@ -11,6 +11,7 @@ if (isValidEmail($_POST["email"])) {
         return false;
     }
 } else {
+    var_dump($_POST);
     echo "Invalid characters in e-mail";
     return false;
 }

@@ -17,9 +17,12 @@ export class RegistrationService {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify(this.user)
+            body: $.param(this.user)
+        })
+        .then(() => {
+            this.reset();
         });
     }
 

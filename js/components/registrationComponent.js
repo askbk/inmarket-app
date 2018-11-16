@@ -83,7 +83,7 @@ export class RegistrationComponent {
 
             this.registrationService.register()
             .then(() => {
-                this.router.navigate("hjem");
+                this.router.navigate("innlogging");
             });
         });
 
