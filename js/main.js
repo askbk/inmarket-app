@@ -1,5 +1,6 @@
 import { GroupService } from './services/groupService.js';
 import { AuthService } from './services/authService.js';
+import { RegistrationService } from './services/registrationService.js';
 
 import { AppRouter, Route} from './appRouter.js';
 import { Pattern } from './patternjs/pattern.js';
@@ -9,16 +10,19 @@ import { GroupListComponent } from './components/groupListComponent.js';
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
 import { HomeComponent } from './components/homeComponent.js';
+import { RegistrationComponent } from './components/registrationComponent.js';
 
 //  Construct all services needed
 const groupService = new GroupService(),
-    authService = new AuthService();
+    authService = new AuthService(),
+    registrationService = new RegistrationService();
 
 // Construct router
 const appRouter = new AppRouter("content");
 
 const homeComponent = new HomeComponent(),
     loginComponent = new LoginComponent(authService, appRouter),
+    registrationComponent = new RegistrationComponent(registrationService, new Pattern(), appRouter),
     errorComponent = new ErrorComponent(),
     groupListComponent = new GroupListComponent(groupService, new Pattern()),
     groupComponent = new GroupComponent(groupService, appRouter, new Pattern());
@@ -27,6 +31,7 @@ const homeComponent = new HomeComponent(),
 const routes = [
     // new Route(/\/grupper\/\d+/, new GroupComponent(groupService)),
     new Route(/innlogging\/?/, loginComponent),
+    new Route(/registrering\/?/, registrationComponent),
     new Route(/grupper\/\d+/, groupComponent),
     new Route(/grupper\/?/, groupListComponent),
     // new Route(/samtaler\/\d+/, new ConversationComponent(messageService)),

@@ -3,20 +3,26 @@ export class GroupService {
         this.subscribers = [];
         this.content = {};
         this.authService = authService;
-        // this.contentRetrieval = setInterval(
-        //     () => {
-        //         this.getNewContent(1, 0, [], 0)
-        //             .then(
-        //                 result => {
-        //                     this.push(result);
-        //                 }
-        //             );
-        //     },
-        //     1000
-        // );
+        this.active = false;
+        this.groupId = 0;
+        this.prevPostId = 0;
+        this.prevCommId = 0;
+        this.contentRetrieval = setInterval(
+            () => {
+                if (this.active) {
+                    this.getNewContent()
+                    .then(
+                        result => {
+                            this.push(result);
+                        }
+                    );
+                }
+            },
+            1000
+        );
     }
 
-    getPosts(groupId) {
+    getPosts() {
         return fetch('php/getGroupPosts.php', {
             method: 'post',
             headers: {
@@ -33,8 +39,26 @@ export class GroupService {
         });
     }
 
-    getNewContent(groupId, prevPostId, postIds, prevCommId) {
+    getNewContent() {
+        const postParams = {
+            "groupId"       : this.groupId,
+            "prevPostId"    : this.prevPostId,
+            "prevCommId"    : this.prevCommId
+        };
 
+        return fetch("php/getGroupPosts.php", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                "Authorization": "Bearer " + localStorage.jwt,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postParams)
+        }).then(response => {
+            return response.json();
+        }).then(result => {
+            return result;
+        });
     }
 
     createNewPost(post) {
@@ -42,7 +66,7 @@ export class GroupService {
         if (post == "") { return false; }
 
         const data = {
-            groupId : Router.getParameters()[2],
+            groupId : this.groupId,
             content : post
         };
 
@@ -91,6 +115,7 @@ export class GroupService {
 
     subscribe(subscriber) {
         this.subscribers.push(subscriber);
+        this.active = true;
     }
 
     unsubscribe(subscriber) {
@@ -100,11 +125,19 @@ export class GroupService {
                 return true;
             }
         }
+
+        if (this.subscribers.length == 0) {
+            this.active = false;
+        }
     }
 
     push(content) {
         for (subscriber of this.subscribers) {
             subscriber.receiveGroupContent(content);
         }
+    }
+
+    setGroupId(groupId) {
+        this.groupId = groupId;
     }
 }

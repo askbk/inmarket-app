@@ -155,7 +155,7 @@ class Group
 
     //  Returns all posts belonging to the given group that have an ID greater
     //  than the given post.
-    public static function getNewPosts($groupId, $prevId)
+    public static function getNewPosts($groupId, $prevId = 0)
     {
         $sql = "SELECT user.name, user.profilePicture, post.post_id, post.poster, post.content,
                     post.timestamp
@@ -164,6 +164,23 @@ class Group
                 ON post.poster = user.user_id
                 WHERE group_id = $groupId
                 AND post_id > $prevId";
+
+        return DB::returnArray(DB::select($sql));
+    }
+
+    //  Return all comments belonging to the given group with and ID greater
+    //  than the given ID.
+    public static function getNewComments($groupId, $prevId = 0)
+    {
+        $sql = "SELECT user.name, user.profilePicture, postComment.postComment_id,
+                    postComment.user_id, postComment.timestamp,
+                    postComment.content, postComment.post_id
+                FROM postComment
+                INNER JOIN user
+                ON postComment.user_id = user.user_id
+                WHERE postComment.group_id = $groupId
+                    AND postComment.postComment_id > $prevId
+                ORDER BY postComment.postComment_id ASC";
 
         return DB::returnArray(DB::select($sql));
     }
