@@ -6,9 +6,7 @@ export class RegistrationService {
             phone           : "",
             password        : "",
             kommuneNr       : 0,
-            isPupil         : 0,
-            isStudent       : 0,
-            isNEET          : 0,
+            userType        : -1,
             emailVerified   : 0
         };
     }
@@ -28,13 +26,9 @@ export class RegistrationService {
     setProperties(props) {
         Object.keys(props).forEach((property, index) => {
             console.log(property);
-            this.user.property = props.property;
+            this.user[property] = props[property];
         })
-    }
-
-    setPupil() {
-        this.clearType();
-        this.user.isPupil = 0;
+        console.log(this.user);
     }
 
     reset() {
@@ -44,9 +38,7 @@ export class RegistrationService {
             phone           : "",
             password        : "",
             kommuneNr       : 0,
-            isPupil         : 0,
-            isStudent       : 0,
-            isNEET          : 0,
+            userType        : -1,
             emailVerified   : 0
         };
     }

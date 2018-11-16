@@ -9,15 +9,12 @@ class User
 {
     //  Inserts a new user into the database and returns the id.
     public static function insertUser($name, $email, $phone, $adminLevel,
-                                        $isStudent, $isNEET, $isPupil,
-                                        $password, $kommuneNr)
+                                        $userType, $password, $kommuneNr)
     {
         $sql = "INSERT INTO user (name, email, phone, kommuneNr, adminLevel,
-                    password, createTime, isStudent, isNEET, isPupil,
-                    profilePicture)
+                    password, createTime, userType, profilePicture)
                 VALUES ('$name', '$email', '$phone', '$kommuneNr', 0,
-                    '$password', NOW(), $isStudent, '$isNEET', '$isPupil',
-                'img/stock-profile.jpg')";
+                    '$password', NOW(), $userType, 'img/stock-profile.jpg')";
 
         return DB::write($sql);
     }
@@ -174,19 +171,11 @@ class User
     //  Returns the user type of a given user.
     public static function getUserType($user_id)
     {
-        $sql = "SELECT isPupil, isStudent
+        $sql = "SELECT userType
                 FROM user
                 WHERE user_id = $user_id";
 
-        $result = DB::returnValue(DB::select($sql));
-
-        if ($result["isPupil"] == 1) {
-            return 0;
-        } else if ($result["isStudent"] == 1) {
-            return 1;
-        } else {
-            return 2;
-        }
+        return DB::returnValue(DB::select($sql))["userType"];
     }
 
     //  Checks admin level of a given user.

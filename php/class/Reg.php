@@ -11,15 +11,14 @@ class Reg
     {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
         $user_id = User::insertUser($user["name"], $user["email"],
-                                    $user["phone"], 0, $user["isStudent"],
-                                    $user["isNEET"], $user["isPupil"],
+                                    $user["phone"], 0, $user["userType"],
                                     $password, $user["kommuneNr"]);
 
-        if ($user["isStudent"]) {
+        if ($user["userType"] == 0) {
             self::registerStudent($user_id, $user);
-        } else if ($user["isNEET"]) {
+        } else if ($user["userType"] == 1) {
             self::registerNeet($user_id, $user);
-        } else if ($user["isPupil"]) {
+        } else if ($user["userType"] == 2) {
             self::registerPupil($user_id, $user);
         }
 
