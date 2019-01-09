@@ -8,7 +8,7 @@ import { Pattern } from './patternjs/pattern.js';
 
 import { GroupComponent } from './components/groupComponent.js';
 import { GroupListComponent } from './components/groupListComponent.js';
-import { MessageListComponent } from './components/MessageListComponent.js';
+import { MessageListComponent } from './components/messageListComponent.js';
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
 import { HomeComponent } from './components/homeComponent.js';
