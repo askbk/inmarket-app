@@ -1,5 +1,6 @@
 export class LoginComponent {
-    constructor(authService, router) {
+    constructor(DEBUG_MODE, authService, router) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.authService = authService;
         this.htmlUrl = "../../templates/login.html";
         this.page = "";
@@ -18,7 +19,7 @@ export class LoginComponent {
     }
 
     destroy() {
-        
+
     }
 
     getPage() {

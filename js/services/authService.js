@@ -1,5 +1,7 @@
 export class AuthService {
-    constructor() {}
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
+    }
 
     login(credentials) {
         console.log(credentials);

@@ -1,5 +1,6 @@
 export class RegistrationComponent {
-    constructor(registrationService, pattern, router) {
+    constructor(DEBUG_MODE, registrationService, pattern, router) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.htmlUrl = "../../templates/register.html";
         this.page = "";
         this.pattern = pattern;

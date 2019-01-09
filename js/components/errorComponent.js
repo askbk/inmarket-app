@@ -1,5 +1,6 @@
 export class ErrorComponent {
-    constructor() {
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.htmlUrl = "../../templates/error.html";
         this.page = "";
     }
@@ -9,7 +10,7 @@ export class ErrorComponent {
     }
 
     destroy() {
-        
+
     }
 
     getPage() {

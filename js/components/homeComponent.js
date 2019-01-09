@@ -1,5 +1,6 @@
 export class HomeComponent {
-    constructor() {
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.htmlUrl = "../../templates/hjem.html";
         this.page = "";
     }
@@ -9,7 +10,7 @@ export class HomeComponent {
     }
 
     destroy() {
-        
+
     }
 
     getPage() {

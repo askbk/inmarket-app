@@ -1,5 +1,6 @@
 export class GroupService {
-    constructor() {
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.subscribers = [];
         this.content = {};
         this.active = false;

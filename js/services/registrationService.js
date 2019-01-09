@@ -1,5 +1,6 @@
 export class RegistrationService {
-    constructor() {
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.user = {
             name            : "",
             email           : "",

@@ -1,5 +1,6 @@
 export class GroupListComponent {
-    constructor(groupService, pattern) {
+    constructor(DEBUG_MODE, groupService, pattern) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.groupService = groupService;
         this.htmlUrl = "../../templates/groups.html";
         this.page = "";

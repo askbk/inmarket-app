@@ -1,5 +1,6 @@
 export class AppRouter {
-    constructor(outlet) {
+    constructor(DEBUG_MODE, outlet) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.outlet = outlet;
         this.routes = [];
         this.parameters = [];

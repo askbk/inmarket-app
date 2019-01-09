@@ -1,5 +1,6 @@
 export class MessageService {
-    constructor() {
+    constructor(DEBUG_MODE) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.subscribers = [];
         this.active = false;
     }

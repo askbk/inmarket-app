@@ -1,5 +1,6 @@
 export class MessageListComponent {
-    constructor(messageService, pattern) {
+    constructor(DEBUG_MODE, messageService, pattern) {
+        this.DEBUG_MODE = DEBUG_MODE;
         this.messageService = messageService;
         this.htmlUrl = "../../templates/messages.html";
         this.page = "";

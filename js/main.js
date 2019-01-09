@@ -14,22 +14,25 @@ import { LoginComponent } from './components/loginComponent.js';
 import { HomeComponent } from './components/homeComponent.js';
 import { RegistrationComponent } from './components/registrationComponent.js';
 
+//  Development variables
+const DEBUG_MODE = true;
+
 //  Construct all services needed
-const groupService = new GroupService(),
-    authService = new AuthService(),
-    registrationService = new RegistrationService(),
-    messageService = new MessageService();
+const groupService = new GroupService(DEBUG_MODE),
+    authService = new AuthService(DEBUG_MODE),
+    registrationService = new RegistrationService(DEBUG_MODE),
+    messageService = new MessageService(DEBUG_MODE);
 
 // Construct router
-const appRouter = new AppRouter("content");
+const appRouter = new AppRouter(DEBUG_MODE, "content");
 
-const homeComponent = new HomeComponent(),
-    loginComponent = new LoginComponent(authService, appRouter),
-    registrationComponent = new RegistrationComponent(registrationService, new Pattern(), appRouter),
-    errorComponent = new ErrorComponent(),
-    groupListComponent = new GroupListComponent(groupService, new Pattern()),
-    groupComponent = new GroupComponent(groupService, appRouter, new Pattern()),
-    messageListComponent = new MessageListComponent(messageService, new Pattern());
+const homeComponent = new HomeComponent(DEBUG_MODE),
+    loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
+    registrationComponent = new RegistrationComponent(DEBUG_MODE, registrationService, new Pattern(), appRouter),
+    errorComponent = new ErrorComponent(DEBUG_MODE),
+    groupListComponent = new GroupListComponent(DEBUG_MODE, groupService, new Pattern()),
+    groupComponent = new GroupComponent(DEBUG_MODE, groupService, appRouter, new Pattern()),
+    messageListComponent = new MessageListComponent(DEBUG_MODE, messageService, new Pattern());
 
 // Construct list of routes
 const routes = [
