@@ -9,10 +9,13 @@ export class RegistrationComponent {
     }
 
     init() {
+        if (this.DEBUG_MODE) {
+            console.log("RegistrationComponent init");
+        }
         this.registrationPages = document.getElementsByClassName("registrationPage");
-        let studentPage = document.getElementsById("studentPage");
+        let studentPage = document.getElementById("studentPage");
         let jobseekerPage = document.getElementById("jobseekerPage");
-        let employeePage = document.getElementsById("employeePage");
+        let employeePage = document.getElementById("employeePage");
         let kommuneTemplate = document.getElementById("kommuneTemplate").innerHTML;
         let kommuneList = document.getElementById("kommuneList");
         let responseText = document.getElementById("responseText");
@@ -29,6 +32,7 @@ export class RegistrationComponent {
         });
 
         $(document).on("click", ".clientType", e => {
+            console.log("click clientType");
             switch (e.currentTarget.value) {
                 case "student":
                     this.registrationService.setProperties({userType: 0});
