@@ -99,10 +99,6 @@ export class RegistrationComponent {
     }
 
     nextPage(n) {
-        if (this.DEBUG_MODE) {
-            console.log("Next registrationPage: " +  this.registrationPages[n]);
-        }
-
         for (let page of this.registrationPages) {
             page.classList.add("w3-hide");
         }
