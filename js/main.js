@@ -29,19 +29,19 @@ const appRouter = new AppRouter(DEBUG_MODE, "content");
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
     registrationComponent = new RegistrationComponent(DEBUG_MODE, registrationService, new Pattern(), appRouter),
-    errorComponent = new ErrorComponent(DEBUG_MODE),
-    groupListComponent = new GroupListComponent(DEBUG_MODE, groupService, new Pattern()),
-    groupComponent = new GroupComponent(DEBUG_MODE, groupService, appRouter, new Pattern()),
-    messageListComponent = new MessageListComponent(DEBUG_MODE, messageService, new Pattern());
+    errorComponent = new ErrorComponent(DEBUG_MODE);
+    // groupListComponent = new GroupListComponent(DEBUG_MODE, groupService, new Pattern()),
+    // groupComponent = new GroupComponent(DEBUG_MODE, groupService, appRouter, new Pattern()),
+    // messageListComponent = new MessageListComponent(DEBUG_MODE, messageService, new Pattern());
 
 // Construct list of routes
 const routes = [
     // new Route(/\/grupper\/\d+/, new GroupComponent(groupService)),
     new Route(/innlogging\/?/, loginComponent),
     new Route(/registrering\/?/, registrationComponent),
-    new Route(/grupper\/\d+/, groupComponent),
-    new Route(/grupper\/?/, groupListComponent),
-    new Route(/meldinger\/?/, messageListComponent),
+    // new Route(/grupper\/\d+/, groupComponent),
+    // new Route(/grupper\/?/, groupListComponent),
+    // new Route(/meldinger\/?/, messageListComponent),
     new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent),
     new Route(/.*/, errorComponent)
@@ -52,16 +52,10 @@ appRouter.registerRoutes(routes);
 
 // Load external HTML files, register routes and start routing
 const getHTML = url => {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: url,
-            success: function (htmlContent) {
-                resolve(htmlContent)
-            },
-            error: function () {
-                reject("error")
-            }
-        });
+    return fetch(url, {
+        method: "get"
+    }).then(response => {
+        return response.text();
     });
 };
 
