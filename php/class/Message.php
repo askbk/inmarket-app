@@ -222,7 +222,7 @@ class Message
             $names = array();
 
             foreach ($participants as $participant) {
-                $names[] = User::getUserName($participant["user_id"]);
+                $names[] = User::getName($participant["user_id"]);
             }
 
             return implode(", ", $names);

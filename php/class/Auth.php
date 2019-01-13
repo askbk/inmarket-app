@@ -32,14 +32,14 @@ class Auth
     //  Otherwise, it throws an error.
     public static function validateCredentials($email, $password)
     {
-        $user_id = User::getUserId($email);
+        $user_id = User::getId($email);
 
         if ($user_id == -1) {
             header("HTTP/1.0 401 Unauthorized");
             return false;
         }
 
-        if (password_verify($password, User::getUserPassword($user_id))) {
+        if (password_verify($password, User::getPassword($user_id))) {
             return $user_id;
         }
         header("HTTP/1.0 401 Unauthorized");
@@ -83,7 +83,7 @@ class Auth
         $expire     = $notBefore + Config::getJWTExpiration();
         // Retrieve the server name from config file
         $serverName = Config::getServerName();
-        $email      = User::getUserEmail($user_id);
+        $email      = User::getName($user_id);
 
         /*
          * Create the token as an array
@@ -96,7 +96,7 @@ class Auth
             'exp'  => $expire,           // Expire
             'data' => [                  // Data related to the signer user
                 'userId'   => $user_id, // userid from the users table
-                'userName' => User::getUserEmail($user_id), // User name
+                'userName' => User::getName($user_id), // User name
             ]
         ];
 

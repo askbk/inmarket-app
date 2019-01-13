@@ -11,17 +11,17 @@ if (Auth::isLoggedIn()) {
         exit();
     }
     if (isset($_POST["fileList"])) {
-        echo json_encode(User::getUserFiles($_POST["userId"]));
+        echo json_encode(User::getName($_POST["userId"]));
         exit();
     }
     if (isset($_POST["name"])) {
-        $result["name"] = User::getUserName($user_id);
+        $result["name"] = User::getName($user_id);
     }
     if (isset($_POST["id"])) {
         $result["id"] = $user_id;
     }
     if (isset($_POST["type"])) {
-        $result["type"] = User::getUserType($user_id);
+        $result["type"] = User::getName($user_id);
     }
     if (isset($_POST["picture"])) {
         $result["profilePicture"] = User::getProfilePicture($user_id)["profilePicture"];

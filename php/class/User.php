@@ -8,7 +8,7 @@ require_once 'Image.php';
 class User
 {
     //  Inserts a new user into the database and returns the id.
-    public static function insertUser($name, $email, $phone, $adminLevel,
+    public static function insert($name, $email, $phone, $adminLevel,
                                         $userType, $password, $kommuneNr)
     {
         $sql = "INSERT INTO user (name, email, phone, kommuneNr, adminLevel,
@@ -36,22 +36,19 @@ class User
         return false;
     }
 
-    // TODO: This method is no longer needed. Rewrite to fit a different type of
-    //  client.
     //  Inserts a new employee into the database. if the specified company does
     //  not exist, then that is also inserted into the company table. returns
     //  the user_id of the employee.
     public static function insertEmployee($user_id, $position, $education,
                                             $companyName)
     {
-        $companyId = Company::getCompanyId($companyName);
+        $companyId = Company::insert($companyName);
 
         if($companyId == -1) {
-            $companyId = Company::insertCompany($companyName);
+            $companyId = Company::insert($companyName);
         }
 
-        $sql = "INSERT INTO companyEmployee (user_id, position, education,
-                    company_id)
+        $sql = "INSERT INTO employee (user_id, position)
                 VALUES ($user_id, '$position', '$education', $companyId)";
 
         return DB::write($sql);
@@ -67,15 +64,6 @@ class User
         return DB::write($sql);
     }
 
-    //  Inserts a new pupil into the database and returns the user_id.
-    public static function insertPupil($user_id, $school, $schoolYear, $program)
-    {
-        $sql = "INSERT INTO pupil (user_id, school, schoolYear, program)
-                VALUES ($user_id, '$school', '$schoolYear', '$program')";
-
-        return DB::write($sql);
-    }
-
     //  Deletes a user with the specified id.
     public static function deleteUser($user_id)
     {
@@ -86,7 +74,7 @@ class User
 
     //  Returns user_id of the user with this email address if it exists.
     //  Otherwise it returns -1.
-    public static function getUserId($email)
+    public static function getId($email)
     {
         $sql = "SELECT user_id
                 FROM user
@@ -104,7 +92,7 @@ class User
 
     //  Returns the user_id of the user with this phone number if it exists.
     //  Otherwise it returns -1.
-    public static function getUserByPhone($phone)
+    public static function getByPhone($phone)
     {
         $sql = "SELECT user_id
                 FROM user
@@ -121,7 +109,7 @@ class User
     }
 
     //  Returns the hashed and salted version of the user's password.
-    public static function getUserPassword($user_id)
+    public static function getPassword($user_id)
     {
         $sql = "SELECT password
                 FROM user
@@ -137,7 +125,7 @@ class User
     }
 
     //  Returns the name of a given user.
-    public static function getUserName($user_id)
+    public static function getName($user_id)
     {
         $sql = "SELECT name
                 FROM user
@@ -153,7 +141,7 @@ class User
     }
 
     //  Returns the email of the given user.
-    public static function getUserEmail($user_id)
+    public static function getEmail($user_id)
     {
         $sql = "SELECT email
                 FROM user
@@ -169,7 +157,7 @@ class User
     }
 
     //  Returns the user type of a given user.
-    public static function getUserType($user_id)
+    public static function getType($user_id)
     {
         $sql = "SELECT userType
                 FROM user
@@ -240,7 +228,7 @@ class User
     // TODO:  $user should not be an array.
     public static function getPublicProfile($user_id)
     {
-        $userType = self::getUserType($user_id);
+        $userType = self::getType($user_id);
         $user = array();
 
         switch ($userType) {
@@ -278,7 +266,7 @@ class User
 
 
 
-        $user[] = self::getUserFiles($user_id);
+        $user[] = self::getFiles($user_id);
 
         $user[0]["userType"] = $userType;
 
@@ -286,7 +274,7 @@ class User
     }
 
     //  Retrieves the list of files that a user has uploaded
-    public static function getUserFiles($user_id)
+    public static function getFiles($user_id)
     {
         $sql = "SELECT userFile_id, path, description, name
                 FROM userFile

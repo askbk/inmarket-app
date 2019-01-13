@@ -7,7 +7,7 @@ require_once 'DB.php';
 class Company
 {
     //  Inserts a new company into the database and returns the id.
-    public static function insertCompany($companyName, $companyDescription = '')
+    public static function insert($companyName, $companyDescription = '')
     {
         $sql = "INSERT INTO company (name, description)
                 VALUES ('$companyName', '$companyDescription')";
@@ -16,7 +16,7 @@ class Company
     }
 
     //  Checks whether a company with the specified name already exists.
-    public static function companyExists($company = '', $id = '')
+    public static function exists($company = '', $id = '')
     {
         if ($id == '') {
             return (self::getCompanyId($company) == -1) ? false : true;
@@ -29,7 +29,7 @@ class Company
 
     //  Returns the id of the company with the specified name if it exists,
     //  otherwise it returns -1.
-    public static function getCompanyId($companyName)
+    public static function getId($companyName)
     {
         $sql = "SELECT company_id
                 FROM company
@@ -44,7 +44,7 @@ class Company
         return -1;
     }
 
-    public static function getCompany($companyId)
+    public static function get($companyId)
     {
         $sql = "SELECT *
                 FROM company
@@ -60,7 +60,7 @@ class Company
     }
 
     //  Adds a new picture to the company's picture collection.
-    public static function insertCompanyPicture($companyId, $picturePath,
+    public static function insertPicture($companyId, $picturePath,
                                                     $description='')
     {
         $sql = "INSERT INTO companyPicture (path, company_id, description)
@@ -70,7 +70,7 @@ class Company
     }
 
     //  Sets the company logo.
-    public static function setCompanyLogo($companyId, $picturePath)
+    public static function setLogo($companyId, $picturePath)
     {
         $sql = "UPDATE company
                 SET logo = '$picturePath'
@@ -80,7 +80,7 @@ class Company
     }
 
     //  Sets the company description.
-    public static function setCompanyDescription($companyId, $description)
+    public static function setDescription($companyId, $description)
     {
         $sql = "UPDATE company
                 SET description = '$description'
@@ -90,7 +90,7 @@ class Company
     }
 
     //  Returns all employees from the specified company
-    public static function getCompanyEmployees($companyId)
+    public static function getEmployees($companyId)
     {
         $sql = "SELECT user.name, companyEmployee.position,
                     companyEmployee.education

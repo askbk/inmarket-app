@@ -16,7 +16,7 @@ if ($bedriftId == "-1") {
 
     echo json_encode($result);
 } else {
-    $bedrift = Company::getCompany($bedriftId);
+    $bedrift = Company::insert($bedriftId);
 
     echo json_encode($bedrift);
 }

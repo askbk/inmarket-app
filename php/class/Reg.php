@@ -10,16 +10,16 @@ class Reg
     public static function registerUser($user)
     {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
-        $user_id = User::insertUser($user["name"], $user["email"],
+        $user_id = User::insert($user["name"], $user["email"],
                                     $user["phone"], 0, $user["userType"],
                                     $password, $user["kommuneNr"]);
 
-        if ($user["userType"] == 0) {
+        if ($user["userType"] == 0) {                   //  Student
             self::registerStudent($user_id, $user);
-        } else if ($user["userType"] == 1) {
-            self::registerNeet($user_id, $user);
-        } else if ($user["userType"] == 2) {
-            self::registerPupil($user_id, $user);
+        } else if ($user["userType"] == 1) {            //  Jobseeker
+            self::registerJobseeker($user_id, $user);
+        } else if ($user["userType"] == 2) {            // Employee
+            self::registerEmployee($user_id, $user);
         }
 
         return $user_id;
@@ -34,18 +34,15 @@ class Reg
                             $student["schoolYear"], $student["program"]);
     }
 
-    private static function registerNEET($user_id, $employee)
+    private static function registerJobseeker($user_id, $jobseeker)
     {
-        User::insertNEET($user_id, " "," "," ");
+        User::insertJobseeker($user_id);
     }
 
-    private static function registerPupil($user_id, $pupil)
+    private static function registerEmployee($user_id, $employee)
     {
-        User::insertPupil($user_id, $pupil["school"], $pupil["schoolYear"],
-                            $pupil["program"]);
+        User::insertEmployee($user_id, $employee);
     }
-
-
 }
 
 ?>
