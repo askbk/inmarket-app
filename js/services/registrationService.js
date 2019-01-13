@@ -31,7 +31,7 @@ export class RegistrationService {
         Object.keys(props).forEach((property, index) => {
             console.log(property);
             this.user[property] = props[property];
-        })
+        });
         console.log(this.user);
     }
 
