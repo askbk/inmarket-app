@@ -10,9 +10,9 @@ export class RegistrationComponent {
 
     init() {
         this.registrationPages = document.getElementsByClassName("registrationPage");
-        let pupilPage = document.getElementsByClassName("pupilPage");
-        let studentPage = document.getElementsByClassName("studentPage");
-        let employeePage = document.getElementsByClassName("employeePage");
+        let studentPage = document.getElementsById("studentPage");
+        let jobseekerPage = document.getElementById("jobseekerPage");
+        let employeePage = document.getElementsById("employeePage");
         let kommuneTemplate = document.getElementById("kommuneTemplate").innerHTML;
         let kommuneList = document.getElementById("kommuneList");
         let responseText = document.getElementById("responseText");
@@ -30,20 +30,20 @@ export class RegistrationComponent {
 
         $(document).on("click", ".clientType", e => {
             switch (e.currentTarget.value) {
-                case "pupil":
+                case "student":
                     this.registrationService.setProperties({userType: 0});
                     userType = 0;
-                    $("#pupilPage").removeClass("w3-hide");
+                    $("#studentPage").removeClass("w3-hide");
                     break;
-                case "student":
+                case "jobseeker":
                     this.registrationService.setProperties({userType: 1});
                     userType = 1;
-                    $("#studentPage").removeClass("w3-hide");
+                    $("#jobseekerPage").removeClass("w3-hide");
                     break;
                 case "employee":
                     this.registrationService.setProperties({userType: 2});
                     userType = 2;
-                    $("#neetPage").removeClass("w3-hide");
+                    $("#employeePage").removeClass("w3-hide");
                     break;
             }
 
@@ -72,13 +72,10 @@ export class RegistrationComponent {
                 props.schoolYear = $("input[name='schoolYearPupil']").val();
                 props.program = $("input[name='programPupil']").val();
             } else if (userType === 1) {
-                props.school = $("input[name='schoolStudent']").val();
-                props.schoolYear = $("input[name='schoolYearStudent']").val();
-                props.program = $("input[name='programStudent']").val();
+                //  Stuff for jobseeker
             } else if (userType === 2) {
                 props.companyName = $("input[name='companyName']").val();
                 props.position = $("input[name='position']").val();
-                props.education = $("input[name='education']").val();
             }
             this.registrationService.setProperties(props);
 
@@ -98,11 +95,16 @@ export class RegistrationComponent {
     }
 
     nextPage(n) {
+        if (this.DEBUG_MODE) {
+            console.log("Next registrationPage: " +  this.registrationPages[n]);
+        }
+
         for (let page of this.registrationPages) {
             page.classList.add("w3-hide");
         }
 
         this.registrationPages[n].classList.remove("w3-hide");
+
     }
 
     destroy() {
