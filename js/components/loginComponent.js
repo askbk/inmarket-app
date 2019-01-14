@@ -13,7 +13,7 @@ export class LoginComponent {
             e.preventDefault();
             this.authService.login($("#loginForm").serialize())
             .then(() => {
-                this.router.navigate("/hjem");
+                this.router.navigate("hjem");
             });
         });
     }
