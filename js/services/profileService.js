@@ -66,4 +66,44 @@ export class ProfileService {
             }
         });
     }
+
+    getFileList(id) {
+        return fetch('php/getUser.php', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                "Authorization": "Bearer " + localStorage.jwt,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"userId": id})
+        }).then(response => {
+            if (!response.ok) {
+                if (this.DEBUG_MODE) {
+                    console.error("get file list: " + response.statusText);
+                }
+            }
+        }).then(files => {
+            return files.json();
+        });
+    }
+
+    getProfilePic(id) {
+        return fetch('php/getUser.php', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                "Authorization": "Bearer " + localStorage.jwt,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"userId": id, "picture": 1})
+        }).then(response => {
+            if (!response.ok) {
+                if (this.DEBUG_MODE) {
+                    console.error("get profile pic: " + response.statusText);
+                }
+            }
+        }).then(files => {
+            return files.json().profilePicture;
+        });
+    }
 }
