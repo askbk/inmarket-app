@@ -9,9 +9,9 @@ export class ProfileComponent {
     }
 
     init() {
-        // this.profileService.getProfile(1).then(profile => {
-        //     console.log(profile);
-        // });
+        this.profileService.getProfile(1).then(profile => {
+            console.log(profile);
+        });
         return true;
     }
 

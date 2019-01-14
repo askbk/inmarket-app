@@ -234,11 +234,11 @@ class User
         switch ($userType) {
             case 0:
                 $sql = "SELECT user.name, user.profilePicture, user.createTime,
-                                user.biography, pupil.school, pupil.schoolYear,
-                                pupil.program
+                                user.biography, student.school, student.schoolYear,
+                                student.program
                         FROM user
-                        INNER JOIN pupil
-                            ON user.user_id = pupil.user_id
+                        INNER JOIN student
+                            ON user.user_id = student.user_id
                         WHERE user.user_id = $user_id";
 
                 $user[] = DB::returnValue(DB::select($sql));
