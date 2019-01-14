@@ -6,11 +6,14 @@ export class ProfileComponent {
         this.pattern = pattern;
         this.appRouter = appRouter;
         this.profileService = profileService;
+        this.profile = {};
     }
 
     init() {
-        this.profileService.getProfile(1).then(profile => {
-            console.log(profile);
+        this.profileId = this.appRouter.getParameters(1)
+        this.profileService.getProfile(this.profileId).then(profile => {
+            this.profile = profile;
+            console.log(this.profile);
         });
         return true;
     }

@@ -30,10 +30,19 @@ export class AppRouter {
                 break;
             }
         }
+
+        if (this.DEBUG_MODE) {
+            console.log("appRouter parameters:");
+            console.log(this.getParameters());
+        }
     }
 
-    getParameters() {
-        return this.parameters;
+    getParameters(n = -1) {
+        if (n === -1) {
+            return this.parameters;
+        }
+
+        return this.parameters[n];
     }
 
     navigate(path) {

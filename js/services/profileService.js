@@ -9,10 +9,10 @@ export class ProfileService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 "Authorization": "Bearer " + localStorage.jwt,
-                // 'Content-Type': 'application/json'
-                "Content-Type": "application/x-www-form-urlencoded"
+                'Content-Type': 'application/json'
+                // "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: $.param({"userId": id, "profile": 1})
+            body: JSON.stringify({"userId": id, "profile": 1})
         }).then(response => {
             if (!response.ok) {
                 if (this.DEBUG_MODE) {

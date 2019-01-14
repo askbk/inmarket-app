@@ -5,9 +5,10 @@ require_once 'class/Group.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
+    $params = json_decode(stripslashes(file_get_contents("php://input")));
     $result = array();
-    if (isset($_POST["profile"])) {
-        echo json_encode(User::getPublicProfile($_POST["userId"]));
+    if (isset($params->profile)) {
+        echo json_encode(User::getPublicProfile($params->userId));
         exit();
     }
     if (isset($_POST["fileList"])) {
