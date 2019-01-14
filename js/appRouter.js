@@ -14,7 +14,7 @@ export class AppRouter {
     }
 
     route() {
-        let path = window.location.hash.substring(1)
+        let path = window.location.hash.substring(1);
 
         if (path[0] == "/") {
             path = path.substring(1);
