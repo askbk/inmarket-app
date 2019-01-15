@@ -28,11 +28,12 @@ export class RegistrationService {
     }
 
     setProperties(props) {
-        Object.keys(props).forEach((property, index) => {
-            console.log(property);
-            this.user[property] = props[property];
-        });
-        console.log(this.user);
+        for (let i = 0, keys = Object.keys(props); i < keys.length; i++) {
+            this.user[keys[i]] = props[keys[i]];
+        }
+        if (this.DEBUG_MODE) {
+            console.log(this.user);
+        }
     }
 
     reset() {
