@@ -23,33 +23,22 @@ export class RegistrationComponent extends Component {
 
     init() {
         super.initDOM();
+
         if (this.DEBUG_MODE) {
             console.log(this.elements);
             console.log("RegistrationComponent init");
         }
+
+        fetch("php/getKommuner.php")
+        .then(response => {
+            return response.json();
+        }).then(kommuner => {
+            this.elements.kommuneList.innerHTML = this.pattern.render(this.templates.kommune, kommuner);
+        })
+
         let userType = -1;
 
         document.title = "Registrering | InMarket App";
-
-        // const enterkeyHandling = e => {
-        //     const keyCode = e.keyCode || e.which;
-        //     console.log("Enter key pressed on registration page");
-        //     if (keyCode === 13) {
-        //         e.preventDefault();
-        //         return false;
-        //     }
-        // };
-
-        // this.registration.addEventListener("keyup", enterkeyHandling);
-        // this.registration.addEventListener("keypress", enterkeyHandling);
-
-        // $('#registration').on('keyup keypress', e => {
-        //     const keyCode = e.keyCode || e.which;
-        //     if (keyCode === 13) {
-        //         e.preventDefault();
-        //         return false;
-        //     }
-        // });
 
         $(document).on("click", ".clientType", e => {
             console.log("click clientType");
@@ -107,14 +96,6 @@ export class RegistrationComponent extends Component {
             .then(() => {
                 this.router.navigate("innlogging");
             });
-        });
-
-        fetch("php/getKommuner.php")
-        .then(response => {
-            return response.json()
-        })
-        .then(kommuner => {
-            kommuneList.innerHTML = this.pattern.render(kommuneTemplate, kommuner);
         });
     }
 
