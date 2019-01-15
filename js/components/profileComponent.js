@@ -1,47 +1,31 @@
-export class ProfileComponent {
+import { Component } from './component.js';
+
+export class ProfileComponent extends Component{
     constructor(DEBUG_MODE, pattern, appRouter, profileService) {
-        this.DEBUG_MODE = DEBUG_MODE;
-        this.htmlUrl = "../../templates/profile.html";
-        this.page = "";
+        super(DEBUG_MODE, { //  templates
+            undefined: true,
+            fileList: "#fileList"
+        }, {    //  elements
+            undefined: true,
+            profilePicture: "#profilePicture",
+            nameHeader: "#nameHeader",
+            userTypeHeader: "#userTypeHeader",
+            bio: "#bio",
+            fileList: "#fileList",
+            profilePage: "#profilePage"
+        },
+        "../../templates/profile.html"
+        );
+
+        // this.htmlUrl = "../../templates/profile.html";
         this.pattern = pattern;
         this.appRouter = appRouter;
         this.profileService = profileService;
         this.profile = {};
-        this.profileElements = {
-            undefined: true,
-            profilePicture: undefined,
-            nameHeader: undefined,
-            userTypeHeader: undefined,
-            bio: undefined,
-            fileList: undefined,
-            profilePage: undefined
-        };
-        this.templates = {
-            undefined: true,
-            fileList: undefined
-        };
     }
 
     init() {
-        if (this.profileElements.undefined) {
-            Object.keys(this.profileElements).forEach((key, index) => {
-                if (!this.profileElements[key]) {
-                    this.profileElements[key] = document.getElementById(key);
-                }
-            });
-
-            this.profileElements.undefined = false;
-        }
-
-        if (this.templates.undefined) {
-            Object.keys(this.templates).forEach((key, index) => {
-                if (!this.templates[key]) {
-                    this.templates[key] = document.getElementById(key).innerHTML;
-                }
-            });
-
-            this.templates.undefined = false;
-        }
+        super.initDOM();
 
         this.profileId = this.appRouter.getParameters(1)
 

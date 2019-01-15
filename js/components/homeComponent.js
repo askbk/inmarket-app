@@ -1,19 +1,13 @@
-export class HomeComponent {
+import { Component } from './component.js';
+
+export class HomeComponent extends Component {
     constructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
-        this.htmlUrl = "../../templates/hjem.html";
-        this.page = "";
+        super(DEBUG_MODE, {}, {}, "../../templates/hjem.html")
     }
 
     init() {
         return true;
     }
 
-    destroy() {
-
-    }
-
-    getPage() {
-        return this.page;
-    }
+    destroy() {}
 }

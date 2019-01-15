@@ -1,8 +1,8 @@
-export class ErrorComponent {
+import { Component } from './component.js';
+
+export class ErrorComponent extends Component{
     constructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
-        this.htmlUrl = "../../templates/error.html";
-        this.page = "";
+        super(DEBUG_MODE, {}, {}, "../../templates/error.html");
     }
 
     init() {
@@ -11,9 +11,5 @@ export class ErrorComponent {
 
     destroy() {
 
-    }
-
-    getPage() {
-        return this.page;
     }
 }

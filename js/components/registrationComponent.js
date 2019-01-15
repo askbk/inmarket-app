@@ -1,24 +1,30 @@
-export class RegistrationComponent {
+import { Component } from './component.js';
+
+export class RegistrationComponent extends Component {
     constructor(DEBUG_MODE, registrationService, pattern, router) {
-        this.DEBUG_MODE = DEBUG_MODE;
-        this.htmlUrl = "../../templates/register.html";
-        this.page = "";
+        super(DEBUG_MODE, { //  templates
+            undefined: true,
+            kommune: "#kommuneTemplate",
+        }, {    //  elements
+            undefined: true,
+            studentPage: "#studentPage",
+            jobseekerPage: "#jobseekerPage",
+            employeePage: "#employeePage",
+            kommuneList: "#kommuneList",
+            responseText: "#responseText",
+            registrationPages: ".registrationPages"
+        },
+        "../../templates/register.html");
         this.pattern = pattern;
         this.registrationService = registrationService;
         this.router = router;
     }
 
     init() {
+        super.initDOM();
         if (this.DEBUG_MODE) {
             console.log("RegistrationComponent init");
         }
-        this.registrationPages = document.getElementsByClassName("registrationPage");
-        let studentPage = document.getElementById("studentPage");
-        let jobseekerPage = document.getElementById("jobseekerPage");
-        let employeePage = document.getElementById("employeePage");
-        let kommuneTemplate = document.getElementById("kommuneTemplate").innerHTML;
-        let kommuneList = document.getElementById("kommuneList");
-        let responseText = document.getElementById("responseText");
         let userType = -1;
 
         document.title = "Registrering | InMarket App";
@@ -109,9 +115,5 @@ export class RegistrationComponent {
 
     destroy() {
 
-    }
-
-    getPage() {
-        return this.page;
     }
 }
