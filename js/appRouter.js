@@ -22,11 +22,28 @@ export class AppRouter {
 
         for (let route of this.routes) {
             if (route.re.test(path)) {
-                this.parameters = path.match(route.re)[0].split("/");
-                this.currentRoute.component.destroy();
-                this.currentRoute = route;
-                document.getElementById(this.outlet).innerHTML = route.component.getPage();
-                route.component.init();
+                if (route.component.getPage() == "") {
+                    fetch(route.component.htmlUrl, {
+                        method: 'get'
+                    }).then(response => {
+                        return response.text();
+                    }).then(page => {
+                        route.component.page = page;
+                    }).then(() => {
+                        this.parameters = path.match(route.re)[0].split("/");
+                        this.currentRoute.component.destroy();
+                        this.currentRoute = route;
+                        document.getElementById(this.outlet).innerHTML = route.component.getPage();
+                        route.component.init();
+                    });
+                } else {
+                    this.parameters = path.match(route.re)[0].split("/");
+                    this.currentRoute.component.destroy();
+                    this.currentRoute = route;
+                    document.getElementById(this.outlet).innerHTML = route.component.getPage();
+                    route.component.init();
+                }
+                
                 break;
             }
         }

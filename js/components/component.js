@@ -15,13 +15,13 @@ export class Component {
         if (this.elements.undefined) {
             for (let i = 0, keys = Object.keys(this.elements); i < keys.length; i++) {
                 if (this.DEBUG_MODE) {
-                    // console.log(keys[i]);
+                    // console.log(this.elements[keys[i]]);
                 }
                 if (keys[i] == "undefined") {
                     continue;
                 }
                 if (this.elements[keys[i]][0] == "#") {
-                    this.elements[keys[i]] = document.getElementById(this.elements[keys[i]]);
+                    this.elements[keys[i]] = document.querySelector(this.elements[keys[i]]);
                 } else {
                     this.elements[keys[i]] = document.querySelectorAll(this.elements[keys[i]]);
                 }
@@ -31,7 +31,7 @@ export class Component {
         }
 
         if (this.templates.undefined) {
-            for (var i = 0, keys = Object.keys(this.templates); i < keys.length; i++) {
+            for (let i = 0, keys = Object.keys(this.templates); i < keys.length; i++) {
                 if (this.DEBUG_MODE) {
                     // console.log(keys[i]);
                 }
@@ -45,6 +45,8 @@ export class Component {
         }
 
         if (this.DEBUG_MODE) {
+            console.log(this.elements);
+            console.log(this.templates);
             console.log("Component finished initializing DOM");
         }
     }

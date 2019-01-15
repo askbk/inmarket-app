@@ -6,6 +6,9 @@ export class HomeComponent extends Component {
     }
 
     init() {
+        if (this.DEBUG_MODE) {
+            console.log(this.page);
+        }
         return true;
     }
 

@@ -52,33 +52,28 @@ const routes = [
 
 appRouter.registerRoutes(routes);
 
-
-// Load external HTML files, register routes and start routing
-const getHTML = url => {
-    return fetch(url, {
-        method: "get"
-    }).then(response => {
-        return response.text();
-    });
-};
-
-let iterations = [];
-
-Object.keys(appRouter.routes).forEach((page,index) => {
-    let html = getHTML(routes[index].component.htmlUrl)
-        .then((result) => {
-            routes[index].component.page = result;
-        }
-    );
-
-    iterations.push(html);
-});
-
-Promise.all(iterations)
-    .then(() => {
-        appRouter.route();
-    });
-
+// Load external HTML files and start routing
+// let iterations = [];
+//
+// for (let i = 0, keys = Object.keys(routes); i < keys.length; i++) {
+//     fetch(routes[i].component.htmlUrl, {
+//         method: 'get'
+//     }).then(response => {
+//         return response.text();
+//     }).then(page => {
+//         routes[i].component.page = page;
+//         iterations.push(page);
+//     });
+// }
+//
+// Promise.all(iterations)
+//     .then(() => {
+//         if (DEBUG_MODE) {
+//             console.log(iterations);
+//             console.log("All components loaded");
+//         }
+//     });
+appRouter.route();
 window.onhashchange = function () {
     appRouter.route();
 };
