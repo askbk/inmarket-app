@@ -40,31 +40,33 @@ export class RegistrationComponent extends Component {
 
         document.title = "Registrering | InMarket App";
 
-        $(document).on("click", ".clientType", e => {
-            console.log("click clientType");
-            switch (e.currentTarget.value) {
-                case "student":
-                    this.registrationService.setProperties({userType: 0});
-                    userType = 0;
-                    $("#studentPage").removeClass("w3-hide");
-                    break;
-                case "jobseeker":
-                    this.registrationService.setProperties({userType: 1});
-                    userType = 1;
-                    $("#jobseekerPage").removeClass("w3-hide");
-                    break;
-                case "employee":
-                    this.registrationService.setProperties({userType: 2});
-                    userType = 2;
-                    $("#employeePage").removeClass("w3-hide");
-                    break;
-            }
+        document.querySelectorAll(".clientType").forEach(e => {
+            e.addEventListener("click", e => {
+                console.log(this);
+                switch (e.currentTarget.value) {
+                    case "student":
+                        this.registrationService.setProperties({userType: 0});
+                        userType = 0;
+                        this.elements.studentPage.classList.remove("w3-hide");
+                        break;
+                    case "jobseeker":
+                        this.registrationService.setProperties({userType: 1});
+                        userType = 1;
+                        this.elements.jobseekerPage.classList.remove("w3-hide");
+                        break;
+                    case "employee":
+                        this.registrationService.setProperties({userType: 2});
+                        userType = 2;
+                        this.elements.employeePage.classList.remove("w3-hide");
+                        break;
+                }
 
-            this.nextPage(1)
+                this.nextPage(1)
+            });
         });
 
         //  Input name, email, phone, password
-        $(document).on("click", "#page2btn", () => {
+        document.getElementById("page2btn").addEventListener("click", () => {
             this.registrationService.setProperties(
                 {
                     name: $("input[name='name']").val(),
@@ -77,7 +79,7 @@ export class RegistrationComponent extends Component {
             this.nextPage(2)
         });
 
-        $(document).on("click", "#registerButton", e => {
+        document.getElementById("registerButton").addEventListener("click", e => {
             e.preventDefault();
             let props = { kommuneNr: $("select").val() };
             if (userType === 0) {
@@ -105,10 +107,7 @@ export class RegistrationComponent extends Component {
         }
 
         this.elements.registrationPages[n].classList.remove("w3-hide");
-
     }
 
-    destroy() {
-
-    }
+    destroy() {}
 }
