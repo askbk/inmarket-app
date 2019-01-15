@@ -12,7 +12,8 @@ export class RegistrationComponent extends Component {
             employeePage: "#employeePage",
             kommuneList: "#kommuneList",
             responseText: "#responseText",
-            registrationPages: ".registrationPages"
+            registrationPages: ".registrationPage",
+            registration: "#registration"
         },
         "../../templates/register.html");
         this.pattern = pattern;
@@ -23,19 +24,32 @@ export class RegistrationComponent extends Component {
     init() {
         super.initDOM();
         if (this.DEBUG_MODE) {
+            console.log(this.elements);
             console.log("RegistrationComponent init");
         }
         let userType = -1;
 
         document.title = "Registrering | InMarket App";
 
-        $('#registration').on('keyup keypress', e => {
-            const keyCode = e.keyCode || e.which;
-            if (keyCode === 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
+        // const enterkeyHandling = e => {
+        //     const keyCode = e.keyCode || e.which;
+        //     console.log("Enter key pressed on registration page");
+        //     if (keyCode === 13) {
+        //         e.preventDefault();
+        //         return false;
+        //     }
+        // };
+
+        // this.registration.addEventListener("keyup", enterkeyHandling);
+        // this.registration.addEventListener("keypress", enterkeyHandling);
+
+        // $('#registration').on('keyup keypress', e => {
+        //     const keyCode = e.keyCode || e.which;
+        //     if (keyCode === 13) {
+        //         e.preventDefault();
+        //         return false;
+        //     }
+        // });
 
         $(document).on("click", ".clientType", e => {
             console.log("click clientType");
@@ -105,11 +119,11 @@ export class RegistrationComponent extends Component {
     }
 
     nextPage(n) {
-        for (let page of this.registrationPages) {
+        for (let page of this.elements.registrationPages) {
             page.classList.add("w3-hide");
         }
 
-        this.registrationPages[n].classList.remove("w3-hide");
+        this.elements.registrationPages[n].classList.remove("w3-hide");
 
     }
 

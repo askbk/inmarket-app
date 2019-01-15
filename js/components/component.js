@@ -11,24 +11,41 @@ export class Component {
         if (this.DEBUG_MODE) {
             console.log("Component initializing DOM");
         }
-        if (this.profileElements.undefined) {
-            Object.keys(this.profileElements).forEach((key, index) => {
-                if (!this.profileElements[key]) {
-                    this.profileElements[key] = document.querySelector(this.profileElements[key]);
-                }
-            });
 
-            this.profileElements.undefined = false;
+        if (this.elements.undefined) {
+            for (let i = 0, keys = Object.keys(this.elements); i < keys.length; i++) {
+                if (this.DEBUG_MODE) {
+                    // console.log(keys[i]);
+                }
+                if (keys[i] == "undefined") {
+                    continue;
+                }
+                if (this.elements[keys[i]][0] == "#") {
+                    this.elements[keys[i]] = document.getElementById(this.elements[keys[i]]);
+                } else {
+                    this.elements[keys[i]] = document.querySelectorAll(this.elements[keys[i]]);
+                }
+            }
+
+            this.elements.undefined = false;
         }
 
         if (this.templates.undefined) {
-            Object.keys(this.templates).forEach((key, index) => {
-                if (!this.templates[key]) {
-                    this.templates[key] = document.querySelector(key).innerHTML;
+            for (var i = 0, keys = Object.keys(this.templates); i < keys.length; i++) {
+                if (this.DEBUG_MODE) {
+                    // console.log(keys[i]);
                 }
-            });
+                if (keys[i] == "undefined") {
+                    continue;
+                }
+                this.templates[keys[i]] = document.querySelector(this.templates[keys[i]]).innerHTML;
+            }
 
             this.templates.undefined = false;
+        }
+
+        if (this.DEBUG_MODE) {
+            console.log("Component finished initializing DOM");
         }
     }
 
