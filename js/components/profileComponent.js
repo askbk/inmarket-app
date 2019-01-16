@@ -1,7 +1,7 @@
 import { Component } from './component.js';
 
 export class ProfileComponent extends Component {
-    constructor(DEBUG_MODE, pattern, appRouter, profileService) {
+    constructor(DEBUG_MODE, profileService, appRouter, pattern) {
         super(DEBUG_MODE, { //  templates
             undefined: true,
             fileList: "#fileListTemplate"

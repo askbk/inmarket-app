@@ -8,7 +8,7 @@ export class Router {
         this.routes = [];
         this.parameters = [];
         this.currentRoute = new Route("", new Component());
-        this.previousUrl = "";
+        this.previousUrl = "-1";
     }
 
     registerRoutes(routes) {
@@ -26,6 +26,9 @@ export class Router {
 
         for (let route of this.routes) {
             if (route.re.test(path)) {
+                if (this.DEBUG_MODE) {
+                    // console.log("routing to:" + route.re);
+                }
                 if (route.re.test(this.previousUrl)) {
                     this.previousUrl = path;
                     break;

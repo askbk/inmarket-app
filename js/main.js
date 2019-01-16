@@ -6,6 +6,7 @@ import { Router, Route} from './appRouter.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { RegistrationModule } from './modules/registrationModule.js';
+import { ProfileModule } from './modules/profileModule.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
@@ -27,7 +28,8 @@ const requiredServicesStart = [
 // Construct router
 const appRouter = new Router(DEBUG_MODE, "content");
 
-const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern());
+const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern()),
+    profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, new Pattern());
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
@@ -38,7 +40,7 @@ const homeComponent = new HomeComponent(DEBUG_MODE),
 const routes = [
     new Route(/innlogging\/?/, loginComponent),
     new Route(/registrering\/?/, registrationModule),
-    new Route(/profil\/\d+/, profileComponent),
+    new Route(/profil(\/\d+)?/, profileModule),
     new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent),
     new Route(/.*/, errorComponent)
