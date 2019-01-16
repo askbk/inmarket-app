@@ -11,7 +11,6 @@ import { ProfileModule } from './modules/profileModule.js';
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './components/loginComponent.js';
 import { HomeComponent } from './components/homeComponent.js';
-import { ProfileComponent } from './components/profileComponent.js';
 
 //  Provides extra logging messages
 const DEBUG_MODE = true;
@@ -33,7 +32,6 @@ const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registr
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
-    profileComponent = new ProfileComponent(DEBUG_MODE, new Pattern(), appRouter, profileService),
     errorComponent = new ErrorComponent(DEBUG_MODE);
 
 // Construct list of routes
