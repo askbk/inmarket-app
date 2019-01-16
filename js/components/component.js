@@ -54,4 +54,6 @@ export class Component {
     getPage() {
         return this.page;
     }
+
+    destroy() {}
 }

@@ -2,7 +2,7 @@ import { AuthService } from './services/authService.js';
 import { RegistrationService } from './services/registrationService.js';
 import { ProfileService } from './services/profileService.js';
 
-import { AppRouter, Route} from './appRouter.js';
+import { Router, Route} from './appRouter.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
@@ -20,7 +20,7 @@ const authService = new AuthService(DEBUG_MODE),
     profileService = new ProfileService(DEBUG_MODE);
 
 // Construct router
-const appRouter = new AppRouter(DEBUG_MODE, "content");
+const appRouter = new Router(DEBUG_MODE, "content");
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
@@ -41,6 +41,6 @@ const routes = [
 appRouter.registerRoutes(routes);
 
 appRouter.route();
-window.onhashchange = function () {
+window.onhashchange = () => {
     appRouter.route();
 };

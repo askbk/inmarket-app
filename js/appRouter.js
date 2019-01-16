@@ -1,10 +1,13 @@
-export class AppRouter {
+import { Component } from './components/component.js';
+import { Module } from './modules/module.js';
+
+export class Router {
     constructor(DEBUG_MODE, outlet) {
         this.DEBUG_MODE = DEBUG_MODE;
         this.outlet = outlet;
         this.routes = [];
         this.parameters = [];
-        this.currentRoute = {component: {destroy() {return true}}};
+        this.currentRoute = new Component();
         this.previousUrl = "";
     }
 
@@ -28,26 +31,31 @@ export class AppRouter {
                     break;
                 }
                 this.previousUrl = path;
-                if (route.component.getPage() == "") {
-                    fetch(route.component.htmlUrl, {
+                this.parameters = path.match(route.re)[0].split("/");
+                if (route.body instanceof Module) {
+                    this.currentRoute.body.destroy();
+                    this.currentRoute = route;
+                    route.body.init();
+                    break;
+                }
+                if (route.body.getPage() == "") {
+                    fetch(route.body.htmlUrl, {
                         method: 'get'
                     }).then(response => {
                         return response.text();
                     }).then(page => {
-                        route.component.page = page;
+                        route.body.page = page;
                     }).then(() => {
-                        this.parameters = path.match(route.re)[0].split("/");
-                        this.currentRoute.component.destroy();
+                        this.currentRoute.body.destroy();
                         this.currentRoute = route;
-                        document.getElementById(this.outlet).innerHTML = route.component.getPage();
-                        route.component.init();
+                        document.getElementById(this.outlet).innerHTML = route.body.getPage();
+                        route.body.init();
                     });
                 } else {
-                    this.parameters = path.match(route.re)[0].split("/");
-                    this.currentRoute.component.destroy();
+                    this.currentRoute.body.destroy();
                     this.currentRoute = route;
-                    document.getElementById(this.outlet).innerHTML = route.component.getPage();
-                    route.component.init();
+                    document.getElementById(this.outlet).innerHTML = route.body.getPage();
+                    route.body.init();
                 }
 
                 break;
@@ -74,8 +82,8 @@ export class AppRouter {
 };
 
 export class Route {
-    constructor(re, component) {
+    constructor(re, body) {
         this.re = re;
-        this.component = component;
+        this.body = body;
     }
 }

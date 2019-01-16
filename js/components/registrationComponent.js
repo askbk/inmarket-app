@@ -34,7 +34,7 @@ export class RegistrationComponent extends Component {
             return response.json();
         }).then(kommuner => {
             this.elements.kommuneList.innerHTML = this.pattern.render(this.templates.kommune, kommuner);
-        })
+        });
 
         let userType = -1;
 
