@@ -1,6 +1,6 @@
 import { Module } from './module.js';
 import { ProfileComponent } from '../components/profileComponent.js';
-import { Router, Route } from '../appRouter.js';
+import { Router, Route } from '../router.js';
 
 export class ProfileModule extends Module {
     constructor(DEBUG_MODE, appRouter, profileService, pattern) {

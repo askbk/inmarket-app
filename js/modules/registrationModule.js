@@ -1,5 +1,5 @@
 import { Module } from './module.js';
-import { Router, Route } from '../appRouter.js';
+import { Router, Route } from '../router.js';
 import { RegPage1, RegPage2, RegPage3 } from '../components/registrationComponent.js';
 
 export class RegistrationModule extends Module {

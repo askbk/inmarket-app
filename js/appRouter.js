@@ -1,92 +1,39 @@
 import { Component } from './components/component.js';
 import { Module } from './modules/module.js';
+import { Router } from './router.js';
 
-export class Router {
+export class AppRouter extends Router {
     constructor(DEBUG_MODE, outlet) {
-        this.DEBUG_MODE = DEBUG_MODE;
-        this.outlet = outlet;
-        this.routes = [];
-        this.parameters = [];
-        this.currentRoute = new Route("", new Component());
-        this.previousUrl = "-1";
+        super(DEBUG_MODE, outlet);
     }
 
-    registerRoutes(routes) {
-        for (let route of routes) {
-            this.routes.push(route)
-        }
-    }
-
-    route() {
-        let path = window.location.hash.substring(1);
-
-        if (path[0] == "/") {
-            path = path.substring(1);
-        }
-
-        for (let route of this.routes) {
-            if (route.re.test(path)) {
-                if (this.DEBUG_MODE) {
-                    // console.log("routing to:" + route.re);
-                }
-                if (route.re.test(this.previousUrl)) {
-                    this.previousUrl = path;
-                    break;
-                }
-                this.previousUrl = path;
-                this.parameters = path.match(route.re)[0].split("/");
-                if (route.body instanceof Module) {
-                    this.currentRoute.body.destroy();
-                    this.currentRoute = route;
-                    route.body.init();
-                    break;
-                }
-                if (route.body.getPage() == "") {
-                    fetch(route.body.htmlUrl, {
-                        method: 'get'
-                    }).then(response => {
-                        return response.text();
-                    }).then(page => {
-                        route.body.page = page;
-                    }).then(() => {
-                        this.currentRoute.body.destroy();
-                        this.currentRoute = route;
-                        document.getElementById(this.outlet).innerHTML = route.body.getPage();
-                        route.body.init();
-                    });
-                } else {
-                    this.currentRoute.body.destroy();
-                    this.currentRoute = route;
-                    document.getElementById(this.outlet).innerHTML = route.body.getPage();
-                    route.body.init();
-                }
-
-                break;
+    routingHandler(route) {
+        if (route.body instanceof Module) {
+            if (!route.body.routerActivated) {
+                this.currentRoute.body.destroy();
+                this.currentRoute = route;
+                route.body.init();
             }
+            return;
         }
-
-        if (this.DEBUG_MODE) {
-            console.log("appRouter parameters:");
-            console.log(this.getParameters());
+        if (route.body.getPage() == "") {
+            fetch(route.body.htmlUrl, {
+                method: 'get'
+            }).then(response => {
+                return response.text();
+            }).then(page => {
+                route.body.page = page;
+            }).then(() => {
+                this.currentRoute.body.destroy();
+                this.currentRoute = route;
+                document.getElementById(this.outlet).innerHTML = route.body.getPage();
+                route.body.init();
+            });
+        } else {
+            this.currentRoute.body.destroy();
+            this.currentRoute = route;
+            document.getElementById(this.outlet).innerHTML = route.body.getPage();
+            route.body.init();
         }
-    }
-
-    getParameters(n = -1) {
-        if (n === -1) {
-            return this.parameters;
-        }
-
-        return this.parameters[n];
-    }
-
-    navigate(path) {
-        window.location.hash = "#/" + path;
     }
 };
-
-export class Route {
-    constructor(re, body) {
-        this.re = re;
-        this.body = body;
-    }
-}

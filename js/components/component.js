@@ -1,10 +1,12 @@
 export class Component {
-    constructor(DEBUG_MODE, templates, elements, htmlUrl, page = undefined) {
+    constructor(DEBUG_MODE, tempSelectors, elSelectors, htmlUrl, page = undefined) {
         this.DEBUG_MODE = DEBUG_MODE;
         this.htmlUrl = htmlUrl;
         this.page = page || "";
-        this.templates = templates;
-        this.elements = elements;
+        this.elSelectors = elSelectors;
+        this.tempSelectors = tempSelectors;
+        this.templates = {undefined: true};
+        this.elements = {undefined: true};
     }
 
     initDOM() {
@@ -13,35 +15,35 @@ export class Component {
         }
 
         if (this.elements.undefined) {
-            for (let i = 0, keys = Object.keys(this.elements); i < keys.length; i++) {
+            for (let i = 0, keys = Object.keys(this.elSelectors); i < keys.length; i++) {
                 if (this.DEBUG_MODE) {
                     // console.log(this.elements[keys[i]]);
                 }
                 if (keys[i] == "undefined") {
                     continue;
                 }
-                if (this.elements[keys[i]][0] == "#") {
-                    this.elements[keys[i]] = document.querySelector(this.elements[keys[i]]);
+                if (this.elSelectors[keys[i]][0] == "#") {
+                    this.elements[keys[i]] = document.querySelector(this.elSelectors[keys[i]]);
                 } else {
-                    this.elements[keys[i]] = document.querySelectorAll(this.elements[keys[i]]);
+                    this.elements[keys[i]] = document.querySelectorAll(this.elSelectors[keys[i]]);
                 }
             }
 
-            this.elements.undefined = false;
+            // this.elements.undefined = false;
         }
 
-        if (this.templates.undefined) {
-            for (let i = 0, keys = Object.keys(this.templates); i < keys.length; i++) {
+        if (this.tempSelectors.undefined) {
+            for (let i = 0, keys = Object.keys(this.tempSelectors); i < keys.length; i++) {
                 if (this.DEBUG_MODE) {
                     // console.log(keys[i]);
                 }
                 if (keys[i] == "undefined") {
                     continue;
                 }
-                this.templates[keys[i]] = document.querySelector(this.templates[keys[i]]).innerHTML;
+                this.templates[keys[i]] = document.querySelector(this.tempSelectors[keys[i]]).innerHTML;
             }
 
-            this.templates.undefined = false;
+            // this.templates.undefined = false;
         }
 
         if (this.DEBUG_MODE) {

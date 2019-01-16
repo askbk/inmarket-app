@@ -176,7 +176,7 @@ export class RegPage3 extends Component {
 
         if (this.DEBUG_MODE) {
             console.log(this.elements);
-            console.log("RegPage2 init");
+            console.log("RegPage3 init");
         }
 
         document.title = "Registrering | InMarket App";

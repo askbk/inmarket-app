@@ -2,7 +2,8 @@ import { AuthService } from './services/authService.js';
 import { RegistrationService } from './services/registrationService.js';
 import { ProfileService } from './services/profileService.js';
 
-import { Router, Route} from './appRouter.js';
+import { AppRouter } from './appRouter.js';
+import { Route } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { RegistrationModule } from './modules/registrationModule.js';
@@ -25,7 +26,7 @@ const requiredServicesStart = [
 ];
 
 // Construct router
-const appRouter = new Router(DEBUG_MODE, "content");
+const appRouter = new AppRouter(DEBUG_MODE, "content");
 
 const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern()),
     profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, new Pattern());
@@ -38,7 +39,7 @@ const homeComponent = new HomeComponent(DEBUG_MODE),
 const routes = [
     new Route(/innlogging\/?/, loginComponent),
     new Route(/registrering\/?/, registrationModule),
-    new Route(/profil(\/\d+)?/, profileModule),
+    new Route(/profil(\/.*)?/, profileModule),
     new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent),
     new Route(/.*/, errorComponent)
@@ -56,5 +57,3 @@ window.addEventListener("hashchange", appHashChangeHandler);
 function appHashChangeHandler() {
     appRouter.route();
 }
-// window.onhashchange = () => {
-// };
