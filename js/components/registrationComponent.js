@@ -147,7 +147,8 @@ export class RegPage2 extends Component {
                     name: $("input[name='name']").val(),
                     email: $("input[name='email']").val(),
                     phone: $("input[name='phone']").val(),
-                    password: $("input[name='password']").val()
+                    password: $("input[name='password']").val(),
+                    kommuneNr: $("select").val()
                 }
             );
 
@@ -182,11 +183,13 @@ export class RegPage3 extends Component {
 
         document.getElementById("registerButton").addEventListener("click", e => {
             e.preventDefault();
-            let props = { kommuneNr: $("select").val() };
+            let props = {};
             if (this.registrationService.user.userType === 0) {
-                props.school = $("input[name='schoolPupil']").val();
-                props.schoolYear = $("input[name='schoolYearPupil']").val();
-                props.program = $("input[name='programPupil']").val();
+                this.registrationService.setProperties({
+                    school: $("input[name='school']").val(),
+                    schoolYear: $("input[name='schoolYear']").val(),
+                    program: $("input[name='program']").val()
+                });
             } else if (userType === 1) {
                 //  Stuff for jobseeker
             } else if (userType === 2) {
