@@ -7,7 +7,7 @@ export class Router {
         this.outlet = outlet;
         this.routes = [];
         this.parameters = [];
-        this.currentRoute = new Component();
+        this.currentRoute = new Route("", new Component());
         this.previousUrl = "";
     }
 

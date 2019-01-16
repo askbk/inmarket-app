@@ -10,8 +10,14 @@ export class Module {
 
     init() {
         this.router.route();
-        window.onhashchange = () => {
-            this.router.route();
-        }
+        window.addEventListener("hashchange", this.hashChangeHandler.bind(this));
+    }
+
+    destroy() {
+        window.removeEventListener("hashchange", this.hashChangeHandler);
+    }
+
+    hashChangeHandler() {
+        this.router.route();
     }
 }

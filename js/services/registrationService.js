@@ -10,6 +10,20 @@ export class RegistrationService {
             userType        : -1,
             emailVerified   : 0
         };
+        this.kommuner = "";
+    }
+
+    start() {
+        return fetch("php/getKommuner.php")
+        .then(response => {
+            return response.json();
+        }).then(kommuner => {
+            this.kommuner = kommuner;
+        });
+    }
+
+    getKommuner() {
+        return this.kommuner;
     }
 
     register() {

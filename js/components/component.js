@@ -1,8 +1,8 @@
 export class Component {
-    constructor(DEBUG_MODE, templates, elements, htmlUrl) {
+    constructor(DEBUG_MODE, templates, elements, htmlUrl, page = undefined) {
         this.DEBUG_MODE = DEBUG_MODE;
         this.htmlUrl = htmlUrl;
-        this.page = "";
+        this.page = page || "";
         this.templates = templates;
         this.elements = elements;
     }
