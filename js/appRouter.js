@@ -5,6 +5,7 @@ export class AppRouter {
         this.routes = [];
         this.parameters = [];
         this.currentRoute = {component: {destroy() {return true}}};
+        this.previousUrl = "";
     }
 
     registerRoutes(routes) {
@@ -22,6 +23,11 @@ export class AppRouter {
 
         for (let route of this.routes) {
             if (route.re.test(path)) {
+                if (route.re.test(this.previousUrl)) {
+                    this.previousUrl = path;
+                    break;
+                }
+                this.previousUrl = path;
                 if (route.component.getPage() == "") {
                     fetch(route.component.htmlUrl, {
                         method: 'get'
@@ -43,7 +49,7 @@ export class AppRouter {
                     document.getElementById(this.outlet).innerHTML = route.component.getPage();
                     route.component.init();
                 }
-                
+
                 break;
             }
         }
