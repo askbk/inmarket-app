@@ -96,7 +96,6 @@ export class RegPage1 extends Component{
 
         document.querySelectorAll(".clientType").forEach(e => {
             e.addEventListener("click", e => {
-                console.log(this);
                 switch (e.currentTarget.value) {
                     case "student":
                         this.registrationService.setProperties({userType: 0});
@@ -175,7 +174,6 @@ export class RegPage3 extends Component {
         super.initDOM();
 
         if (this.DEBUG_MODE) {
-            console.log(this.elements);
             console.log("RegPage3 init");
         }
 

@@ -27,7 +27,9 @@ export class RegistrationService {
     }
 
     register() {
-        console.log(this.user);
+        if (this.DEBUG_MODE) {
+            console.log(this.user);
+        }
         return fetch("php/register.php", {
             method: 'post',
             headers: {

@@ -11,8 +11,9 @@ export class Module {
 
     init() {
         if (!this.routerActivated) {
-            console.log("Activating router");
-            console.log(this.routerActivated);
+            if (this.DEBUG_MODE) {
+                console.log("Activating router");
+            }
             window.addEventListener("hashchange", this.hashChangeHandler.bind(this));
             this.router.route();
             this.routerActivated = true;

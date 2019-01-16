@@ -4,7 +4,9 @@ export class AuthService {
     }
 
     login(credentials) {
-        console.log(credentials);
+        if (this.DEBUG_MODE) {
+            console.log(credentials);
+        }
         return fetch('php/login.php', {
             method: 'post',
             headers: {
@@ -14,10 +16,14 @@ export class AuthService {
         }).then(response => {
             return response.json();
         }).then(token => {
-            console.log(token);
+            if (this.DEBUG_MODE) {
+                console.log(token);
+            }
             localStorage.jwt = token.jwt;
         }).catch(error => {
-            console.log(error.message);
+            if (this.DEBUG_MODE) {
+                console.error(error.message);
+            }
         });
     }
 

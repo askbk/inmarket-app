@@ -44,7 +44,6 @@ export class ProfileComponent extends Component {
     displayProfile() {
         // this.profileElements.profilePic.src = this.profile.profilePicture;
         this.elements.nameHeader.innerHTML = this.profile.name;
-        console.log(this.elements.nameHeader);
         document.title = this.profile.name;
 
         switch (this.profile.userType) {
