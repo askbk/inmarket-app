@@ -1,5 +1,5 @@
-import { Module } from './module.js';
-import { ProfileComponent } from '../components/profileComponent.js';
+import { Module } from '../module.js';
+import { ProfileComponent } from './profileComponent.js';
 import { Router, Route } from '../router.js';
 
 export class ProfileModule extends Module {

@@ -1,4 +1,4 @@
-import { Component } from './component.js';
+import { Component } from '../component.js';
 
 export class LoginComponent extends Component{
     constructor(DEBUG_MODE, authService, router) {
