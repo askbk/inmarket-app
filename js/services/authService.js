@@ -7,7 +7,7 @@ export class AuthService {
         if (this.DEBUG_MODE) {
             console.log(credentials);
         }
-        return fetch('php/login.php', {
+        return fetch('php/users/login.php', {
             method: 'post',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

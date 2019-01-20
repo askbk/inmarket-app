@@ -4,7 +4,7 @@ export class ProfileService {
     }
 
     getProfile(id) {
-        return fetch('php/getUser.php', {
+        return fetch('php/users/getUser.php', {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -69,7 +69,7 @@ export class ProfileService {
     }
 
     getFileList(id) {
-        return fetch('php/getUser.php', {
+        return fetch('php/users/getUser.php', {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -89,7 +89,7 @@ export class ProfileService {
     }
 
     getProfilePic(id) {
-        return fetch('php/getUser.php', {
+        return fetch('php/users/getUser.php', {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

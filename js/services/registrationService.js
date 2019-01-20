@@ -30,7 +30,7 @@ export class RegistrationService {
         if (this.DEBUG_MODE) {
             console.log(this.user);
         }
-        return fetch("php/register.php", {
+        return fetch("php/users/register.php", {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
