@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-require_once 'class/Reg.php';
+require_once '../class/Reg.php';
 $user_id = -1;
 
 if (isValidEmail($_POST["email"])) {

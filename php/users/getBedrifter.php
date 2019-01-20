@@ -1,5 +1,5 @@
 <?php
-require_once 'class/Company.php';
+require_once '../class/Company.php';
 
 $bedriftId = $_GET["bedrift"];
 if ($bedriftId == "-1") {

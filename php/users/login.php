@@ -1,6 +1,6 @@
 <?php
-require_once 'class/Config.php';
-require_once 'class/Auth.php';
+require_once '../class/Config.php';
+require_once '../class/Auth.php';
 
 $email = $_POST["email"];
 $password = $_POST["password"];
