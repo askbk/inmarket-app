@@ -1,5 +1,5 @@
 import { Component } from '../component.js';
-import { template } from './page1.template.js';
+import { template } from './page3.template.js';
 
 export class RegPage3 extends Component {
     constructor(DEBUG_MODE, registrationService) {

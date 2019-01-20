@@ -1,5 +1,5 @@
 import { Component } from '../component.js';
-import { template } from './page1.template.js';
+import { template } from './page2.template.js';
 
 export class RegPage2 extends Component {
     constructor(DEBUG_MODE, registrationService, pattern) {
@@ -21,6 +21,10 @@ export class RegPage2 extends Component {
 
         if (this.DEBUG_MODE) {
             console.log("RegPage2 init");
+        }
+
+        if (this.registrationService.user.userType === 3) { // brukeren er en bedrift
+            document.querySelectorAll("input[name='name']").placeholder = "Bedriftsnavn";
         }
 
         this.elements.kommuneList.innerHTML = this.pattern.render(this.templates.kommune, this.registrationService.getKommuner());
