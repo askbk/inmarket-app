@@ -157,6 +157,10 @@ class User
     }
 
     //  Returns the user type of a given user.
+    //  0 - student
+    //  1 - arbeidssøker
+    //  2 - bedriftsansatt
+    //  3 - bedrift
     public static function getType($user_id)
     {
         $sql = "SELECT userType
@@ -315,6 +319,70 @@ class User
                 LIMIT 5";
 
         return DB::returnArray(DB::select($sql));
+    }
+
+    //  Checks if two users are in contact
+    public static function haveContact($user1Id, $user2Id)
+    {
+        $sql = "SELECT user1_id
+                FROM contact
+                WHERE (user1_id = $user1Id AND user2_id = $user2Id)
+                    OR (user1_id = $user2Id AND user2_id = $user1Id)";
+
+        $result = DB::select($sql);
+
+        if($result->num_rows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //  Sends a contact request from user to user
+    public static function sendContactRequest($senderId, $receiverId)
+    {
+        if (self::haveContact($senderId, $receiverId)) {
+            return false;
+        }
+
+        $sql = "INSERT INTO contactRequest (sender_id, receiver_id)
+                VALUES ($senderId, $receiverId)";
+
+        return DB::write($sql);
+    }
+
+    //  Get array of all users that have sent a contact request to the user.
+    public static function getReceivedContactRequests($userId)
+    {
+        $sql = "SELECT sender_id
+                FROM contactRequest
+                WHERE receiver_id = $userId";
+
+        return DB::returnArray(DB::select($sql));
+    }
+
+    //  Accept a contact request.
+    public static function acceptContactRequest($senderId, $receiverId)
+    {
+        $sql = "SELECT user1_id
+                FROM contactRequest
+                WHERE sender_id = $senderId AND receiver_id = $receiverId";
+
+        $result = DB::select($sql);
+
+        if($result->num_rows == 0) {
+            return false;
+        }
+
+        $sql = "DELETE FROM contactRequest
+                WHERE sender_id = $senderId AND receiver_id = $receiverId";
+
+        $result = DB::write($sql);
+
+        $sql = "INSERT INTO contact (user1_id, user2_id)
+                VALUES ($senderId, $receiverId)";
+
+        return DB::write($sql);
     }
 }
 
