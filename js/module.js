@@ -1,4 +1,4 @@
-import { Router, Route } from '../router.js';
+import { Router, Route } from './router.js';
 
 export class Module {
     constructor(DEBUG_MODE, appRouter, router, routes) {
