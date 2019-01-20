@@ -7,7 +7,7 @@ import { Route } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { RegistrationModule } from './registration/registrationModule.js';
-import { ProfileModule } from './profile/profileModule.js';
+import { ProfileModule } from './profile/profile.module.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './login/loginComponent.js';
