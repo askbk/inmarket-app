@@ -1,6 +1,6 @@
-import { Module } from './module.js';
+import { Module } from '../module.js';
 import { Router, Route } from '../router.js';
-import { RegPage1, RegPage2, RegPage3 } from '../components/registrationComponent.js';
+import { RegPage1, RegPage2, RegPage3 } from './registrationComponent.js';
 
 export class RegistrationModule extends Module {
     constructor(DEBUG_MODE, appRouter, registrationService, pattern) {

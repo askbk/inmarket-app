@@ -1,4 +1,4 @@
-import { Component } from './component.js';
+import { Component } from '../component.js';
 
 export class ProfileComponent extends Component {
     constructor(DEBUG_MODE, profileService, router, pattern) {

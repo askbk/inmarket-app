@@ -1,5 +1,5 @@
-import { Component } from './components/component.js';
-import { Module } from './modules/module.js';
+import { Component } from './component.js';
+import { Module } from './module.js';
 import { Router } from './router.js';
 
 export class AppRouter extends Router {

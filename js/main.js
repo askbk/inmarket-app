@@ -6,12 +6,12 @@ import { AppRouter } from './appRouter.js';
 import { Route } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
-import { RegistrationModule } from './modules/registrationModule.js';
-import { ProfileModule } from './modules/profileModule.js';
+import { RegistrationModule } from './registration/registrationModule.js';
+import { ProfileModule } from './profile/profileModule.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
-import { LoginComponent } from './components/loginComponent.js';
-import { HomeComponent } from './components/homeComponent.js';
+import { LoginComponent } from './login/loginComponent.js';
+import { HomeComponent } from './home/homeComponent.js';
 
 //  Provides extra logging messages
 const DEBUG_MODE = false;

@@ -1,4 +1,4 @@
-import { Component } from './component.js';
+import { Component } from '../component.js';
 
 const regPage1html = `
 <meta charset="utf-8">
@@ -7,6 +7,7 @@ const regPage1html = `
         <button class="black-button w3-card w3-mobile clientType w3-input hover-bg-grey" value="student">Elev/student</button>
         <button class="black-button w3-card w3-mobile clientType w3-input hover-bg-grey w3-section" value="jobseeker">Jobbsøker</button>
         <button class="black-button w3-card w3-mobile clientType w3-input hover-bg-grey" value="employee">Bedriftsansatt</button>
+        <button class="black-button w3-card w3-mobile clientType w3-input hover-bg-grey w3-section" value="company">Bedrift</button>
 
         <p>Allerede registrert? <a href="#/innlogging" class="text-underline">Logg inn her.</a> </p>
     </div>
@@ -18,10 +19,10 @@ const regPage1html = `
     <meta charset="utf-8">
     <div class="w3-container w3-content w3-padding-32 w3-large">
         <div id="registration" class="w3-panel">
-        <input class="w3-input" type="text" name="name" value="" placeholder="navn" required pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
-        <input class="w3-input w3-section" type="email" name="email" value="" placeholder="epost" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-        <input class="w3-input" type="text" name="phone" value="" placeholder="telefon" required pattern="[0-9]{8}">
-        <input class="w3-input w3-section" type="password" name="password" value="" placeholder="passord" required pattern=".{8,}">
+        <input class="w3-input" type="text" name="name" value="" placeholder="Navn" required pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$">
+        <input class="w3-input w3-section" type="email" name="email" value="" placeholder="Epost" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+        <input class="w3-input" type="text" name="phone" value="" placeholder="Telefon" required pattern="[0-9]{8}">
+        <input class="w3-input w3-section" type="password" name="password" value="" placeholder="Passord" required pattern=".{8,}">
 
         <label class="">
         Hjemkommune:
@@ -29,7 +30,7 @@ const regPage1html = `
 
         </select>
         </label>
-        <button class="black-button w3-card w3-mobile w3-input hover-bg-grey" type="button" name="button" id="page2btn">Neste</button>
+        <button class="black-button w3-card w3-mobile w3-input hover-bg-grey w3-section" type="button" name="button" id="page2btn">Neste</button>
         </div>
 
         <p id="responseText"></p>
