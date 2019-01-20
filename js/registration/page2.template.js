@@ -8,8 +8,8 @@ export const template = `
     <input class="w3-input w3-section" type="password" name="password" value="" placeholder="Passord" required pattern=".{8,}">
 
     <label class="">
-    Hjemkommune:
-    <select class=" w3-input" name="" placeholder="hjemkommune"  id="kommuneList">
+    Kommune:
+    <select class=" w3-input" name="" id="kommuneList">
 
     </select>
     </label>

@@ -39,6 +39,9 @@ export class RegPage1 extends Component{
                     case "employee":
                         this.registrationService.setProperties({userType: 2});
                         break;
+                    case "company":
+                        this.registrationService.setProperties({userType: 3});
+                        break;
                 }
                 location.hash = "/registrering/2";
             });

@@ -20,7 +20,21 @@ export class RegPage3 extends Component {
             console.log("RegPage3 init");
         }
 
-        document.title = "Registrering | InMarket App";
+        switch (this.registrationService.user.userType) {
+            case 0:
+                document.getElementById("studentPage").classList.remove("w3-hide")
+                break;
+            case 1:
+                document.getElementById("jobseekerPage").classList.remove("w3-hide")
+                break;
+            case 2:
+                document.getElementById("employeePage").classList.remove("w3-hide")
+                break;
+            case 3:
+                document.getElementById("companyPage").classList.remove("w3-hide")
+                break;
+
+        }
 
         document.getElementById("registerButton").addEventListener("click", e => {
             e.preventDefault();

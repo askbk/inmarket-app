@@ -14,7 +14,7 @@ import { LoginComponent } from './login/loginComponent.js';
 import { HomeComponent } from './home/homeComponent.js';
 
 //  Provides extra logging messages
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
 //  Construct all services needed
 const authService = new AuthService(DEBUG_MODE),

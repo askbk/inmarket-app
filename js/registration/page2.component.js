@@ -24,7 +24,7 @@ export class RegPage2 extends Component {
         }
 
         if (this.registrationService.user.userType === 3) { // brukeren er en bedrift
-            document.querySelectorAll("input[name='name']").placeholder = "Bedriftsnavn";
+            document.querySelector("input[name='name']").placeholder = "Bedriftsnavn";
         }
 
         this.elements.kommuneList.innerHTML = this.pattern.render(this.templates.kommune, this.registrationService.getKommuner());
