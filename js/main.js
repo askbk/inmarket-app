@@ -22,7 +22,7 @@ const authService = new AuthService(DEBUG_MODE),
     profileService = new ProfileService(DEBUG_MODE);
 
 const requiredServicesStart = [
-    registrationService.start()
+    // registrationService.start()
 ];
 
 // Construct router

@@ -27,6 +27,8 @@ export class RegPage2 extends Component {
             document.querySelector("input[name='name']").placeholder = "Bedriftsnavn";
         }
 
+        // FIXME:
+        //  Dette gir en race-condition.
         this.elements.kommuneList.innerHTML = this.pattern.render(this.templates.kommune, this.registrationService.getKommuner());
 
         //  Input name, email, phone, password

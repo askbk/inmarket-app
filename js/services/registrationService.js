@@ -19,6 +19,7 @@ export class RegistrationService {
             return response.json();
         }).then(kommuner => {
             this.kommuner = kommuner;
+            return kommuner;
         });
     }
 

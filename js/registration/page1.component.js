@@ -27,6 +27,8 @@ export class RegPage1 extends Component{
 
         document.title = "Registrering | InMarket App";
 
+        this.registrationService.start();
+
         document.querySelectorAll(".clientType").forEach(e => {
             e.addEventListener("click", e => {
                 switch (e.currentTarget.value) {
