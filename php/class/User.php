@@ -341,6 +341,11 @@ class User
     //  Sends a contact request from user to user
     public static function sendContactRequest($senderId, $receiverId)
     {
+        if ($receiver_id == $user_id) {
+            echo "Cannot send contact request to yourself";
+            exit();
+        }
+
         if (self::haveContact($senderId, $receiverId)) {
             return false;
         }

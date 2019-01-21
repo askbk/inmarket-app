@@ -7,12 +7,12 @@ if (Auth::isLoggedIn()) {
     $params = json_decode(stripslashes(file_get_contents("php://input")));
     $receiver_id = $params->receiver;
 
-    if (!User::sendContactRequest($user_id, $receiver_id)) {
-        echo "Users already have contact";
+    if ($receiver_id == $user_id) {
+        echo "Cannot send contact request to yourself";
         exit();
     }
-
-    echo "Successful contact request";
+    
+    User::sendContactRequest($user_id, $receiver_id);
 } else {
     header("HTTP/1.0 401 Unauthorized");
     echo "Not logged in";
