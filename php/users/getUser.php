@@ -7,42 +7,30 @@ if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
     $params = json_decode(stripslashes(file_get_contents("php://input")));
     $result = array();
+
     if (isset($params->profile)) {
         echo json_encode(User::getPublicProfile($params->userId));
         exit();
     }
-    if (isset($_POST["fileList"])) {
-        echo json_encode(User::getName($_POST["userId"]));
-        exit();
+
+    if (isset($params->receivedRequests)) {
+        $result["receivedContactRequests"] ) = User::getReceivedContactRequests($user_id);
     }
+
     if (isset($_POST["name"])) {
         $result["name"] = User::getName($user_id);
     }
+
     if (isset($_POST["id"])) {
         $result["id"] = $user_id;
     }
-    if (isset($_POST["type"])) {
-        $result["type"] = User::getName($user_id);
-    }
+
     if (isset($_POST["picture"])) {
         $result["profilePicture"] = User::getProfilePicture($user_id)["profilePicture"];
     }
-    if (isset($_POST["thumb"])) {
-        $result["thumb"] = User::getProfileThumb($user_id);
-    }
+    
     if (isset($_POST["adminLevel"])) {
         $result["adminLevel"] = User::getAdminLevel($user_id)["adminLevel"];
-    }
-    if (isset($_POST["adminGroups"])) {
-        $queryResult = Group::getList($user_id, true, false);
-
-        $groupIds = array();
-
-        foreach ($queryResult as $row) {
-            $groupIds[] = $row["group_id"];
-        }
-
-        $result["adminGroups"] = $groupIds;
     }
 
     echo json_encode($result);
