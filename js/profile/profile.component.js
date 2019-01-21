@@ -38,8 +38,18 @@ export class ProfileComponent extends Component {
         });
 
         this.elements.kontaktBtn[0].addEventListener("click", () => {
-            // TODO: si til API at brukeren ønsker kontakt med denne profilen.
-            console.log("click kontakt bruker");
+            fetch('php/users/contactUser.php', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    "Authorization": "Bearer " + localStorage.jwt,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"receiver": this.router.getParameters(1)})
+            }).then(() => {
+                this.elements.kontaktBtn[0].disabled = true;
+                this.elements.kontaktBtn[0].innerHTML = "Forespørsel sendt";
+            });
         });
 
         return true;
