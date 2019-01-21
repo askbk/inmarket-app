@@ -4,10 +4,12 @@ export const template = `
         <img src="" alt="" class="w3-img w3-circle" id="profilePicture">
     </div>
 
+    <button type="button" name="contact" class="black-button w3-card w3-right">Kontakt</button>
+
     <h4 class="margin-bottom-0" id="nameHeader">{{name}}</h4>
     <span style="color:#aaa;" id="userTypeHeader" class=""></span>
 
-    <p id="bio">Denne brukeren har ikke skrevet noen bio enda.</p>
+    <p id="bio" class="w3-card golden-bg">Denne brukeren har ikke skrevet noen bio enda.</p>
 
     <h3>Filer</h3>
     <ul class="w3-ul w3-section" id="fileList">

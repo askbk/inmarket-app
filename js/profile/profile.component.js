@@ -13,7 +13,8 @@ export class ProfileComponent extends Component {
             userTypeHeader: "#userTypeHeader",
             bio: "#bio",
             fileList: "#fileList",
-            profilePage: "#profilePage"
+            profilePage: "#profilePage",
+            kontaktBtn: "button[name='contact']"
         },
         undefined, template
         );
@@ -35,6 +36,12 @@ export class ProfileComponent extends Component {
 
             this.displayProfile();
         });
+
+        this.elements.kontaktBtn[0].addEventListener("click", () => {
+            // TODO: si til API at brukeren ønsker kontakt med denne profilen.
+            console.log("click kontakt bruker");
+        });
+
         return true;
     }
 
