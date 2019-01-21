@@ -14,7 +14,7 @@ if (Auth::isLoggedIn()) {
     }
 
     if (isset($params->receivedRequests)) {
-        $result["receivedContactRequests"] ) = User::getReceivedContactRequests($user_id);
+        $result["receivedContactRequests"] = User::getReceivedContactRequests($user_id);
     }
 
     if (isset($_POST["name"])) {
@@ -28,7 +28,7 @@ if (Auth::isLoggedIn()) {
     if (isset($_POST["picture"])) {
         $result["profilePicture"] = User::getProfilePicture($user_id)["profilePicture"];
     }
-    
+
     if (isset($_POST["adminLevel"])) {
         $result["adminLevel"] = User::getAdminLevel($user_id)["adminLevel"];
     }
