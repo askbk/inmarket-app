@@ -13,6 +13,9 @@ if (Auth::isLoggedIn()) {
     }
 
     echo "Successful contact request";
+} else {
+    header("HTTP/1.0 401 Unauthorized");
+    echo "Not logged in";
+    exit();
 }
-
 ?>
