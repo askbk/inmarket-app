@@ -36,8 +36,6 @@ const homeComponent = new HomeComponent(DEBUG_MODE),
 // Construct list of routes
 const routes = [
     new Route(/innlogging\/?/, loginComponent),
-    new Route(/registrering\/?/, registrationModule),
-    new Route(/profil(\/.*)?/, profileModule),
     new Route(/hjem\/?/, homeComponent),
     new Route(/^(?![\s\S])/, homeComponent)
 ];

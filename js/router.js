@@ -42,7 +42,6 @@ export class Router {
     }
 
     routingHandler(route) {
-        console.log("heyahoya");
         if (route.body.getPage() == "") {
             fetch(route.body.htmlUrl, {
                 method: 'get'
