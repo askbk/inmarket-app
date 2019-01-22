@@ -35,11 +35,11 @@ export class RegPage2 extends Component {
         document.getElementById("page2btn").addEventListener("click", () => {
             this.registrationService.setProperties(
                 {
-                    name: $("input[name='name']").val(),
-                    email: $("input[name='email']").val(),
-                    phone: $("input[name='phone']").val(),
-                    password: $("input[name='password']").val(),
-                    kommuneNr: $("select").val()
+                    name: document.querySelector("input[name='name']").value,
+                    email: document.querySelector("input[name='email']").value,
+                    phone:document.querySelector("input[name='phone']").value,
+                    password: document.querySelector("input[name='password']").value,
+                    kommuneNr: document.querySelector("select").value
                 }
             );
 
