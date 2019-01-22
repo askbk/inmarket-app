@@ -1,17 +1,15 @@
-export class ProfileService {
+import { Service } from '../service.js';
+
+export class ProfileService extends Service {
     constructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
+        super(DEBUG_MODE);
     }
 
     getProfile(id) {
+        console.log(this.stdHeaders);
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-                // "Content-Type": "application/x-www-form-urlencoded"
-            },
+            headers: this.stdHeaders,
             body: JSON.stringify({"userId": id, "profile": 1})
         }).then(response => {
             if (!response.ok) {
@@ -28,11 +26,7 @@ export class ProfileService {
     updateBio(bio) {
         return fetch('php/updateBio.php', {
             method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: JSON.stringify({"bio": bio})
         }).then(response => {
             if (!response.ok) {
@@ -53,11 +47,7 @@ export class ProfileService {
 
         return fetch('php/uploadUserFile.php', {
             method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: form_data
         }).then(response => {
             if (!response.ok) {
@@ -71,11 +61,7 @@ export class ProfileService {
     getFileList(id) {
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: JSON.stringify({"userId": id})
         }).then(response => {
             if (!response.ok) {
@@ -91,11 +77,7 @@ export class ProfileService {
     getProfilePic(id) {
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: JSON.stringify({"userId": id, "picture": 1})
         }).then(response => {
             if (!response.ok) {

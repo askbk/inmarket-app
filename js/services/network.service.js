@@ -1,16 +1,14 @@
-export class NetworkService {
+import { Service } from '../service.js';
+
+export class NetworkService extends Service {
     contstructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
+        super(DEBUG_MODE);
     }
 
     getContacts() {
         return fetch("", {
             method: "post",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: {
                 // TODO: skrive metode for å hente kontakter
             }
@@ -24,11 +22,7 @@ export class NetworkService {
     getRequests() {
         return fetch("", {
             method: "post",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: {
                 // TODO: skrive metode for å hente kontaktsforespørsler
             }
@@ -42,11 +36,7 @@ export class NetworkService {
     sendRequest(id) {
         return fetch("", {
             method: "post",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: {
                 // TODO: skrive metode for å sende kontaktsforespørsler
             }
@@ -58,11 +48,7 @@ export class NetworkService {
     acceptRequest(id) {
         return fetch("", {
             method: "post",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                "Authorization": "Bearer " + localStorage.jwt,
-                'Content-Type': 'application/json'
-            },
+            headers: this.stdHeaders,
             body: {
                 // TODO: skrive metode for å godta kontaktsforespørsler
             }

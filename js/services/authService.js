@@ -1,6 +1,8 @@
-export class AuthService {
+import { Service } from '../service.js';
+
+export class AuthService extends Service {
     constructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
+        super(DEBUG_MODE);
     }
 
     login(credentials) {
@@ -20,6 +22,7 @@ export class AuthService {
                 console.log(token);
             }
             localStorage.jwt = token.jwt;
+            this.stdHeaders["Authorization"] = "Bearer " + localStorage.jwt;
         }).catch(error => {
             if (this.DEBUG_MODE) {
                 console.error(error.message);

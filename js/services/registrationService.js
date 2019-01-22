@@ -1,6 +1,8 @@
-export class RegistrationService {
+import { Service } from '../service.js';
+
+export class RegistrationService extends Service {
     constructor(DEBUG_MODE) {
-        this.DEBUG_MODE = DEBUG_MODE;
+        super(DEBUG_MODE);
         this.user = {
             name            : "",
             email           : "",
