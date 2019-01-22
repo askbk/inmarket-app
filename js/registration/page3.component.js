@@ -38,30 +38,29 @@ export class RegPage3 extends Component {
 
         document.getElementById("registerButton").addEventListener("click", e => {
             e.preventDefault();
-            let props = {};
 
             switch (this.registrationService.user.userType) {
                 case 0:
                     this.registrationService.setProperties({
-                        school: $("input[name='school']").val(),
-                        schoolYear: $("input[name='schoolYear']").val(),
-                        program: $("input[name='program']").val()
+                        school: document.querySelector("input[name='school']").value,
+                        schoolYear: document.querySelector("input[name='schoolYear']").value,
+                        program: document.querySelector("input[name='program']").value
                     });
                     break;
                 case 1:
                     //  arbeidssøker
                     break;
                 case 2:
-                    props.companyName = $("input[name='companyName']").val();
-                    props.position = $("input[name='position']").val();
+                    this.registrationService.setProperties({
+                        companyName: document.querySelector("input[name='companyName']").value,
+                        position: document.querySelector("input[name='position']").vaue
+                    });
                     break;
                 case 3:
                     //  Company
                     break;
 
             }
-
-            this.registrationService.setProperties(props);
 
             this.registrationService.register()
             .then(() => {

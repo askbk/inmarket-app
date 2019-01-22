@@ -51,7 +51,8 @@ export class RegistrationService extends Service {
             this.user[keys[i]] = props[keys[i]];
         }
         if (this.DEBUG_MODE) {
-            console.log(this.user);
+            console.log("set props:");
+            console.log(props);
         }
     }
 

@@ -19,7 +19,6 @@ export class RegPage1 extends Component{
         super.initDOM();
 
         if (this.DEBUG_MODE) {
-            console.log(this.elements);
             console.log("RegPage1 init");
         }
 
