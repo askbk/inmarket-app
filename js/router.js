@@ -2,12 +2,13 @@ import { Component } from './component.js';
 import { Module } from './module.js';
 
 export class Router {
-    constructor(DEBUG_MODE, outlet) {
+    constructor(DEBUG_MODE, outlet, errorComponent) {
         this.DEBUG_MODE = DEBUG_MODE;
         this.outlet = outlet;
         this.routes = [];
         this.parameters = [];
         this.currentRoute = new Route("", new Component());
+        this.errorRoute = new Route("", errorComponent);
     }
 
     registerRoutes(routes) {
@@ -33,17 +34,15 @@ export class Router {
 
                 this.routingHandler(route)
 
-                break;
+                return;
             }
         }
 
-        if (this.DEBUG_MODE) {
-            console.log("Router parameters:");
-            console.log(this.getParameters());
-        }
+        this.routingHandler(this.errorRoute);
     }
 
     routingHandler(route) {
+        console.log("heyahoya");
         if (route.body.getPage() == "") {
             fetch(route.body.htmlUrl, {
                 method: 'get'

@@ -2,8 +2,7 @@ import { AuthService } from './services/authService.js';
 import { RegistrationService } from './services/registrationService.js';
 import { ProfileService } from './services/profileService.js';
 
-import { AppRouter } from './appRouter.js';
-import { Route } from './router.js';
+import { Router, Route } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { RegistrationModule } from './registration/registrationModule.js';
@@ -26,14 +25,13 @@ const requiredServicesStart = [
 ];
 
 // Construct router
-const appRouter = new AppRouter(DEBUG_MODE, "content");
+const appRouter = new Router(DEBUG_MODE, "content", new ErrorComponent(DEBUG_MODE));
 
 const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern()),
     profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, new Pattern());
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
-    loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter),
-    errorComponent = new ErrorComponent(DEBUG_MODE);
+    loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter);
 
 // Construct list of routes
 const routes = [
@@ -41,8 +39,7 @@ const routes = [
     new Route(/registrering\/?/, registrationModule),
     new Route(/profil(\/.*)?/, profileModule),
     new Route(/hjem\/?/, homeComponent),
-    new Route(/^(?![\s\S])/, homeComponent),
-    new Route(/.*/, errorComponent)
+    new Route(/^(?![\s\S])/, homeComponent)
 ];
 
 appRouter.registerRoutes(routes);

@@ -6,7 +6,6 @@ export class ProfileService extends Service {
     }
 
     getProfile(id) {
-        console.log(this.stdHeaders);
         return fetch('php/users/getUser.php', {
             method: 'post',
             headers: this.stdHeaders,

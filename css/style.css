@@ -428,7 +428,7 @@ textarea {
 }
 
 /* Calibri */
-@font-face {
+/* @font-face {
     font-family: "Calibri";
     font-weight: normal;
     font-style: normal;
@@ -454,4 +454,4 @@ textarea {
     font-weight: bold;
     font-style: italic;
     src: url(../fonts/Calibri-Bold-Italic.ttf);
-}
+} */

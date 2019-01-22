@@ -2,7 +2,7 @@ import { Component } from '../component.js';
 import { template } from './my-profile.template.js';
 
 export class ProfileComponent extends Component {
-    constructor(DEBUG_MODE, profileService, router, pattern) {
+    constructor(DEBUG_MODE, profileService, appRouter, pattern) {
         super(DEBUG_MODE, { //  templates
             undefined: true,
             fileList: "#fileListTemplate"
@@ -19,7 +19,7 @@ export class ProfileComponent extends Component {
         );
 
         this.pattern = pattern;
-        this.router = router;
+        this.appRouter = appRouter;
         this.profileService = profileService;
         this.profile = {};
     }
@@ -27,7 +27,7 @@ export class ProfileComponent extends Component {
     init() {
         super.initDOM();
 
-        this.profileService.getProfile(this.router.getParameters(1)).then(profile => {
+        this.profileService.getProfile(this.appRouter.getParameters(1)).then(profile => {
             this.profile = profile[0];
             if (this.DEBUG_MODE) {
                 console.log(this.profile);

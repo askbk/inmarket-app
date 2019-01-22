@@ -1,5 +1,5 @@
 import { Module } from '../module.js';
-import { Router, Route } from '../router.js';
+import { Route } from '../router.js';
 import { RegPage1 } from './page1.component.js';
 import { RegPage2 } from './page2.component.js';
 import { RegPage3 } from './page3.component.js';
@@ -22,7 +22,6 @@ export class RegistrationModule extends Module {
             )
         ];
         super(DEBUG_MODE, appRouter,
-            new Router(DEBUG_MODE, "content"),
             [
                 new Route(/registrering\/1/, regPages[0]),
                 new Route(/registrering\/2/, regPages[1]),
