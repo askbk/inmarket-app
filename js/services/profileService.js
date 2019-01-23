@@ -52,18 +52,21 @@ export class ProfileService extends Service {
     }
 
     uploadFile(file, isProfilePicture = false) {
-        let form_data = new FormData();
-        form_data.append('file', file);
-
+        let data = new FormData();
+        data.append('file', file);
         if (isProfilePicture) {
-            form_data.append('profilePicture', 1);
+            data.append('profilePicture', 1);
         }
 
-        return fetch('php/uploadUserFile.php', {
-            method: 'post',
-            headers: Service.stdHeaders(),
-            body: form_data
-        }).then(response => {
+        return fetch('php/users/uploadUserFile.php', {
+            method: 'POST',
+            headers: {
+                "Accept": 'application/json, text/plain, */*',
+                "Authorization": "Bearer " + localStorage.jwt
+            },
+            body: data
+        })
+        .then(response => {
             if (!response.ok) {
                 if (this.DEBUG_MODE) {
                     console.error("upload user file: " + response.statusText);

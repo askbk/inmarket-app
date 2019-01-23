@@ -4,6 +4,7 @@ require_once '../class/User.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
+    var_dump($_FILES);
 
     if (isset($_FILES['file'])) {
         if ( isset($_POST["profilePicture"]) ) {

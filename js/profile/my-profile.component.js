@@ -13,6 +13,7 @@ export class MyProfileComponent extends Component {
             userTypeHeader: "#userTypeHeader",
             bio: "#bio",
             fileList: "#fileList",
+            fileInput: "#fileInput",
             profilePage: "#profilePage"
         },
         undefined, template
@@ -40,6 +41,10 @@ export class MyProfileComponent extends Component {
 
         document.getElementById("saveBio").addEventListener("click", () => {
             this.profileService.updateBio(this.elements.bio.value);
+        });
+
+        this.elements.fileInput.addEventListener('change', () => {
+            this.profileService.uploadFile(this.elements.fileInput.files[0]);
         });
 
         return true;
