@@ -22,7 +22,6 @@ export class AuthService extends Service {
                 console.log(token);
             }
             localStorage.jwt = token.jwt;
-            this.stdHeaders["Authorization"] = "Bearer " + localStorage.jwt;
         }).catch(error => {
             if (this.DEBUG_MODE) {
                 console.error(error.message);

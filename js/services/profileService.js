@@ -8,7 +8,7 @@ export class ProfileService extends Service {
     getProfile(id) {
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: JSON.stringify({"userId": id, "profile": 1})
         }).then(response => {
             if (!response.ok) {
@@ -25,7 +25,7 @@ export class ProfileService extends Service {
     updateBio(bio) {
         return fetch('php/updateBio.php', {
             method: 'post',
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: JSON.stringify({"bio": bio})
         }).then(response => {
             if (!response.ok) {
@@ -46,7 +46,7 @@ export class ProfileService extends Service {
 
         return fetch('php/uploadUserFile.php', {
             method: 'post',
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: form_data
         }).then(response => {
             if (!response.ok) {
@@ -60,7 +60,7 @@ export class ProfileService extends Service {
     getFileList(id) {
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: JSON.stringify({"userId": id})
         }).then(response => {
             if (!response.ok) {
@@ -76,7 +76,7 @@ export class ProfileService extends Service {
     getProfilePic(id) {
         return fetch('php/users/getUser.php', {
             method: 'post',
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: JSON.stringify({"userId": id, "picture": 1})
         }).then(response => {
             if (!response.ok) {

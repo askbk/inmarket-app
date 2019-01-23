@@ -8,7 +8,7 @@ export class NetworkService extends Service {
     getContacts() {
         return fetch("", {
             method: "post",
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: {
                 // TODO: skrive metode for å hente kontakter
             }
@@ -22,7 +22,7 @@ export class NetworkService extends Service {
     getRequests() {
         return fetch("", {
             method: "post",
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: {
                 // TODO: skrive metode for å hente kontaktsforespørsler
             }
@@ -36,7 +36,7 @@ export class NetworkService extends Service {
     sendRequest(id) {
         return fetch("php/users/contactUser.php", {
             method: "post",
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: JSON.stringify({"receiver": id})
         });
     }
@@ -44,7 +44,7 @@ export class NetworkService extends Service {
     acceptRequest(id) {
         return fetch("", {
             method: "post",
-            headers: this.stdHeaders,
+            headers: Service.stdHeaders(),
             body: {
                 // TODO: skrive metode for å godta kontaktsforespørsler
             }

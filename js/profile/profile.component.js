@@ -40,9 +40,6 @@ export class ProfileComponent extends Component {
 
         this.elements.kontaktBtn[0].addEventListener("click", () => {
             this.networkService.sendRequest(this.appRouter.getParameters(1)).then(res => {
-                if (this.DEBUG_MODE) {
-                    console.log(res);
-                }
                 this.elements.kontaktBtn[0].disabled = true;
                 this.elements.kontaktBtn[0].innerHTML = "Forespørsel sendt";
             });
