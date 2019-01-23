@@ -1,5 +1,5 @@
 import { Component } from '../component.js';
-import { Forms } from '../forms.js';
+import { Util } from '../utilities.js';
 
 export class LoginComponent extends Component{
     constructor(DEBUG_MODE, authService, router) {
@@ -11,7 +11,7 @@ export class LoginComponent extends Component{
     init() {
         document.querySelector("button[name='loginBtn']").addEventListener("click", e => {
             e.preventDefault();
-            this.authService.login(Forms.serialize("#loginForm"))
+            this.authService.login(Util.serialize("#loginForm"))
             .then(() => {
                 this.router.navigate("hjem");
             });

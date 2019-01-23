@@ -1,4 +1,5 @@
 import { Service } from '../service.js';
+import { Util } from '../utilities.js';
 
 export class RegistrationService extends Service {
     constructor(DEBUG_MODE) {
@@ -39,7 +40,7 @@ export class RegistrationService extends Service {
                 'Accept': 'application/json, text/plain, */*',
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: $.param(this.user)
+            body: Util.objectSerialize(this.user)
         })
         .then(() => {
             this.reset();

@@ -1,7 +1,7 @@
-export class Forms {
+export class Util {
     constructor() {}
 
-    static serialize(selector) {
+    static formSerialize(selector) {
         let result = "";
         const elements = document.querySelector(selector).childNodes;
 
@@ -12,6 +12,19 @@ export class Forms {
                 }
                 result += encodeURIComponent(elements[i].name) + "=" + encodeURIComponent(elements[i].value);
             }
+        }
+
+        return result;
+    }
+
+    static objectSerialize(obj) {
+        let result = "";
+
+        for (let i = 0, keys = Object.keys(obj); i < keys.length; i++) {
+            if (result.length > 0) {
+                result += "&";
+            }
+            result += encodeURIComponent(keys[i]) + "=" + encodeURIComponent(obj[keys[i]]);
         }
 
         return result;
