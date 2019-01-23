@@ -1,6 +1,5 @@
 export const template = `
 <article class="w3-section w3-hide w3-container w3-content" id="profilePage">
-    <h2 class="w3-center">Min profil</h2>
     <a href="#" id="publicProfileLink" class="black-button w3-card">Gå til offentlig profil</a>
     <div class="profilePic w3-center">
         <img src="" alt="" class="w3-img w3-circle" id="profilePicture">

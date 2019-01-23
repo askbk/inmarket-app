@@ -33,7 +33,6 @@ export class ProfileService extends Service {
             }
         }).then(profile => {
             this.myProfile = profile;
-            console.log(this.myProfile);
             return profile
         });
     }

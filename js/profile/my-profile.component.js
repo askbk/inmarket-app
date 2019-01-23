@@ -27,7 +27,7 @@ export class MyProfileComponent extends Component {
         super.initDOM();
 
         this.profileService.getMyProfile().then(profile => {
-            this.profile = profile;
+            this.profile = profile[0];
         }).then(() => {
             if (this.DEBUG_MODE) {
                 console.log(this.profile);
