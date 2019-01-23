@@ -22,6 +22,13 @@ export class ProfileService extends Service {
         });
     }
 
+    fetchMyProfile(id) {
+        this.myId = id;
+        this.getProfile(id).then(profile => {
+            this.myProfile = profile;
+        });
+    }
+
     updateBio(bio) {
         return fetch('php/updateBio.php', {
             method: 'post',

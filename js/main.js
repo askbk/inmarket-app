@@ -17,9 +17,9 @@ import { HomeComponent } from './home/homeComponent.js';
 const DEBUG_MODE = true;
 
 //  Construct all services needed
-const authService = new AuthService(DEBUG_MODE),
+const profileService = new ProfileService(DEBUG_MODE);
+const authService = new AuthService(DEBUG_MODE, profileService),
     registrationService = new RegistrationService(DEBUG_MODE),
-    profileService = new ProfileService(DEBUG_MODE),
     networkService = new NetworkService(DEBUG_MODE);
 
 const requiredServicesStart = [

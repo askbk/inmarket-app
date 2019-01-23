@@ -1,8 +1,9 @@
 import { Service } from '../service.js';
 
 export class AuthService extends Service {
-    constructor(DEBUG_MODE) {
+    constructor(DEBUG_MODE, profileService) {
         super(DEBUG_MODE);
+        this.profileService = profileService;
     }
 
     login(credentials) {
@@ -22,6 +23,7 @@ export class AuthService extends Service {
                 console.log(token);
             }
             localStorage.jwt = token.jwt;
+            this.profileService.fetchMyProfile(token.user_id);
         }).catch(error => {
             if (this.DEBUG_MODE) {
                 console.error(error.message);
