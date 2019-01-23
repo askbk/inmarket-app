@@ -4,8 +4,9 @@ require_once '../class/User.php';
 
 if (Auth::isLoggedIn()) {
     $user_id = Auth::getUserId();
+    $params = json_decode(stripslashes(file_get_contents("php://input")));
 
-    $bio = $_POST["bio"];
+    $bio = $params->bio;
 
     User::updateBio($bio, $user_id);
 }

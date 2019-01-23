@@ -37,6 +37,11 @@ export class MyProfileComponent extends Component {
         });
 
         document.getElementById("publicProfileLink").href = "#/profil/" + localStorage.myId;
+
+        document.getElementById("saveBio").addEventListener("click", () => {
+            this.profileService.updateBio(this.elements.bio.value);
+        });
+
         return true;
     }
 
@@ -60,7 +65,7 @@ export class MyProfileComponent extends Component {
             break;
         }
 
-        this.elements.bio.innerHTML = this.profile.biography;
+        this.elements.bio.value = this.profile.biography;
 
         this.elements.profilePage.classList.remove("w3-hide");
     }

@@ -12,8 +12,8 @@ export const template = `
     <span style="color:#aaa;" id="userTypeHeader" class=""></span>
 
     <form class="" action="" method="post" id="bioForm">
-        <textarea name="bio" rows="8" cols="80" id="bio" class="width-100"></textarea>
-        <input type="submit" name="" value="Lagre" class="black-button w3-card">
+        <textarea name="bio" rows="8" cols="80" id="bio" class="w3-input w3-card golden-bg" placeholder="Skriv litt om deg selv…"></textarea>
+        <button type="button" name="" class="black-button w3-card" id="saveBio">Lagre</button>
     </form>
 
     <h3 class="w3-center">Mine filer</h3>

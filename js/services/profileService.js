@@ -38,7 +38,7 @@ export class ProfileService extends Service {
     }
 
     updateBio(bio) {
-        return fetch('php/updateBio.php', {
+        return fetch('php/users/updateBio.php', {
             method: 'post',
             headers: Service.stdHeaders(),
             body: JSON.stringify({"bio": bio})
