@@ -339,19 +339,19 @@ class User
     }
 
     //  Sends a contact request from user to user
-    public static function sendContactRequest($senderId, $receiverId)
+    public static function sendContactRequest($sender_id, $receiver_id)
     {
-        if ($receiver_id == $user_id) {
-            echo "Cannot send contact request to yourself";
+        if ($sender_id == $receiver_id) {
+            echo "Cannot send contact request to yourself. Backend level.";
             exit();
         }
 
-        if (self::haveContact($senderId, $receiverId)) {
+        if (self::haveContact($sender_id, $receiver_id)) {
             return false;
         }
 
         $sql = "INSERT INTO contactRequest (sender_id, receiver_id)
-                VALUES ($senderId, $receiverId)";
+                VALUES ($sender_id, $receiver_id)";
 
         return DB::write($sql);
     }
