@@ -1,7 +1,7 @@
 import { Service } from '../service.js';
 
 export class NetworkService extends Service {
-    contstructor(DEBUG_MODE) {
+    constructor(DEBUG_MODE) {
         super(DEBUG_MODE);
     }
 
@@ -37,9 +37,7 @@ export class NetworkService extends Service {
         return fetch("", {
             method: "post",
             headers: this.stdHeaders,
-            body: {
-                // TODO: skrive metode for å sende kontaktsforespørsler
-            }
+            body: JSON.stringify({"receiver": id})
         }).then(response => {
             return response.json();
         });

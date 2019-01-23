@@ -1,6 +1,7 @@
 import { AuthService } from './services/authService.js';
 import { RegistrationService } from './services/registrationService.js';
 import { ProfileService } from './services/profileService.js';
+import { NetworkService } from './services/network.service.js';
 
 import { Router, Route } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
@@ -18,7 +19,8 @@ const DEBUG_MODE = true;
 //  Construct all services needed
 const authService = new AuthService(DEBUG_MODE),
     registrationService = new RegistrationService(DEBUG_MODE),
-    profileService = new ProfileService(DEBUG_MODE);
+    profileService = new ProfileService(DEBUG_MODE),
+    networkService = new NetworkService(DEBUG_MODE);
 
 const requiredServicesStart = [
     // registrationService.start()
@@ -28,7 +30,7 @@ const requiredServicesStart = [
 const appRouter = new Router(DEBUG_MODE, "content", new ErrorComponent(DEBUG_MODE));
 
 const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern()),
-    profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, new Pattern());
+    profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, networkService, new Pattern());
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter);

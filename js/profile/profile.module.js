@@ -3,18 +3,20 @@ import { ProfileComponent } from './profile.component.js';
 import { Route } from '../router.js';
 
 export class ProfileModule extends Module {
-    constructor(DEBUG_MODE, appRouter, profileService, pattern) {
+    constructor(DEBUG_MODE, appRouter, profileService, networkService, pattern) {
         const profilePages = [
             new ProfileComponent(
                 DEBUG_MODE,
                 profileService,
                 appRouter,
+                networkService,
                 pattern
             ),
             new ProfileComponent(
                 DEBUG_MODE,
                 profileService,
                 appRouter,
+                networkService,
                 pattern
             )
         ];

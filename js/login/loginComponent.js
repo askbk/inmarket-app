@@ -11,7 +11,7 @@ export class LoginComponent extends Component{
     init() {
         document.querySelector("button[name='loginBtn']").addEventListener("click", e => {
             e.preventDefault();
-            this.authService.login(Util.serialize("#loginForm"))
+            this.authService.login(Util.formSerialize("#loginForm"))
             .then(() => {
                 this.router.navigate("hjem");
             });

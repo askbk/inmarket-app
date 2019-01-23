@@ -2,7 +2,7 @@ import { Component } from '../component.js';
 import { template } from './profile.template.js';
 
 export class ProfileComponent extends Component {
-    constructor(DEBUG_MODE, profileService, appRouter, pattern) {
+    constructor(DEBUG_MODE, profileService, appRouter, networkService, pattern) {
         super(DEBUG_MODE, { //  templates
             undefined: true,
             fileList: "#fileListTemplate"
@@ -22,6 +22,7 @@ export class ProfileComponent extends Component {
         this.pattern = pattern;
         this.appRouter = appRouter;
         this.profileService = profileService;
+        this.networkService = networkService;
         this.profile = {};
     }
 
@@ -38,15 +39,7 @@ export class ProfileComponent extends Component {
         });
 
         this.elements.kontaktBtn[0].addEventListener("click", () => {
-            fetch('php/users/contactUser.php', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    "Authorization": "Bearer " + localStorage.jwt,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"receiver": this.appRouter.getParameters(1)})
-            }).then(() => {
+            this.networkService.sendRequest(this.appRouter.getParameters(1)).then(() => {
                 this.elements.kontaktBtn[0].disabled = true;
                 this.elements.kontaktBtn[0].innerHTML = "Forespørsel sendt";
             });
