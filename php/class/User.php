@@ -389,6 +389,27 @@ class User
 
         return DB::write($sql);
     }
+
+    public static function getContacts($user_id)
+    {
+        $sql = "SELECT user_id
+        FROM user AS u
+        WHERE EXISTS (
+            SELECT user1_id
+            FROM contact AS c
+            WHERE (
+                c.user1_id = u.user_id
+                AND
+                c.user2_id = $user_id
+            ) OR (
+                c.user2_id = u.user_id
+                AND
+                c.user1_id = $user_id
+            )
+        )";
+
+        return DB::returnArray(DB::select($sql));
+    }
 }
 
 

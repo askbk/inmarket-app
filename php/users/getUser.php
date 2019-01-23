@@ -17,6 +17,10 @@ if (Auth::isLoggedIn()) {
         $result["receivedContactRequests"] = User::getReceivedContactRequests($user_id);
     }
 
+    if (isset($params->contacts)) {
+        $result["contacts"] = User::getContacts($user_id);
+    }
+
     if (isset($_POST["name"])) {
         $result["name"] = User::getName($user_id);
     }
