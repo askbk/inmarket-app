@@ -38,8 +38,6 @@ export class NetworkService extends Service {
             method: "post",
             headers: this.stdHeaders,
             body: JSON.stringify({"receiver": id})
-        }).then(response => {
-            return response.json();
         });
     }
 
