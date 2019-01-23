@@ -7,12 +7,15 @@ if (Auth::isLoggedIn()) {
     $params = json_decode(stripslashes(file_get_contents("php://input")));
     $sender_id = $params->sender;
 
-    if (!User::acceptContactRequest($sender_id, $user_id);) {
-        echo "Contact request does not exist";
-        exit();
+    $result = User::acceptContactRequest($sender_id, $user_id);
+
+    if ($result) {
+        echo "Successfully accepted contact request";
+    } else {
+        echo "Error";
+        var_dump($result);
     }
 
-    echo "Successfully accepted contact request";
 } else {
     header("HTTP/1.0 401 Unauthorized");
     echo "Not logged in";
