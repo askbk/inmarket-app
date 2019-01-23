@@ -1,5 +1,6 @@
 import { Module } from '../module.js';
 import { ProfileComponent } from './profile.component.js';
+import { MyProfileComponent } from './my-profile.component.js';
 import { Route } from '../router.js';
 
 export class ProfileModule extends Module {
@@ -12,7 +13,7 @@ export class ProfileModule extends Module {
                 networkService,
                 pattern
             ),
-            new ProfileComponent(
+            new MyProfileComponent(
                 DEBUG_MODE,
                 profileService,
                 appRouter,

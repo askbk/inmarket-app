@@ -1,11 +1,11 @@
 import { Component } from '../component.js';
 import { template } from './my-profile.template.js';
 
-export class ProfileComponent extends Component {
+export class MyProfileComponent extends Component {
     constructor(DEBUG_MODE, profileService, appRouter, pattern) {
         super(DEBUG_MODE, { //  templates
             undefined: true,
-            fileList: "#fileListTemplate"
+            fileList: "#myFileListTemplate"
         }, {    //  elements
             undefined: true,
             profilePicture: "#profilePicture",
@@ -35,6 +35,8 @@ export class ProfileComponent extends Component {
 
             this.displayProfile();
         });
+
+        document.getElementById("publicProfileLink").href = "#/profil/" + this.appRouter.getParameters(1);
         return true;
     }
 

@@ -19,7 +19,7 @@ export const template = `
 
     <h3 class="w3-center">Mine filer</h3>
     <p>Her kan du laste opp filer som er relevante for arbeidsgivere</p>
-    <form class="w3-panel" action="index.html" method="post">
+    <form class="w3-panel" id="fileForm">
         <input type="file" id="fileInput" value="Last opp filer" class="w3-hide">
         <label for="fileInput" class="black-button w3-card line-height-inherit w3-right">Velg fil…</label>
     </form>
