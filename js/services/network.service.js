@@ -19,12 +19,10 @@ export class NetworkService extends Service {
     }
 
     getRequests() {
-        return fetch("", {
+        return fetch("php/users/getUser.php", {
             method: "post",
             headers: Service.stdHeaders(),
-            body: {
-                // TODO: skrive metode for å hente kontaktsforespørsler
-            }
+            body: JSON.stringify({contactRequests: 1})
         }).then(response => {
             return response.json();
         }).then(requests => {
