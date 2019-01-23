@@ -34,7 +34,7 @@ export class NetworkService extends Service {
     }
 
     sendRequest(id) {
-        return fetch("", {
+        return fetch("php/users/contactUser.php", {
             method: "post",
             headers: this.stdHeaders,
             body: JSON.stringify({"receiver": id})
