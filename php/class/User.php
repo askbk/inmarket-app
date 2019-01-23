@@ -357,7 +357,7 @@ class User
     }
 
     //  Get array of all users that have sent a contact request to the user.
-    public static function getReceivedContactRequests($userId)
+    public static function getContactRequests($userId)
     {
         $sql = "SELECT sender_id
                 FROM contactRequest
