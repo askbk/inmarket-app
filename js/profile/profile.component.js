@@ -53,7 +53,7 @@ export class ProfileComponent extends Component {
     }
 
     displayProfile() {
-        // this.profileElements.profilePic.src = this.profile.profilePicture;
+        this.elements.profilePicture.src = this.profile.profilePicture;
         this.elements.nameHeader.innerHTML = this.profile.name;
         document.title = this.profile.name;
 
