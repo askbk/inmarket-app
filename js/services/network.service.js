@@ -6,15 +6,14 @@ export class NetworkService extends Service {
     }
 
     getContacts() {
-        return fetch("", {
+        return fetch("php/users/getUser.php", {
             method: "post",
             headers: Service.stdHeaders(),
-            body: {
-                // TODO: skrive metode for å hente kontakter
-            }
+            body: JSON.stringify({contacts: 1})
         }).then(response => {
             return response.json();
         }).then(contacts => {
+            console.log(contacts);
             this.contacts = contacts;
         });
     }
