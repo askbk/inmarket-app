@@ -8,10 +8,10 @@ if (Auth::isLoggedIn()) {
     $receiver_id = $params->receiver;
 
     if ($receiver_id == $user_id) {
-        echo "Cannot send contact request to yourself";
+        echo "Cannot send contact request to yourself. API level.";
         exit();
     }
-    
+
     User::sendContactRequest($user_id, $receiver_id);
 } else {
     header("HTTP/1.0 401 Unauthorized");
