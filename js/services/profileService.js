@@ -22,10 +22,19 @@ export class ProfileService extends Service {
         });
     }
 
-    fetchMyProfile(id) {
-        this.myId = id;
-        this.getProfile(id).then(profile => {
+    getMyProfile() {
+        return new Promise((resolve, reject) => {
+            if (this.myProfile) {
+                resolve(this.myProfile);
+            } else {
+                resolve(
+                    this.getProfile(localStorage.myId)
+                );
+            }
+        }).then(profile => {
             this.myProfile = profile;
+            console.log(this.myProfile);
+            return profile
         });
     }
 

@@ -2,7 +2,7 @@ import { Component } from '../component.js';
 import { template } from './my-profile.template.js';
 
 export class MyProfileComponent extends Component {
-    constructor(DEBUG_MODE, profileService, appRouter, pattern) {
+    constructor(DEBUG_MODE, profileService, pattern) {
         super(DEBUG_MODE, { //  templates
             undefined: true,
             fileList: "#myFileListTemplate"
@@ -19,7 +19,6 @@ export class MyProfileComponent extends Component {
         );
 
         this.pattern = pattern;
-        this.appRouter = appRouter;
         this.profileService = profileService;
         this.profile = {};
     }
@@ -27,8 +26,9 @@ export class MyProfileComponent extends Component {
     init() {
         super.initDOM();
 
-        this.profileService.getProfile(this.appRouter.getParameters(1)).then(profile => {
-            this.profile = profile[0];
+        this.profileService.getMyProfile().then(profile => {
+            this.profile = profile;
+        }).then(() => {
             if (this.DEBUG_MODE) {
                 console.log(this.profile);
             }
@@ -36,7 +36,7 @@ export class MyProfileComponent extends Component {
             this.displayProfile();
         });
 
-        document.getElementById("publicProfileLink").href = "#/profil/" + this.appRouter.getParameters(1);
+        document.getElementById("publicProfileLink").href = "#/profil/" + localStorage.myId;
         return true;
     }
 

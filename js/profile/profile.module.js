@@ -16,8 +16,6 @@ export class ProfileModule extends Module {
             new MyProfileComponent(
                 DEBUG_MODE,
                 profileService,
-                appRouter,
-                networkService,
                 pattern
             )
         ];
