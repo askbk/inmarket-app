@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="w3-overlay">
+        <div class="w3-overlay w3-animate-opacity">
         </div>
 
         <div class="w3-sidebar w3-animate-right w3-hide w3-bar-block w3-card w3-large z-index-3" id="sidebar" style="right:0;">
@@ -51,44 +51,36 @@
         <section class="margin-top-70 padding-bottom-3em" id="content">
         </section>
     </body>
-    <script src="js/jquery-3.3.1.min.js" charset="utf-8"></script>
     <script type="module" src="js/main.js" charset="utf-8"></script>
     <script type="text/javascript">
 
         let menuCounter = 0,
-            menuContainer = $(".menu-container"),
-            overlay = $(".w3-overlay"),
-            dropdown = $("#navbar-dropdown-content"),
+            overlay = document.getElementsByClassName("w3-overlay")[0],
             sidebar = document.getElementById("sidebar"),
             sidebarCounter = 0;
 
-        $("#navbar-profile-pic").click(function () {
+        document.getElementById("navbar-profile-pic").addEventListener("click", () => {
             if (sidebarCounter%2===0) {
                 showSidebar();
             } else {
                 hideSidebar();
             }
-        })
-
-        $("#sidebar").click(function () {
-            hideSidebar();
         });
 
-        overlay.click(function () {
-            // hideMenu();
-            hideSidebar();
-        });
+        document.getElementById("sidebar").addEventListener("click", hideSidebar);
+
+        overlay.addEventListener("click", hideSidebar);
 
         function hideSidebar() {
             sidebar.classList.add("w3-hide");
             ++sidebarCounter;
-            overlay.hide();
+            overlay.style.display = "none";
         }
 
         function showSidebar() {
             sidebar.classList.remove("w3-hide");
             ++sidebarCounter;
-            overlay.fadeIn();
+            overlay.style.display = "block";
         }
     </script>
 
