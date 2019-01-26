@@ -80,6 +80,7 @@ export class MyProfileComponent extends Component {
             e.addEventListener("click", e => {
                 console.log(e.currentTarget);
                 this.profileService.deleteFile(e.currentTarget.dataset.fileId);
+                this.elements.fileList.removeChild(document.getElementById("li" + e.currentTarget.dataset.fileId));
             });
         });
 
