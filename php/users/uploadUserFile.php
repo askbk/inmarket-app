@@ -8,7 +8,7 @@ if (Auth::isLoggedIn()) {
 
     if (isset($_FILES['file'])) {
         if ( isset($_POST["profilePicture"]) ) {
-            $path = "../img/profile/";
+            $path = "../../img/profile/";
 
             if (!is_dir($path . $user_id)) {
                 echo mkdir($path . $user_id);
@@ -21,7 +21,7 @@ if (Auth::isLoggedIn()) {
 
             echo User::setProfilePicture($user_id, $path);
         } else {
-            $path = "../data/";
+            $path = "../../data/";
 
             if (!is_dir($path . $user_id)) {
                 mkdir($path . $user_id);
