@@ -35,7 +35,7 @@ export const template = `
                 <a href="{{path}}" target="_blank">{{name}}</a>
             </div>
             <div class="w3-col s6">
-                <button type="button" name="deleteFile" class="black-button w3-card w3-right">Slett</button>
+                <button type="button" name="deleteFile" class="black-button w3-card w3-right" data-file-id='{{userFile_id}}'>Slett</button>
             </div>
         </div>
     </li>

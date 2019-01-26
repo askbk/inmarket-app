@@ -22,6 +22,7 @@ export class MyProfileComponent extends Component {
         this.pattern = pattern;
         this.profileService = profileService;
         this.profile = {};
+        this.fileList = [];
     }
 
     init() {
@@ -29,9 +30,11 @@ export class MyProfileComponent extends Component {
 
         this.profileService.getMyProfile().then(profile => {
             this.profile = profile[0];
+            this.fileList = profile[1];
         }).then(() => {
             if (this.DEBUG_MODE) {
                 console.log(this.profile);
+                console.log(this.fileList);
             }
 
             this.displayProfile();
@@ -55,6 +58,7 @@ export class MyProfileComponent extends Component {
     }
 
     displayProfile() {
+        this.elements.fileList.innerHTML = this.pattern.render(this.templates.fileList, this.fileList);
         this.elements.profilePicture.src = this.profile.profilePicture;
         this.elements.nameHeader.innerHTML = this.profile.name;
         document.title = this.profile.name;
@@ -71,6 +75,14 @@ export class MyProfileComponent extends Component {
         }
 
         this.elements.bio.value = this.profile.biography;
+
+        document.querySelectorAll("button[name='deleteFile']").forEach(e => {
+            e.addEventListener("click", e => {
+                console.log(e.currentTarget);
+                this.profileService.deleteFile(e.currentTarget.dataset.fileId);
+            });
+        });
+
 
         this.elements.profilePage.classList.remove("w3-hide");
     }

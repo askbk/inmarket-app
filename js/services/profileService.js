@@ -106,4 +106,18 @@ export class ProfileService extends Service {
             return files.json().profilePicture;
         });
     }
+
+    deleteFile(fileId) {
+        return fetch("php/users/deleteFile.php", {
+            method: "post",
+            headers: Service.stdHeaders(),
+            body: JSON.stringify({"fileId": fileId})
+        }).then(response => {
+            if (!response.ok) {
+                if (this.DEBUG_MODE) {
+                    console.error("delete file: " + response.statusText);
+                }
+            }
+        });
+    }
 }
