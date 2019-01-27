@@ -1,9 +1,9 @@
 import { Component } from '../component.js';
-import { template } from './template.js';
+import { template } from './requests.template.js';
 
 export class RequestsComponent extends Component {
     constructor(DEBUG_MODE, networkService, appRouter, pattern) {
-        super(DEBUG_mode, {
+        super(DEBUG_MODE, {
             userListItem: "#user-list-item-template"
         }, {
             requestList: "#request-list"
