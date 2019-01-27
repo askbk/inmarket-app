@@ -5,7 +5,7 @@ export class Util {
         let result = "";
         const elements = document.querySelector(selector).childNodes;
 
-        for (var i = 0; i < elements.length; i++) {
+        for (let i = 0, l = elements.length; i < l; i++) {
             if (elements[i].tagName === "INPUT") {
                 if (result.length > 0) {
                     result += "&";
@@ -20,7 +20,7 @@ export class Util {
     static objectSerialize(obj) {
         let result = "";
 
-        for (let i = 0, keys = Object.keys(obj); i < keys.length; i++) {
+        for (let i = 0, keys = Object.keys(obj), l = keys.length; i < l; i++) {
             if (result.length > 0) {
                 result += "&";
             }
