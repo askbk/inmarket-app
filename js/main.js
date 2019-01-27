@@ -8,6 +8,7 @@ import { Pattern } from './patternjs/pattern.js';
 
 import { RegistrationModule } from './registration/registrationModule.js';
 import { ProfileModule } from './profile/profile.module.js';
+import { NetworkModule } from './network/network.module.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
 import { LoginComponent } from './login/loginComponent.js';
@@ -26,11 +27,13 @@ const requiredServicesStart = [
     // registrationService.start()
 ];
 
-// Construct router
-const appRouter = new Router(DEBUG_MODE, "content", new ErrorComponent(DEBUG_MODE));
+// Construct router and rendering class
+const appRouter = new Router(DEBUG_MODE, "content", new ErrorComponent(DEBUG_MODE)),
+    pattern = new Pattern();
 
-const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, new Pattern()),
-    profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, networkService, new Pattern());
+const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, pattern),
+    profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, networkService, pattern),
+    networkModule = new NetworkModule(DEBUG_MODE, appRouter, networkService, pattern);
 
 const homeComponent = new HomeComponent(DEBUG_MODE),
     loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter);
