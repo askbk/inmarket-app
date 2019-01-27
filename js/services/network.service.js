@@ -49,4 +49,16 @@ export class NetworkService extends Service {
             return response.json();
         });
     }
+
+    rejectRequest(id) {
+        return fetch("", {
+            method: "post",
+            headers: Service.stdHeaders(),
+            body: {
+                // TODO: skrive metode for å avvise kontaktforespørsler
+            }
+        }).then(response => {
+            return response.json();
+        });
+    }
 }
