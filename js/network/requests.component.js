@@ -16,7 +16,7 @@ export class RequestsComponent extends Component {
     }
 
     init() {
-        super().initDOM();
+        super.initDOM();
 
         this.networkService.getRequests().then(requests => {
             this.requests = requests;
