@@ -25,6 +25,11 @@ if (Auth::isLoggedIn()) {
         $result["contactRequests"] = User::getContactRequests($user_id);
     }
 
+    if (isset($params->fileList)) {
+        echo json_encode(User::getFiles($params->userId));
+        exit();
+    }
+
     if (isset($_POST["name"])) {
         $result["name"] = User::getName($user_id);
     }

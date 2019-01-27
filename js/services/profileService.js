@@ -79,7 +79,7 @@ export class ProfileService extends Service {
         return fetch('php/users/getUser.php', {
             method: 'post',
             headers: Service.stdHeaders(),
-            body: JSON.stringify({"userId": id})
+            body: JSON.stringify({"userId": id, "fileList": 1})
         }).then(response => {
             if (!response.ok) {
                 if (this.DEBUG_MODE) {

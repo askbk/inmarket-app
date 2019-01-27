@@ -47,7 +47,12 @@ export class MyProfileComponent extends Component {
         });
 
         this.elements.fileInput.addEventListener('change', () => {
-            this.profileService.uploadFile(this.elements.fileInput.files[0]);
+            this.profileService.uploadFile(this.elements.fileInput.files[0])
+            .then(() => {
+                return this.profileService.getFileList(localStorage.myId)
+            }).then(files => {
+                this.printFileList(files);
+            });
         });
 
         return true;
@@ -58,7 +63,7 @@ export class MyProfileComponent extends Component {
     }
 
     displayProfile() {
-        this.elements.fileList.innerHTML = this.pattern.render(this.templates.fileList, this.fileList);
+        this.printFileList(this.fileList);
         this.elements.profilePicture.src = this.profile.profilePicture;
         this.elements.nameHeader.innerHTML = this.profile.name;
         document.title = this.profile.name;
@@ -77,14 +82,22 @@ export class MyProfileComponent extends Component {
         this.elements.bio.value = this.profile.biography;
 
         document.querySelectorAll("button[name='deleteFile']").forEach(e => {
-            e.addEventListener("click", e => {
-                console.log(e.currentTarget);
-                this.profileService.deleteFile(e.currentTarget.dataset.fileId);
-                this.elements.fileList.removeChild(document.getElementById("li" + e.currentTarget.dataset.fileId));
+            e.addEventListener("click", ev => {
+                let fileId = ev.currentTarget.dataset.fileId;
+                this.profileService.deleteFile(fileId)
+                .then(() => {
+                    return fileId
+                }).then(() => {
+                    console.log("he");
+                    this.elements.fileList.removeChild(document.getElementById("li" + fileId));
+                });
             });
         });
 
-
         this.elements.profilePage.classList.remove("w3-hide");
+    }
+
+    printFileList(files) {
+        this.elements.fileList.innerHTML += this.pattern.render(this.templates.fileList, files);
     }
 }
