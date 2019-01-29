@@ -3,16 +3,15 @@ import { RegistrationService } from './services/registrationService.js';
 import { ProfileService } from './services/profileService.js';
 import { NetworkService } from './services/network.service.js';
 
-import { Router, Route } from './router.js';
+import { Router } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
+import { AppModule } from './app.module.js';
 import { RegistrationModule } from './registration/registrationModule.js';
 import { ProfileModule } from './profile/profile.module.js';
 import { NetworkModule } from './network/network.module.js';
 
 import { ErrorComponent } from './components/errorComponent.js';
-import { LoginComponent } from './login/loginComponent.js';
-import { HomeComponent } from './home/homeComponent.js';
 
 //  Provides extra logging messages
 const DEBUG_MODE = true;
@@ -27,25 +26,14 @@ const requiredServicesStart = [
     // registrationService.start()
 ];
 
-// Construct router and rendering class
+// Construct router and rendering engine
 const appRouter = new Router(DEBUG_MODE, "content", new ErrorComponent(DEBUG_MODE)),
     pattern = new Pattern();
 
-const registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, pattern),
+const appModule = new AppModule(DEBUG_MODE, appRouter, authService),
+    registrationModule = new RegistrationModule(DEBUG_MODE, appRouter, registrationService, pattern),
     profileModule = new ProfileModule(DEBUG_MODE, appRouter, profileService, networkService, pattern),
     networkModule = new NetworkModule(DEBUG_MODE, appRouter, networkService, pattern);
-
-const homeComponent = new HomeComponent(DEBUG_MODE),
-    loginComponent = new LoginComponent(DEBUG_MODE, authService, appRouter);
-
-// Construct list of routes
-const routes = [
-    new Route(/innlogging\/?/, loginComponent),
-    new Route(/hjem\/?/, homeComponent),
-    new Route(/^(?![\s\S])/, homeComponent)
-];
-
-appRouter.registerRoutes(routes);
 
 Promise.all(requiredServicesStart)
 .then(() => {
