@@ -1,4 +1,4 @@
-<meta charset="utf-8">
+export const template = `<meta charset="utf-8">
 <div class="w3-container w3-content">
     <form class="" action="" method="post" id="loginForm">
         <input type="email" name="email" value="" placeholder="E-postadresse" class="w3-mobile w3-panel w3-input">
@@ -9,3 +9,4 @@
 
     <p>Har du ikke bruker? <a href="#/registrering" class="text-underline">Registrer deg her.</a> </p>
 </div>
+`;

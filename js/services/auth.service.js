@@ -4,7 +4,6 @@ export class AuthService extends Service {
     constructor(DEBUG_MODE, profileService) {
         super(DEBUG_MODE);
         this.profileService = profileService;
-
     }
 
     login(credentials) {

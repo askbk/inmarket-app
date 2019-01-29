@@ -29,6 +29,5 @@ export class RegistrationModule extends Module {
                 new Route(/registrering\/?/, regPages[0])
             ]
         );
-        this.registrationService = registrationService;
     }
 }

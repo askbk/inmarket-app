@@ -1,3 +1,4 @@
+export const template = `
 <div class="w3-container w3-content">
     <h3>Forsiden</h3>
     <h4>Første video</h4>
@@ -11,3 +12,4 @@
 
     </li>
 </template>
+`;

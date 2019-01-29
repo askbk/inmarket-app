@@ -1,17 +1,17 @@
-import { AuthService } from './services/authService.js';
-import { RegistrationService } from './services/registrationService.js';
-import { ProfileService } from './services/profileService.js';
+import { AuthService } from './services/auth.service.js';
+import { RegistrationService } from './services/registration.service.js';
+import { ProfileService } from './services/profile.service.js';
 import { NetworkService } from './services/network.service.js';
 
 import { Router } from './router.js';
 import { Pattern } from './patternjs/pattern.js';
 
 import { AppModule } from './app.module.js';
-import { RegistrationModule } from './registration/registrationModule.js';
+import { RegistrationModule } from './registration/registration.module.js';
 import { ProfileModule } from './profile/profile.module.js';
 import { NetworkModule } from './network/network.module.js';
 
-import { ErrorComponent } from './components/errorComponent.js';
+import { ErrorComponent } from './components/error.component.js';
 
 //  Provides extra logging messages
 const DEBUG_MODE = true;

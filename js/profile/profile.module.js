@@ -26,6 +26,5 @@ export class ProfileModule extends Module {
                 new Route(/profil\/meg/, profilePages[1])
             ]
         );
-        this.profileService = profileService;
     }
 }
